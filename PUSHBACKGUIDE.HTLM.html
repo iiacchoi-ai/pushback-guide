@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>인천공항 후방견인절차 조회 (프로토타입)</title>
+<style>
+  :root{
+    --navy:#0b2e59; --blue:#1565c0; --sky:#e8f1fb; --amber:#ff8f00;
+    --red:#c62828; --green:#2e7d32; --gray:#5f6b7a; --line:#d7dee8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;}
+  body{background:#f4f7fb;color:#1a2433;padding-bottom:60px;}
+  header{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10;}
+  header h1{font-size:17px;font-weight:700;}
+  header .sub{font-size:11px;opacity:.75;margin-top:2px;}
+  .wrap{max-width:560px;margin:0 auto;padding:12px;}
+  .proto{background:#fff3cd;border:1px solid #ffe08a;color:#7a5b00;font-size:11px;padding:6px 10px;border-radius:8px;margin-bottom:10px;}
+  /* GPS banner */
+  #gpsBanner{display:none;background:var(--sky);border:1.5px solid var(--blue);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+  #gpsBanner .t{font-size:12px;color:var(--gray);}
+  #gpsBanner .g{font-size:16px;font-weight:700;color:var(--blue);margin:2px 0 6px;}
+  #gpsBanner button{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;}
+  #gpsBtn{width:100%;background:#fff;border:1.5px dashed var(--blue);color:var(--blue);border-radius:10px;padding:10px;font-size:13px;font-weight:600;margin-bottom:10px;}
+  #gpsStatus{font-size:11px;color:var(--gray);text-align:center;margin:-4px 0 8px;}
+  /* search */
+  #search{width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px;}
+  #search:focus{outline:none;border-color:var(--blue);}
+  .zone{font-size:12px;font-weight:700;color:var(--gray);margin:12px 2px 6px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 0;width:calc(25% - 6px);text-align:center;font-size:15px;font-weight:700;color:var(--navy);}
+  .chip:active{background:var(--sky);}
+  .chip.special{border-color:var(--amber);color:#a35c00;}
+  /* detail */
+  #detail{display:none;}
+  .back{background:none;border:none;color:var(--blue);font-size:14px;font-weight:600;padding:4px 0 10px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;}
+  .gateTitle{display:flex;align-items:baseline;gap:8px;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:10px;}
+  .gateTitle .num{font-size:30px;font-weight:800;color:var(--navy);}
+  .gateTitle .loc{font-size:13px;color:var(--gray);}
+  .row{display:flex;padding:7px 0;border-bottom:1px solid #eef2f7;font-size:14px;}
+  .row:last-child{border-bottom:none;}
+  .row .k{width:96px;flex-shrink:0;color:var(--gray);font-size:13px;}
+  .row .v{font-weight:600;}
+  .secT{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px;}
+  ol.steps{padding-left:20px;font-size:14px;line-height:1.65;}
+  ol.steps li{margin-bottom:4px;}
+  .caution{background:#fdecec;border:1px solid #f4b8b8;border-radius:10px;padding:12px;margin-bottom:10px;}
+  .caution .secT{color:var(--red);}
+  .caution ul{padding-left:18px;font-size:13.5px;line-height:1.6;color:#7a1f1f;}
+  .meta{font-size:11px;color:var(--gray);text-align:center;margin-top:8px;}
+  .noresult{text-align:center;color:var(--gray);font-size:13px;padding:24px 0;}
+  footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);text-align:center;font-size:10.5px;color:var(--gray);padding:8px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>주기장별 후방견인절차 조회</h1>
+  <div class="sub">인천국제공항 · 조업사 배포용 프로토타입 v0.1</div>
+</header>
+
+<div class="wrap">
+  <div class="proto">⚠ 프로토타입 — 절차 내용·좌표는 예시 데이터입니다. 실제 소책자 내용으로 교체 필요.</div>
+
+  <!-- 화면 1: 게이트 선택 -->
+  <div id="list">
+    <div id="gpsBanner">
+      <div class="t">📍 현재 위치에서 가장 가까운 주기장 (거리 <span id="gpsDist"></span>m)</div>
+      <div class="g" id="gpsGate"></div>
+      <button onclick="openGate(nearestId)">이 주기장 절차 보기</button>
+    </div>
+    <button id="gpsBtn" onclick="findNearest()">📍 내 위치로 주기장 찾기 (GPS)</button>
+    <div id="gpsStatus"></div>
+    <input id="search" type="tel" placeholder="게이트 번호 검색 (예: 232)" oninput="renderList(this.value)">
+    <div id="chips"></div>
+  </div>
+
+  <!-- 화면 2: 절차 상세 -->
+  <div id="detail"></div>
+</div>
+
+<footer>인천국제공항공사 운항관리처 | QR 스캔 시 해당 게이트 절차 바로 표출 (URL: …#gate=번호)</footer>
+
+<script>
+// ───────── 예시 데이터 (실제 소책자 내용·좌표로 교체) ─────────
+const GATES = [
+ {id:"12",  zone:"T1",     lat:37.44950, lng:126.45230, dir:"기수 남향(Nose South)", line:"TWY B 중심선", limit:"토잉트랙터 분리지점: B5 교차부 전", freq:"계류장관제 121.87",
+  steps:["출발 10분 전 계류장관제소 푸시백 승인 요청 (TSAT 준수)","토바 연결 및 바이패스핀 장착 확인","주변 GSE·FOD 제거 확인 후 윙워커 배치 (좌·우)","브레이크 해제 확인 → 기수 남향으로 후방견인 개시","TWY B 중심선 정대 후 정지, 토바 분리","바이패스핀 제거 후 조종사에게 육안 표시"],
+  cautions:["인접 11·13번 동시 푸시백 금지 (충돌위험구역 중첩)","야간·저시정 시 유도차량(Follow-me) 요청 가능"]},
+ {id:"25",  zone:"T1",     lat:37.44870, lng:126.44890, dir:"기수 북향(Nose North)", line:"TWY A 중심선", limit:"A7 교차부 전 분리", freq:"계류장관제 121.87",
+  steps:["푸시백 승인 요청 (TSAT 준수)","토바 연결·바이패스핀 확인","윙워커 배치 후 기수 북향 견인","TWY A 정대 후 정지·분리"],
+  cautions:["E급 이상 항공기는 사전 계류장관제소 협의 필요"]},
+ {id:"43",  zone:"T1",     lat:37.44710, lng:126.44420, dir:"기수 남향", line:"TWY C 중심선", limit:"C3 교차부 전 분리", freq:"계류장관제 121.87",
+  steps:["푸시백 승인 요청","토바 연결 확인","기수 남향 견인 후 TWY C 정대·분리"],
+  cautions:["제빙작업 시 잔류 제빙액 미끄럼 주의"]},
+ {id:"113", zone:"탑승동",  lat:37.45560, lng:126.44650, dir:"기수 동향(Nose East)", line:"TWY D 중심선", limit:"D4 교차부 전 분리", freq:"계류장관제 121.75",
+  steps:["푸시백 승인 요청 (TSAT 준수)","토바 연결·핀 확인","기수 동향 견인, TWY D 정대 후 분리"],
+  cautions:["탑승동 순환도로 횡단 GSE 주의"]},
+ {id:"122", zone:"탑승동",  lat:37.45640, lng:126.44210, dir:"기수 서향(Nose West)", line:"TWY D 중심선", limit:"D6 교차부 전 분리", freq:"계류장관제 121.75",
+  steps:["푸시백 승인 요청","토바 연결 확인","기수 서향 견인 후 TWY D 정대·분리"],
+  cautions:["인접 121번과 동시 푸시백 제한"]},
+ {id:"231", zone:"T2",     lat:37.46870, lng:126.43420, dir:"기수 북향", line:"TWY R 중심선", limit:"R15 교차부 전 분리", freq:"계류장관제 121.62",
+  steps:["푸시백 승인 요청 (TSAT 지연 예상 시 관제탑 유선 연락)","토바 연결·바이패스핀 확인","윙워커 배치, 기수 북향 견인","TWY R 정대 후 정지·분리"],
+  cautions:["T2 북단 공사구역 인접 — 임시 장애물 확인"]},
+ {id:"232", zone:"T2",     lat:37.46920, lng:126.43350, dir:"기수 북향", line:"TWY R 중심선", limit:"R15 교차부 전 분리", freq:"계류장관제 121.62",
+  steps:["푸시백 승인 요청","토바 연결 확인","기수 북향 견인, TWY R 정대 후 분리"],
+  cautions:["231번과 동시 푸시백 시 계류장관제 지시 우선"]},
+ {id:"208R",zone:"역MARS", lat:37.46740, lng:126.43810, dir:"기수 북향 (R17 기준선)", line:"R17 기준선까지 견인 후 정대", limit:"R17 도달 전 분리 금지", freq:"계류장관제 121.62",
+  steps:["역MARS 운영 주기장 — 푸시백 승인 요청","E/F급 장기리 토바 사용 확인","윙워커 2명 + 후방감시 1명 배치","R17 기준선까지 견인 (표준보다 견인거리 김)","R17 정대 후 정지·토바 분리"],
+  cautions:["E/F급 전용 — 견인거리 증가로 소요시간 여유 확보","인접 C급 주기장(208·209) 점유 시 운영 불가"]},
+ {id:"214R",zone:"역MARS", lat:37.46810, lng:126.43570, dir:"기수 북향 (R17 기준선)", line:"R17 기준선까지 견인 후 정대", limit:"R17 도달 전 분리 금지", freq:"계류장관제 121.62",
+  steps:["역MARS 운영 주기장 — 푸시백 승인 요청","장거리 견인 대비 토잉트랙터 용량 확인","R17 기준선까지 견인 후 정대·분리"],
+  cautions:["E/F급 전용","윙스팬 여유 확인 후 진입"]},
+ {id:"283R",zone:"역MARS", lat:37.47060, lng:126.43120, dir:"기수 북향 (R17 기준선)", line:"R17 기준선까지 견인 후 정대", limit:"R17 도달 전 분리 금지", freq:"계류장관제 121.62",
+  steps:["역MARS 운영 주기장 — 푸시백 승인 요청","R17 기준선까지 견인 후 정대·분리"],
+  cautions:["E/F급 전용"]}
+];
+
+const ZONES = ["T1","탑승동","T2","역MARS"];
+let nearestId = null;
+
+// ───────── 목록 렌더 ─────────
+function renderList(q){
+  q = (q||"").trim().toUpperCase();
+  const box = document.getElementById("chips");
+  let html = "";
+  ZONES.forEach(z=>{
+    const gs = GATES.filter(g=>g.zone===z && (!q || g.id.toUpperCase().includes(q)));
+    if(!gs.length) return;
+    html += `<div class="zone">${z}</div><div class="chips">`;
+    gs.forEach(g=>{ html += `<div class="chip${z==='역MARS'?' special':''}" onclick="openGate('${g.id}')">${g.id}</div>`; });
+    html += `</div>`;
+  });
+  box.innerHTML = html || `<div class="noresult">'${q}' 검색 결과 없음</div>`;
+}
+
+// ───────── 상세 화면 ─────────
+function openGate(id){
+  const g = GATES.find(x=>x.id===id);
+  if(!g) return;
+  location.hash = "gate="+id;
+  document.getElementById("list").style.display="none";
+  const d = document.getElementById("detail");
+  d.style.display="block";
+  d.innerHTML = `
+    <button class="back" onclick="goList()">← 게이트 목록</button>
+    <div class="card">
+      <div class="gateTitle"><span class="num">${g.id}</span><span class="loc">${g.zone} 주기장</span></div>
+      <div class="row"><span class="k">견인 방향</span><span class="v">${g.dir}</span></div>
+      <div class="row"><span class="k">정대 기준</span><span class="v">${g.line}</span></div>
+      <div class="row"><span class="k">분리 지점</span><span class="v">${g.limit}</span></div>
+      <div class="row"><span class="k">통신 주파수</span><span class="v">${g.freq}</span></div>
+    </div>
+    <div class="card">
+      <div class="secT">■ 후방견인 절차</div>
+      <ol class="steps">${g.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+    </div>
+    <div class="caution">
+      <div class="secT">⚠ 주의사항</div>
+      <ul>${g.cautions.map(c=>`<li>${c}</li>`).join("")}</ul>
+    </div>
+    <div class="meta">본 절차는 예시입니다 · 최신 개정본 기준 여부를 반드시 확인하십시오 · 개정: 2026.7.17</div>`;
+  window.scrollTo(0,0);
+}
+function goList(){
+  location.hash="";
+  document.getElementById("detail").style.display="none";
+  document.getElementById("list").style.display="block";
+}
+
+// ───────── GPS 근접 제안 ─────────
+function findNearest(){
+  const st = document.getElementById("gpsStatus");
+  if(!navigator.geolocation){ st.textContent="이 기기는 위치 서비스를 지원하지 않습니다."; return; }
+  st.textContent="위치 확인 중…";
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const {latitude:la, longitude:lo, accuracy} = pos.coords;
+    let best=null, bestD=1e9;
+    GATES.forEach(g=>{
+      const d = dist(la,lo,g.lat,g.lng);
+      if(d<bestD){bestD=d; best=g;}
+    });
+    nearestId = best.id;
+    document.getElementById("gpsGate").textContent = best.id + "번 (" + best.zone + ")";
+    document.getElementById("gpsDist").textContent = Math.round(bestD);
+    document.getElementById("gpsBanner").style.display="block";
+    st.textContent = `GPS 정확도 ±${Math.round(accuracy)}m — 인접 게이트 오인식 가능, 반드시 게이트 번호 확인 후 선택`;
+  }, err=>{ st.textContent="위치 확인 실패: "+err.message+" (위치 권한 허용 필요)"; }, {enableHighAccuracy:true, timeout:8000});
+}
+function dist(a,b,c,d){ // Haversine (m)
+  const R=6371000, r=x=>x*Math.PI/180;
+  const dLat=r(c-a), dLng=r(d-b);
+  const h=Math.sin(dLat/2)**2 + Math.cos(r(a))*Math.cos(r(c))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+
+// ───────── QR 딥링크 (#gate=번호) ─────────
+window.addEventListener("load", ()=>{
+  renderList("");
+  const m = location.hash.match(/gate=([\w]+)/);
+  if(m) openGate(decodeURIComponent(m[1]));
+});
+</script>
+</body>
+</html>
