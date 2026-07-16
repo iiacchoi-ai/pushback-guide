@@ -195,11 +195,15 @@ function dist(a,b,c,d){ // Haversine (m)
 }
 
 // ───────── QR 딥링크 (#gate=번호) ─────────
-window.addEventListener("load", ()=>{
-  renderList("");
+function openFromHash(){
   const m = location.hash.match(/gate=([\w]+)/);
   if(m) openGate(decodeURIComponent(m[1]));
-});
+}
+window.addEventListener("load", ()=>{ renderList(""); openFromHash(); });
+// 페이지가 열려 있는 상태에서 다른 게이트 QR을 찍어도 즉시 전환
+window.addEventListener("hashchange", openFromHash);
+// 카메라/브라우저가 기존 화면을 재사용하는 경우 대비: 화면 복귀 시 재확인
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) openFromHash(); });
 </script>
 </body>
 </html>
