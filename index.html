@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b2e59">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="후방견인">
 <title>인천공항 후방견인절차 조회 (프로토타입)</title>
 <style>
   :root{
@@ -204,6 +210,9 @@ window.addEventListener("load", ()=>{ renderList(""); openFromHash(); });
 window.addEventListener("hashchange", openFromHash);
 // 카메라/브라우저가 기존 화면을 재사용하는 경우 대비: 화면 복귀 시 재확인
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) openFromHash(); });
+
+// PWA: 오프라인 캐시 서비스워커 등록
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
 </script>
 </body>
 </html>
