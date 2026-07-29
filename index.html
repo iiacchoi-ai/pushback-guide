@@ -2,95 +2,264 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0b2e59">
+<meta name="theme-color" content="#eef0f3">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="후방견인">
-<title>인천공항 후방견인절차 조회 (프로토타입)</title>
+<title>후방견인절차 조회 | 인천국제공항</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root{
-    --navy:#0b2e59; --blue:#1565c0; --sky:#e8f1fb; --amber:#ff8f00;
-    --red:#c62828; --green:#2e7d32; --gray:#5f6b7a; --line:#d7dee8;
+    --bg:#eef0f3; --card:#ffffff; --line:#e7e9ee; --line-soft:#f0f2f5;
+    --ink:#16181c; --ink-sub:#5c6470; --ink-mut:#9aa1ab;
+    --accent:#0f6e56; --accent-soft:#e1f5ee; --accent-border:#bfe8d9;
+    --btn-bg:#17191d; --btn-text:#ffffff;
+    --badge:#17191d; --badge-text:#ffffff;
+    --amber-t:#8a5a00; --amber-bg:#fbf3e2; --amber-bd:#ecd9a8;
+    --red-t:#b42318; --red-bg:#fdf0ef; --red-bd:#f3d2ce; --red-body:#7a2620;
+    --shadow:0 1px 2px rgba(20,24,32,.05), 0 4px 14px rgba(20,24,32,.05);
+    --radius:18px;
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
   }
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;}
-  body{background:#f4f7fb;color:#1a2433;padding-bottom:60px;}
-  header{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10;}
-  header h1{font-size:17px;font-weight:700;}
-  header .sub{font-size:11px;opacity:.75;margin-top:2px;}
-  .wrap{max-width:560px;margin:0 auto;padding:12px;}
-  .proto{background:#fff3cd;border:1px solid #ffe08a;color:#7a5b00;font-size:11px;padding:6px 10px;border-radius:8px;margin-bottom:10px;}
-  /* GPS banner */
-  #gpsBanner{display:none;background:var(--sky);border:1.5px solid var(--blue);border-radius:10px;padding:10px 12px;margin-bottom:10px;}
-  #gpsBanner .t{font-size:12px;color:var(--gray);}
-  #gpsBanner .g{font-size:16px;font-weight:700;color:var(--blue);margin:2px 0 6px;}
-  #gpsBanner button{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;}
-  #gpsBtn{width:100%;background:#fff;border:1.5px dashed var(--blue);color:var(--blue);border-radius:10px;padding:10px;font-size:13px;font-weight:600;margin-bottom:10px;}
-  #gpsStatus{font-size:11px;color:var(--gray);text-align:center;margin:-4px 0 8px;}
-  /* search */
-  #search{width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px;}
-  #search:focus{outline:none;border-color:var(--blue);}
-  .zone{font-size:12px;font-weight:700;color:var(--gray);margin:12px 2px 6px;}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;}
-  .chip{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 0;width:calc(25% - 6px);text-align:center;font-size:15px;font-weight:700;color:var(--navy);}
-  .chip:active{background:var(--sky);}
-  .chip.special{border-color:var(--amber);color:#a35c00;}
-  /* detail */
-  #detail{display:none;}
-  .back{background:none;border:none;color:var(--blue);font-size:14px;font-weight:600;padding:4px 0 10px;}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;}
-  .gateTitle{display:flex;align-items:baseline;gap:8px;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:10px;}
-  .gateTitle .num{font-size:30px;font-weight:800;color:var(--navy);}
-  .gateTitle .loc{font-size:13px;color:var(--gray);}
-  .row{display:flex;padding:7px 0;border-bottom:1px solid #eef2f7;font-size:14px;}
-  .row:last-child{border-bottom:none;}
-  .row .k{width:96px;flex-shrink:0;color:var(--gray);font-size:13px;}
-  .row .v{font-weight:600;}
-  .secT{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px;}
-  ol.steps{padding-left:20px;font-size:14px;line-height:1.65;}
-  ol.steps li{margin-bottom:4px;}
-  .caution{background:#fdecec;border:1px solid #f4b8b8;border-radius:10px;padding:12px;margin-bottom:10px;}
-  .caution .secT{color:var(--red);}
-  .caution ul{padding-left:18px;font-size:13.5px;line-height:1.6;color:#7a1f1f;}
-  .meta{font-size:11px;color:var(--gray);text-align:center;margin-top:8px;}
-  .noresult{text-align:center;color:var(--gray);font-size:13px;padding:24px 0;}
-  footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);text-align:center;font-size:10.5px;color:var(--gray);padding:8px;}
+  html[data-theme="dark"]{
+    --bg:#101214; --card:#1b1e23; --line:#2a2e35; --line-soft:#23262c;
+    --ink:#e9ecef; --ink-sub:#aab2bc; --ink-mut:#6b7480;
+    --accent:#5dcaa5; --accent-soft:#15332a; --accent-border:#265546;
+    --btn-bg:#e9ecef; --btn-text:#16181c;
+    --badge:#2a2e35; --badge-text:#e9ecef;
+    --amber-t:#e2b25c; --amber-bg:#2a2418; --amber-bd:#54462a;
+    --red-t:#f08a80; --red-bg:#2c1a18; --red-bd:#553029; --red-body:#e0a9a2;
+    --shadow:none;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:'Pretendard Variable',Pretendard,'Malgun Gothic',sans-serif;
+    background:var(--bg);color:var(--ink);
+    padding-bottom:calc(64px + var(--safe-bottom));
+    letter-spacing:-0.01em;
+    transition:background .25s,color .25s;
+  }
+  header{
+    background:var(--card);
+    padding:calc(12px + var(--safe-top)) 18px 12px;
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;gap:10px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .logoChip{
+    width:34px;height:34px;border-radius:10px;background:var(--btn-bg);color:var(--btn-text);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .brand{font-size:16px;font-weight:800;letter-spacing:-0.02em;}
+  .brand small{display:block;font-size:10px;font-weight:600;color:var(--ink-mut);letter-spacing:.08em;}
+  #themeBtn{
+    margin-left:auto;background:var(--bg);border:1px solid var(--line);border-radius:18px;
+    color:var(--ink-sub);padding:8px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:18px 16px;}
+  .hello{margin:4px 2px 16px;}
+  .hello h2{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+  .hello p{font-size:13.5px;color:var(--ink-sub);margin-top:4px;line-height:1.5;}
+  .gpsBtn{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:16px;
+    padding:15px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;
+    transition:transform .1s;
+  }
+  .gpsBtn:active{transform:scale(.98);}
+  #gpsStatus{font-size:12px;color:var(--ink-mut);text-align:center;margin-top:8px;line-height:1.5;}
+  #gpsBanner{
+    display:none;background:var(--accent-soft);border:1px solid var(--accent-border);
+    border-radius:var(--radius);padding:14px 16px;margin-top:10px;
+  }
+  #gpsBanner .t{font-size:12px;color:var(--ink-sub);}
+  #gpsBanner .g{font-size:19px;font-weight:800;color:var(--ink);margin:3px 0 10px;letter-spacing:-0.02em;}
+  #gpsBanner button{
+    background:var(--accent);color:#fff;border:none;border-radius:12px;
+    padding:10px 18px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;
+  }
+  .numDisp{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:14px;text-align:center;font-size:28px;font-weight:800;letter-spacing:.14em;
+    color:var(--ink);margin-top:14px;min-height:62px;display:flex;align-items:center;justify-content:center;
+  }
+  .numDisp.empty{color:var(--ink-mut);font-size:15px;font-weight:500;letter-spacing:0;}
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px;}
+  .key{
+    background:var(--card);border:none;border-radius:16px;box-shadow:var(--shadow);
+    padding:17px 0;text-align:center;font-size:21px;font-weight:700;color:var(--ink);
+    cursor:pointer;font-family:inherit;transition:transform .1s;
+  }
+  .key:active{transform:scale(.95);}
+  .key.alt{color:var(--amber-t);}
+  .key.del{color:var(--ink-mut);font-size:18px;}
+  .subT{font-size:12px;font-weight:600;color:var(--ink-mut);margin:16px 2px 8px;}
+  .matchRow{display:flex;flex-wrap:wrap;gap:8px;}
+  .mchip{
+    background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
+    border-radius:12px;padding:11px 16px;font-size:16px;font-weight:700;cursor:pointer;
+  }
+  .tabs{display:flex;gap:7px;overflow-x:auto;margin:4px 0;padding-bottom:4px;}
+  .tab{
+    flex-shrink:0;background:var(--card);border:none;box-shadow:var(--shadow);border-radius:18px;
+    padding:9px 15px;font-size:13px;font-weight:600;color:var(--ink-sub);cursor:pointer;
+  }
+  .tab.on{background:var(--btn-bg);color:var(--btn-text);}
+  .zoneBtn{
+    width:100%;background:none;border:none;color:var(--ink-sub);font-family:inherit;
+    font-size:13px;font-weight:600;padding:18px 0 4px;cursor:pointer;
+  }
+  #zoneView{display:none;}
+  .zone{display:flex;align-items:center;gap:8px;margin:16px 2px 10px;}
+  .zone .zt{font-size:13px;font-weight:700;color:var(--ink-sub);}
+  .zone .zl{flex:1;height:1px;background:var(--line);}
+  .zone .zc{font-size:11px;color:var(--ink-mut);font-weight:500;}
+  .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .chip{
+    background:var(--card);border-radius:14px;box-shadow:var(--shadow);
+    padding:15px 0;text-align:center;font-size:16px;font-weight:700;color:var(--ink);
+    cursor:pointer;transition:transform .1s;
+  }
+  .chip:active{transform:scale(.95);}
+  .chip.special{background:var(--amber-bg);color:var(--amber-t);}
+  .noresult{text-align:center;color:var(--ink-mut);font-size:14px;padding:36px 0;}
+  #detail{display:none;animation:slidein .18s ease-out;}
+  @keyframes slidein{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:none;}}
+  .back{
+    display:inline-flex;align-items:center;gap:5px;background:none;border:none;
+    color:var(--ink-sub);font-size:14px;font-weight:600;font-family:inherit;
+    padding:2px 0 14px;cursor:pointer;
+  }
+  .card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:18px;margin-bottom:12px;
+  }
+  .gateHead{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--line-soft);margin-bottom:6px;}
+  .gateBadge{
+    min-width:64px;height:64px;border-radius:16px;background:var(--badge);color:var(--badge-text);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:800;letter-spacing:-0.02em;padding:0 10px;
+  }
+  .gateHead .zn{font-size:13px;color:var(--ink-mut);font-weight:500;}
+  .gateHead .nm{font-size:17px;font-weight:800;margin-top:2px;letter-spacing:-0.02em;}
+  .row{display:flex;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:15px;}
+  .row:last-child{border-bottom:none;padding-bottom:2px;}
+  .row .k{width:92px;flex-shrink:0;color:var(--ink-mut);font-size:13px;font-weight:500;}
+  .row .v{font-weight:600;line-height:1.45;}
+  .row .v.freq{color:var(--accent);font-weight:700;}
+  .secT{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:14px;letter-spacing:-0.01em;}
+  .secT .icChip{
+    width:28px;height:28px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .steps{list-style:none;}
+  .steps li{display:flex;gap:12px;padding-bottom:14px;position:relative;}
+  .steps li:last-child{padding-bottom:0;}
+  .steps li:not(:last-child)::before{
+    content:"";position:absolute;left:13px;top:28px;bottom:2px;width:2px;background:var(--line-soft);
+  }
+  .stepN{
+    width:26px;height:26px;flex-shrink:0;border-radius:50%;background:var(--accent-soft);
+    color:var(--accent);font-size:13px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;z-index:1;
+  }
+  .stepT{font-size:14.5px;line-height:1.55;padding-top:3px;}
+  .caution{background:var(--red-bg);}
+  .caution .secT{color:var(--red-t);}
+  .caution .secT .icChip{background:rgba(180,35,24,.1);color:var(--red-t);}
+  .caution ul{list-style:none;}
+  .caution li{
+    font-size:14px;line-height:1.55;color:var(--red-body);padding-left:14px;position:relative;margin-bottom:6px;
+  }
+  .caution li:last-child{margin-bottom:0;}
+  .caution li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--red-t);}
+  .meta{font-size:11.5px;color:var(--ink-mut);text-align:center;margin-top:16px;line-height:1.6;}
+  #mapBox svg{border-radius:12px;}
+  .mapLocBtn{
+    width:100%;margin-top:10px;background:var(--accent-soft);border:1px solid var(--accent-border);
+    color:var(--accent);border-radius:12px;padding:11px;font-size:13.5px;font-weight:700;
+    font-family:inherit;cursor:pointer;
+  }
+  footer{
+    position:fixed;bottom:0;left:0;right:0;z-index:20;
+    background:var(--card);border-top:1px solid var(--line-soft);
+    padding:10px 16px calc(10px + var(--safe-bottom));
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:11px;color:var(--ink-mut);
+  }
+  footer b{font-weight:600;color:var(--ink-sub);}
 </style>
 </head>
 <body>
 <header>
-  <h1>주기장별 후방견인절차 조회</h1>
-  <div class="sub">인천국제공항 · 조업사 배포용 프로토타입 v0.1</div>
+  <div class="logoChip">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M12 19l-5-5M12 19l5-5"/></svg>
+  </div>
+  <div class="brand">후방견인절차<small>INCHEON AIRPORT · GROUND OPS</small></div>
+  <button id="themeBtn" onclick="cycleTheme()">자동</button>
 </header>
 
 <div class="wrap">
-  <div class="proto">⚠ 프로토타입 — 절차 내용·좌표는 예시 데이터입니다. 실제 소책자 내용으로 교체 필요.</div>
-
-  <!-- 화면 1: 게이트 선택 -->
   <div id="list">
-    <div id="gpsBanner">
-      <div class="t">📍 현재 위치에서 가장 가까운 주기장 (거리 <span id="gpsDist"></span>m)</div>
-      <div class="g" id="gpsGate"></div>
-      <button onclick="openGate(nearestId)">이 주기장 절차 보기</button>
+    <div class="hello">
+      <h2>어느 주기장인가요?</h2>
+      <p>게이트 번호를 입력하면 해당 주기장의 후방견인절차가 표시됩니다.</p>
     </div>
-    <button id="gpsBtn" onclick="findNearest()">📍 내 위치로 주기장 찾기 (GPS)</button>
+    <button class="gpsBtn" onclick="findNearest()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+      내 위치에서 가까운 주기장 찾기
+    </button>
     <div id="gpsStatus"></div>
-    <input id="search" type="tel" placeholder="게이트 번호 검색 (예: 232)" oninput="renderList(this.value)">
-    <div id="chips"></div>
+    <div id="gpsBanner">
+      <div class="t">현재 위치 기준 최근접 주기장 · 거리 약 <span id="gpsDist"></span>m</div>
+      <div class="g" id="gpsGate"></div>
+      <button onclick="openGate(nearestId)">이 주기장 절차 열기</button>
+    </div>
+    <div id="numDisp" class="numDisp empty">게이트 번호 입력</div>
+    <div class="keypad">
+      <button class="key" onclick="kp('1')">1</button>
+      <button class="key" onclick="kp('2')">2</button>
+      <button class="key" onclick="kp('3')">3</button>
+      <button class="key" onclick="kp('4')">4</button>
+      <button class="key" onclick="kp('5')">5</button>
+      <button class="key" onclick="kp('6')">6</button>
+      <button class="key" onclick="kp('7')">7</button>
+      <button class="key" onclick="kp('8')">8</button>
+      <button class="key" onclick="kp('9')">9</button>
+      <button class="key alt" onclick="kp('R')">R</button>
+      <button class="key" onclick="kp('0')">0</button>
+      <button class="key del" onclick="kpDel()" aria-label="지우기">⌫</button>
+    </div>
+    <div id="matchWrap"></div>
+    <div id="recentWrap"></div>
+    <button class="zoneBtn" id="zoneBtn" onclick="toggleZones()">구역별 전체 보기 ▾</button>
+    <div id="zoneView"><div class="tabs" id="tabs"></div><div id="chips"></div></div>
   </div>
 
-  <!-- 화면 2: 절차 상세 -->
   <div id="detail"></div>
 </div>
 
-<footer>인천국제공항공사 운항관리처 | QR 스캔 시 해당 게이트 절차 바로 표출 (URL: …#gate=번호)</footer>
+<footer><span><b>인천국제공항공사</b> 운항관리처</span><span>개정 2026.07.17 · v0.8</span></footer>
 
 <script>
-// ───────── 예시 데이터 (실제 소책자 내용·좌표로 교체) ─────────
-const GATES = [
- {id:"12",  zone:"T1",     lat:37.44950, lng:126.45230, dir:"기수 남향(Nose South)", line:"TWY B 중심선", limit:"토잉트랙터 분리지점: B5 교차부 전", freq:"계류장관제 121.87",
+// ───────── 게이트 목록 (AIP RKSI 주기장 배치도 '26.4 기준, 검수 필요) ─────────
+const range=(a,b)=>Array.from({length:b-a+1},(_,i)=>String(a+i));
+const ZONE_GATES = {
+ "T1": [...range(6,12), ...range(14,28), ...range(30,43), ...range(45,50)],
+ "탑승동": [...range(101,115), ...range(117,132)],
+ "T2": [...range(208,222), "224","225", ...range(231,268), ...range(275,291)],
+ "역MARS": ["208R","214R","283R","290R"],
+ "화물계류장": [...range(520,536), ...range(541,547), ...range(601,616), ...range(621,636), ...range(641,655), ...range(671,683)]
+};
+
+// ───────── 절차 입력된 게이트 (예시 데이터, 실제 소책자 내용으로 교체) ─────────
+const FILLED = [
+ {id:"12",  zone:"T1",     lat:37.44950, lng:126.45230, dir:"기수 남향(Nose South)", line:"TWY B 중심선", limit:"B5 교차부 전 분리", freq:"계류장관제 121.87",
   steps:["출발 10분 전 계류장관제소 푸시백 승인 요청 (TSAT 준수)","토바 연결 및 바이패스핀 장착 확인","주변 GSE·FOD 제거 확인 후 윙워커 배치 (좌·우)","브레이크 해제 확인 → 기수 남향으로 후방견인 개시","TWY B 중심선 정대 후 정지, 토바 분리","바이패스핀 제거 후 조종사에게 육안 표시"],
   cautions:["인접 11·13번 동시 푸시백 금지 (충돌위험구역 중첩)","야간·저시정 시 유도차량(Follow-me) 요청 가능"]},
  {id:"25",  zone:"T1",     lat:37.44870, lng:126.44890, dir:"기수 북향(Nose North)", line:"TWY A 중심선", limit:"A7 교차부 전 분리", freq:"계류장관제 121.87",
@@ -122,56 +291,222 @@ const GATES = [
   cautions:["E/F급 전용"]}
 ];
 
-const ZONES = ["T1","탑승동","T2","역MARS"];
-let nearestId = null;
-
-// ───────── 목록 렌더 ─────────
-function renderList(q){
-  q = (q||"").trim().toUpperCase();
-  const box = document.getElementById("chips");
-  let html = "";
-  ZONES.forEach(z=>{
-    const gs = GATES.filter(g=>g.zone===z && (!q || g.id.toUpperCase().includes(q)));
-    if(!gs.length) return;
-    html += `<div class="zone">${z}</div><div class="chips">`;
-    gs.forEach(g=>{ html += `<div class="chip${z==='역MARS'?' special':''}" onclick="openGate('${g.id}')">${g.id}</div>`; });
-    html += `</div>`;
+// 전체 게이트 생성: 절차 미입력 게이트는 플레이스홀더
+const FILLED_MAP = Object.fromEntries(FILLED.map(g=>[g.id, g]));
+const GATES = [];
+Object.entries(ZONE_GATES).forEach(([z, ids])=>{
+  ids.forEach(id=>{
+    GATES.push(FILLED_MAP[id] || {
+      id, zone:z,
+      dir:"입력 예정", line:"입력 예정", limit:"입력 예정", freq:"입력 예정",
+      steps:["절차 내용 입력 예정 (소책자 반영 전)"],
+      cautions:["주의사항 입력 예정"]
+    });
   });
-  box.innerHTML = html || `<div class="noresult">'${q}' 검색 결과 없음</div>`;
+});
+
+// ───────── T2 미니맵 (AIP 주기장 배치도 라벨 좌표 + INS 좌표표 기반) ─────────
+const GATE_XY={"231":[198.9,214.2],"232":[216.8,219.0],"233":[233.9,223.1],"234":[251.9,228.5],"235":[265.2,232.1],"236":[277.0,234.9],"237":[283.5,227.1],"238":[289.2,217.9],"239":[291.2,208.1],"240":[283.8,200.7],"241":[276.3,192.5],"242":[263.8,190.0],"243":[252.3,186.8],"244":[247.8,189.4],"245":[243.3,192.0],"246":[227.9,189.1],"247":[213.8,176.7],"248":[210.2,159.5],"249":[210.2,143.8],"250":[210.2,131.8],"251":[210.0,113.5],"252":[210.2,97.6],"253":[213.4,81.3],"254":[227.9,67.9],"255":[250.5,64.5],"256":[264.3,66.6],"257":[277.0,65.2],"258":[287.6,59.8],"259":[291.0,50.3],"260":[289.2,39.9],"261":[284.0,30.4],"262":[275.2,27.0],"263":[263.9,25.1],"264":[250.5,29.7],"265":[232.6,34.2],"266":[216.5,38.3],"267":[198.4,42.3],"268":[179.6,44.8],"208R":[31.7,160.8],"214R":[26.5,209.1],"283R":[25.1,29.2],"290R":[28.5,81.7],"224":[152.7,212.7],"275":[153.1,40.3]};
+const GEO={"ax":-20466.96,"bx":11615.31,"cx":-701551.98,"ay":-14707.84,"by":-14638.57,"cy":2402017.03};
+const MAPW=340, MAPH=260;
+function geoToXY(lat,lng){ return [GEO.ax*lat+GEO.bx*lng+GEO.cx, GEO.ay*lat+GEO.by*lng+GEO.cy]; }
+// 역변환으로 지도 수록 게이트에 실좌표 부여 (GPS 최근접용)
+(function(){
+  const d = GEO.ax*GEO.by - GEO.bx*GEO.ay;
+  Object.entries(GATE_XY).forEach(([id,[x,y]])=>{
+    const g = GATES.find(t=>t.id===id); if(!g) return;
+    const u = x-GEO.cx, v = y-GEO.cy;
+    g.lat = (GEO.by*u - GEO.bx*v)/d;
+    g.lng = (-GEO.ay*u + GEO.ax*v)/d;
+  });
+})();
+function terminalShape(){
+  const ring = range(231,268).filter(id=>GATE_XY[id]).map(id=>GATE_XY[id]);
+  const cx = ring.reduce((a,p)=>a+p[0],0)/ring.length;
+  const cy = ring.reduce((a,p)=>a+p[1],0)/ring.length;
+  const pts = ring.map(([x,y])=>[(x+(cx-x)*0.38).toFixed(1), (y+(cy-y)*0.38).toFixed(1)]);
+  return `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--card)" stroke="var(--line)" stroke-linejoin="round"/>`
+    + `<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="10" font-weight="700" fill="var(--ink-mut)" text-anchor="middle">T2</text>`;
+}
+function mapSvg(sel, user){
+  let dots="";
+  Object.entries(GATE_XY).forEach(([id,[x,y]])=>{
+    if(id===sel.id) return;
+    const isR = id.includes("R");
+    const lab = (isR || id==="224" || id==="275" || parseInt(id)%5===0)
+      ? `<text x="${x}" y="${y-5}" font-size="7" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" text-anchor="middle" font-weight="${isR?700:400}">${id}</text>` : "";
+    dots += `<circle cx="${x}" cy="${y}" r="2.6" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" opacity=".75"/>` + lab;
+  });
+  let userDot="";
+  if(user){
+    const [ux,uy] = geoToXY(user.lat, user.lng);
+    if(ux>=-10 && ux<=MAPW+10 && uy>=-10 && uy<=MAPH+10){
+      userDot = `<circle cx="${ux.toFixed(1)}" cy="${uy.toFixed(1)}" r="11" fill="var(--accent)" opacity=".15"/><circle cx="${ux.toFixed(1)}" cy="${uy.toFixed(1)}" r="4" fill="var(--accent)"/><text x="${ux.toFixed(1)}" y="${(uy+15).toFixed(1)}" font-size="8.5" fill="var(--accent)" text-anchor="middle" font-weight="700">내 위치</text>`;
+    }
+  }
+  const [sx,sy] = GATE_XY[sel.id];
+  return `<svg viewBox="0 0 ${MAPW} ${MAPH}" style="width:100%;display:block" role="img" aria-label="${sel.id}번 주기장 위치도">
+    <rect x="0" y="0" width="${MAPW}" height="${MAPH}" rx="12" fill="var(--bg)"/>
+    ${terminalShape()}${dots}${userDot}
+    <circle cx="${sx}" cy="${sy}" r="9" fill="var(--accent)" opacity=".25"/>
+    <circle cx="${sx}" cy="${sy}" r="4.5" fill="var(--accent)"/>
+    <text x="${sx}" y="${sy-10}" font-size="11" font-weight="800" fill="var(--accent)" text-anchor="middle">${sel.id}</text>
+  </svg>`;
+}
+let mapNoted=false;
+function showMeOnMap(id){
+  const g = GATES.find(x=>x.id===id);
+  const box = document.getElementById("mapBox");
+  if(!g || !box || !navigator.geolocation) return;
+  mapNoted=false;
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const user = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+    box.innerHTML = mapSvg(g, user);
+    const [ux,uy] = geoToXY(user.lat, user.lng);
+    if((ux<-10||ux>MAPW+10||uy<-10||uy>MAPH+10) && !mapNoted){
+      mapNoted=true;
+      box.insertAdjacentHTML("afterend", '<div class="subT">현재 위치가 지도 범위(T2 구역) 밖입니다</div>');
+    }
+  }, ()=>{ box.insertAdjacentHTML("afterend", '<div class="subT">위치 확인 실패 — 위치 권한을 허용해 주세요</div>'); }, {enableHighAccuracy:true, timeout:8000});
+}
+
+const ZONES = Object.keys(ZONE_GATES);
+let nearestId = null;
+const ico = {
+  doc:'<span class="icChip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></svg></span>',
+  warn:'<span class="icChip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>',
+  back:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
+  map:'<span class="icChip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></svg></span>'
+};
+
+// ───────── 테마: 자동(일몰 후 다크) / 라이트 / 다크 ─────────
+const THEMES = ["auto","light","dark"];
+const THEME_LABEL = {auto:"자동", light:"라이트", dark:"다크"};
+let themePref = "auto";
+try{ themePref = localStorage.getItem("theme") || "auto"; }catch(e){}
+function isNight(){
+  const h = new Date().getHours() + new Date().getMinutes()/60;
+  return (h >= 18.5 || h < 6.5);
+}
+function applyTheme(){
+  const dark = themePref==="dark" || (themePref==="auto" && isNight());
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  document.getElementById("themeBtn").textContent = THEME_LABEL[themePref];
+  const mc = document.querySelector('meta[name="theme-color"]');
+  if(mc) mc.setAttribute("content", dark ? "#101214" : "#eef0f3");
+}
+function cycleTheme(){
+  themePref = THEMES[(THEMES.indexOf(themePref)+1) % THEMES.length];
+  try{ localStorage.setItem("theme", themePref); }catch(e){}
+  applyTheme();
+}
+setInterval(()=>{ if(themePref==="auto") applyTheme(); }, 60000);
+
+// ───────── 키패드 ─────────
+let kpVal = "";
+function kp(c){
+  if(kpVal.length >= 4) return;
+  if(c === "R" && (kpVal === "" || kpVal.includes("R"))) return;
+  kpVal += c;
+  renderKp();
+}
+function kpDel(){ kpVal = kpVal.slice(0,-1); renderKp(); }
+function renderKp(){
+  const d = document.getElementById("numDisp");
+  if(!kpVal){ d.textContent = "게이트 번호 입력"; d.classList.add("empty"); }
+  else{ d.textContent = kpVal; d.classList.remove("empty"); }
+  const mw = document.getElementById("matchWrap");
+  if(!kpVal){ mw.innerHTML = ""; return; }
+  const matches = GATES.filter(g=>g.id.startsWith(kpVal));
+  if(matches.length === 1 && matches[0].id === kpVal){
+    kpVal = ""; renderKp(); openGate(matches[0].id); return;
+  }
+  if(!matches.length){ mw.innerHTML = '<div class="subT">일치하는 게이트가 없습니다</div>'; return; }
+  mw.innerHTML = '<div class="subT">일치 게이트 · ' + matches.length + '개</div><div class="matchRow">'
+    + matches.slice(0,12).map(g=>`<span class="mchip" onclick="pick('${g.id}')">${g.id}</span>`).join("")
+    + (matches.length > 12 ? '<span class="subT" style="align-self:center">…계속 입력하세요</span>' : '')
+    + '</div>';
+}
+function pick(id){ kpVal = ""; renderKp(); openGate(id); }
+
+// ───────── 최근 조회 ─────────
+function getRecent(){ try{ return JSON.parse(localStorage.getItem("recent")||"[]"); }catch(e){ return []; } }
+function addRecent(id){
+  try{
+    let r = getRecent().filter(x=>x!==id);
+    r.unshift(id);
+    localStorage.setItem("recent", JSON.stringify(r.slice(0,4)));
+  }catch(e){}
+}
+function renderRecent(){
+  const r = getRecent().filter(id=>GATES.some(g=>g.id===id));
+  document.getElementById("recentWrap").innerHTML = r.length
+    ? '<div class="subT">최근 조회</div><div class="matchRow">' + r.map(id=>`<span class="mchip" onclick="pick('${id}')">${id}</span>`).join("") + '</div>'
+    : "";
+}
+
+// ───────── 구역별 목록 (보조) ─────────
+let curZone = ZONES[0], zonesOpen = false;
+function toggleZones(){
+  zonesOpen = !zonesOpen;
+  document.getElementById("zoneView").style.display = zonesOpen ? "block" : "none";
+  document.getElementById("zoneBtn").textContent = zonesOpen ? "구역별 목록 접기 ▴" : "구역별 전체 보기 ▾";
+  if(zonesOpen) renderZones();
+}
+function setZone(z){ curZone = z; renderZones(); }
+function renderZones(){
+  document.getElementById("tabs").innerHTML = ZONES.map(z=>`<span class="tab${z===curZone?' on':''}" onclick="setZone('${z}')">${z}</span>`).join("");
+  const gs = GATES.filter(g=>g.zone===curZone);
+  document.getElementById("chips").innerHTML =
+    `<div class="zone"><span class="zt">${curZone}</span><span class="zl"></span><span class="zc">${gs.length}개소</span></div><div class="chips">`
+    + gs.map(g=>`<div class="chip${curZone==='역MARS'?' special':''}" onclick="openGate('${g.id}')">${g.id}</div>`).join("")
+    + `</div>`;
 }
 
 // ───────── 상세 화면 ─────────
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
-  location.hash = "gate="+id;
+  addRecent(id);
+  if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
   const d = document.getElementById("detail");
   d.style.display="block";
   d.innerHTML = `
-    <button class="back" onclick="goList()">← 게이트 목록</button>
+    <button class="back" onclick="goList()">${ico.back} 전체 게이트</button>
     <div class="card">
-      <div class="gateTitle"><span class="num">${g.id}</span><span class="loc">${g.zone} 주기장</span></div>
+      <div class="gateHead">
+        <div class="gateBadge">${g.id}</div>
+        <div><div class="zn">${g.zone} 주기장</div><div class="nm">후방견인절차</div></div>
+      </div>
       <div class="row"><span class="k">견인 방향</span><span class="v">${g.dir}</span></div>
       <div class="row"><span class="k">정대 기준</span><span class="v">${g.line}</span></div>
       <div class="row"><span class="k">분리 지점</span><span class="v">${g.limit}</span></div>
-      <div class="row"><span class="k">통신 주파수</span><span class="v">${g.freq}</span></div>
+      <div class="row"><span class="k">통신</span><span class="v freq">${g.freq}</span></div>
     </div>
+    ${GATE_XY[g.id] ? `
     <div class="card">
-      <div class="secT">■ 후방견인 절차</div>
-      <ol class="steps">${g.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+      <div class="secT">${ico.map} 위치 — T2 주기장 배치 (AIP 기준)</div>
+      <div id="mapBox">${mapSvg(g, null)}</div>
+      <button class="mapLocBtn" onclick="showMeOnMap('${g.id}')">내 위치 함께 표시</button>
+      <div class="meta" style="margin-top:8px">AIP 주기장 배치도·INS 좌표 기반 · 위치정보는 기기 내에서만 처리되며 저장되지 않습니다</div>
+    </div>` : ``}
+    <div class="card">
+      <div class="secT">${ico.doc} 표준 절차</div>
+      <ol class="steps">${g.steps.map((s,i)=>`<li><span class="stepN">${i+1}</span><span class="stepT">${s}</span></li>`).join("")}</ol>
     </div>
-    <div class="caution">
-      <div class="secT">⚠ 주의사항</div>
+    <div class="card caution">
+      <div class="secT">${ico.warn} 주의사항</div>
       <ul>${g.cautions.map(c=>`<li>${c}</li>`).join("")}</ul>
     </div>
-    <div class="meta">본 절차는 예시입니다 · 최신 개정본 기준 여부를 반드시 확인하십시오 · 개정: 2026.7.17</div>`;
+    <div class="meta">본 화면은 예시 데이터입니다 · 실제 작업 전 최신 개정본 여부를 반드시 확인하십시오</div>`;
   window.scrollTo(0,0);
 }
 function goList(){
-  location.hash="";
+  history.replaceState(null,"",location.pathname);
   document.getElementById("detail").style.display="none";
   document.getElementById("list").style.display="block";
+  renderRecent();
 }
 
 // ───────── GPS 근접 제안 ─────────
@@ -182,18 +517,19 @@ function findNearest(){
   navigator.geolocation.getCurrentPosition(pos=>{
     const {latitude:la, longitude:lo, accuracy} = pos.coords;
     let best=null, bestD=1e9;
-    GATES.forEach(g=>{
+    GATES.filter(g=>g.lat).forEach(g=>{
       const d = dist(la,lo,g.lat,g.lng);
       if(d<bestD){bestD=d; best=g;}
     });
+    if(!best){ st.textContent="좌표가 입력된 게이트가 없습니다."; return; }
     nearestId = best.id;
-    document.getElementById("gpsGate").textContent = best.id + "번 (" + best.zone + ")";
+    document.getElementById("gpsGate").textContent = "GATE " + best.id + " · " + best.zone;
     document.getElementById("gpsDist").textContent = Math.round(bestD);
     document.getElementById("gpsBanner").style.display="block";
-    st.textContent = `GPS 정확도 ±${Math.round(accuracy)}m — 인접 게이트 오인식 가능, 반드시 게이트 번호 확인 후 선택`;
-  }, err=>{ st.textContent="위치 확인 실패: "+err.message+" (위치 권한 허용 필요)"; }, {enableHighAccuracy:true, timeout:8000});
+    st.textContent = `GPS 정확도 ±${Math.round(accuracy)}m — 인접 게이트로 인식될 수 있으니 게이트 번호를 반드시 확인하세요`;
+  }, err=>{ st.textContent="위치 확인 실패: 위치 권한을 허용해 주세요."; }, {enableHighAccuracy:true, timeout:8000});
 }
-function dist(a,b,c,d){ // Haversine (m)
+function dist(a,b,c,d){
   const R=6371000, r=x=>x*Math.PI/180;
   const dLat=r(c-a), dLng=r(d-b);
   const h=Math.sin(dLat/2)**2 + Math.cos(r(a))*Math.cos(r(c))*Math.sin(dLng/2)**2;
@@ -205,11 +541,10 @@ function openFromHash(){
   const m = location.hash.match(/gate=([\w]+)/);
   if(m) openGate(decodeURIComponent(m[1]));
 }
-window.addEventListener("load", ()=>{ renderList(""); openFromHash(); });
-// 페이지가 열려 있는 상태에서 다른 게이트 QR을 찍어도 즉시 전환
+window.addEventListener("load", ()=>{ applyTheme(); renderRecent(); openFromHash(); });
 window.addEventListener("hashchange", openFromHash);
-// 카메라/브라우저가 기존 화면을 재사용하는 경우 대비: 화면 복귀 시 재확인
-document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) openFromHash(); });
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ applyTheme(); openFromHash(); } });
+applyTheme();
 
 // PWA: 오프라인 캐시 서비스워커 등록
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
