@@ -346,7 +346,7 @@
   <div id="detail"></div>
 </div>
 
-<footer><span><b id="brandTap">인천국제공항공사</b> 운항관리처</span><span>개정 2026.07.31 · v7.5</span></footer>
+<footer><span><b id="brandTap">인천국제공항공사</b> 운항관리처</span><span>개정 2026.07.31 · v7.6</span></footer>
 
 <script src="gates.js"></script>
 <script>
@@ -1080,7 +1080,49 @@ document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ applyT
 applyTheme();
 
 // PWA: 오프라인 캐시 서비스워커 등록
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+/* ═════════ 자동 업데이트 ═════════
+   새 버전이 올라오면 다음 실행 때 자동으로 받아 적용합니다.
+   앱을 지웠다 다시 설치할 필요가 없습니다. */
+if ("serviceWorker" in navigator){
+  let refreshing=false;
+  navigator.serviceWorker.addEventListener("controllerchange", ()=>{
+    if(refreshing) return; refreshing=true; location.reload();
+  });
+  navigator.serviceWorker.register("sw.js", {updateViaCache:"none"}).then(reg=>{
+    // 새 버전이 대기 중이면 바로 적용
+    if(reg.waiting) reg.waiting.postMessage("skipWaiting");
+    reg.addEventListener("updatefound", ()=>{
+      const sw=reg.installing;
+      if(!sw) return;
+      sw.addEventListener("statechange", ()=>{
+        if(sw.state==="installed" && navigator.serviceWorker.controller){
+          showUpdateBar(()=>sw.postMessage("skipWaiting"));
+        }
+      });
+    });
+    // 앱을 열 때마다, 그리고 화면으로 돌아올 때마다 새 버전 확인
+    const check=()=>{ if(navigator.onLine) reg.update().catch(()=>{}); };
+    check();
+    document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) check(); });
+    setInterval(check, 30*60*1000);
+  }).catch(()=>{});
+}
+function showUpdateBar(apply){
+  if(document.getElementById("updBar")) return;
+  const b=document.createElement("div");
+  b.id="updBar";
+  b.innerHTML='<span>새 버전이 준비되었습니다</span><button>지금 적용</button>';
+  b.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + var(--safe-bottom));"+
+    "z-index:200;display:flex;align-items:center;gap:12px;background:var(--btn-bg);color:var(--btn-text);"+
+    "border-radius:24px;padding:10px 12px 10px 18px;font-size:13.5px;font-weight:700;"+
+    "box-shadow:0 6px 24px rgba(0,0,0,.25)";
+  const btn=b.querySelector("button");
+  btn.style.cssText="background:var(--accent);color:#fff;border:none;border-radius:18px;"+
+    "padding:8px 15px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer";
+  btn.onclick=()=>{ b.remove(); apply(); };
+  document.body.appendChild(b);
+  setTimeout(()=>{ if(document.getElementById("updBar")) { b.remove(); apply(); } }, 8000);
+}
 </script>
 </body>
 </html>
