@@ -346,7 +346,7 @@
   <div id="detail"></div>
 </div>
 
-<footer><span><b id="brandTap">인천국제공항공사</b> 운항관리처</span><span>개정 2026.07.31 · v7.6</span></footer>
+<footer><span><b id="brandTap">인천국제공항공사</b> 운항관리처</span><span>개정 2026.07.31 · v7.7</span></footer>
 
 <script src="gates.js"></script>
 <script>
@@ -623,13 +623,6 @@ function openGate(id){
             ${hits}
           </svg>
           <div class="animHint">도착 위치(원)를 탭하면 그 절차가 재생됩니다 ▶</div>
-        </div>
-        <div class="typePick"><span class="lb">기종</span>` +
-          AC_TYPES.map((t,k)=>`<button onclick="event.stopPropagation();setAcType(${k},this,'${g.id}')"${k===AC_TI?' class="on"':''}>${t.k}급 ${t.n}</button>`).join("") +
-        `</div>
-        <div class="typePick"><span class="lb">선 기준</span>
-          <button onclick="event.stopPropagation();setRef(0,this,'${g.id}')"${REF===0?' class="on"':''}>노즈기어</button>
-          <button onclick="event.stopPropagation();setRef(1,this,'${g.id}')"${REF===1?' class="on"':''}>메인기어</button>
         </div>
         <div class="procPick">` + cfg.paths.map((pp,k)=>
             `<button onclick="event.stopPropagation();playAnim('${g.id}',${k},this)"${k===0?' class="on"':''}>`+
