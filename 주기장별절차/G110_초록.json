@@ -1,0 +1,1 @@
+{"110_green": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_green.png", "sw": 6.45, "sh": 7.36, "ax": 3.23, "ay": 3.53, "pts": [[802.69, 845.51], [800.44, 842.45], [793.07, 840.79]], "bend": [[0, 0], [0.34, -2.21]], "hdg0": 144.3, "turn": null, "mark": null, "hdgAdj": -11, "gate": "110", "color": "green", "colorKo": "초록"}}

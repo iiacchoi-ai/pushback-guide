@@ -1,0 +1,1 @@
+{"209_sky": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_sky.png", "sw": 3.56, "sh": 4.43, "ax": 1.78, "ay": 2.13, "pts": [[638.48, 695.83], [635.38, 686.52], [633.57, 683.66]], "bend": [[0, 0], [0, 0]], "hdg0": 161.4, "turn": null, "mark": null, "hdgAdj": 1.5, "gate": "209", "color": "sky", "colorKo": "하늘"}}

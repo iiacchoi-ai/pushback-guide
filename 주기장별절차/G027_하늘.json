@@ -1,0 +1,1 @@
+{"27_sky": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_sky.png", "sw": 6.45, "sh": 7.36, "ax": 3.23, "ay": 3.53, "pts": [[830.49, 928.49], [815.79, 907.51]], "bend": [[0, 0]], "hdg0": 144.2, "turn": 3, "mark": null, "hdgAdj": 1.5, "gate": "27", "color": "sky", "colorKo": "하늘"}}
