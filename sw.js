@@ -1,4 +1,4 @@
-const C="pushback-v159";
+const C="pushback-v160";
 const SHELL=["./","./index.html","./gates.js","./manifest.json","./icon-192.png"];
 
 self.addEventListener("install", e=>{
