@@ -285,10 +285,13 @@
     position:absolute;left:10px;bottom:10px;background:rgba(15,20,28,.78);color:#e8fff4;
     font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;
   }
-  /* 작업자 시점 (시험 적용) */
-  .wvBtn{position:absolute;top:10px;right:10px;z-index:6;border:none;cursor:pointer;
-    background:rgba(11,46,89,.88);color:#fff;font-family:inherit;
-    font-size:12px;font-weight:700;padding:7px 12px;border-radius:16px;}
+  /* 작업자 시점 (시험 적용) — 좌우 고정 선택 */
+  .wvSeg{margin-left:auto;display:flex;
+    background:rgba(15,20,28,.82);border-radius:18px;padding:3px;gap:2px;}
+  .wvSeg button{border:none;cursor:pointer;font-family:inherit;
+    font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:15px;
+    background:transparent;color:#9fb3c8;}
+  .wvSeg button.on{background:#7FC4FF;color:#0B2E59;}
   .wvBadge{position:absolute;top:10px;left:10px;z-index:6;pointer-events:none;
     background:rgba(0,224,138,.16);color:#00e08a;
     font-size:11px;font-weight:700;padding:6px 10px;border-radius:14px;}
@@ -631,7 +634,11 @@ function stepsHtml(g){
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
-  if(typeof WVST!=="undefined" && WVST[id]) WVST[id].on=false;   // 화면 재구성 시 작업자 시점 초기화
+  if(typeof WVST!=="undefined" && WVST[id]) WVST[id].on=false;   // 화면 재구성 시 회전 상태 초기화
+  // 저장된 보기 모드가 '작업자 시점'이면 화면 구성 직후 자동 적용
+  setTimeout(()=>{ try{
+    if(WV_GATES.indexOf(id)>=0 && localStorage.getItem("pbView")==="worker") setWV(id,true);
+  }catch(e){} },0);
   if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
   const d = document.getElementById("detail");
@@ -665,7 +672,7 @@ function openGate(id){
     </div>` : ``}
     ${(typeof SLIDE_IMG !== "undefined" && SLIDE_IMG[g.id]) ? `
     <div class="card">
-      <div class="secT">${ico.map} 후방견인 도면</div>
+      <div class="secT">${ico.map} 후방견인 도면${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvSeg"><button id="wvBase" class="on" onclick="setWV('${g.id}',false)">기본 시점</button><button id="wvWork" onclick="setWV('${g.id}',true)">작업자 시점</button></div>` : ``}</div>
       ${SLIDE_IMG[g.id].map(n=>{
         const SRC = String(n).includes(".") ? `img/${n}` : `img/s${n}.jpg`;
         const _pa = (typeof PATH_ANIM!=="undefined") ? PATH_ANIM[g.id] : null;
@@ -684,7 +691,7 @@ function openGate(id){
             <image id="acImg" preserveAspectRatio="none" href="${cfg.paths[0].sprite}" width="${cfg.sw}" height="${cfg.sh}" style="display:none"/>
             ${hits}
           </svg>
-          ${WV_GATES.indexOf(g.id)>=0 ? `<button class="wvBtn" id="wvBtn" onclick="toggleWV('${g.id}')">작업자 시점</button><div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>` : ``}
+          ${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>` : ``}
           <div class="animHint">항공기를 탭하면 그 절차가 재생됩니다 ▶</div>
         </div>
         `;
@@ -2711,30 +2718,34 @@ function setAcType(i, btn, gid){
 // 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
 const WV_GATES=["250","243"];
 const WVST={};
-function coverScale(w,h,deg){                     // 회전해도 모서리가 비지 않는 최소 확대율
+function fitScale(w,h,deg){                       // 회전한 사각형이 통째로 프레임 안에 들어오는 축소율
   const a=Math.abs(deg)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
-  return Math.max((w*c+h*s)/w, (w*s+h*c)/h);
+  return Math.min(w/(w*c+h*s), h/(w*s+h*c));
 }
-function toggleWV(gid){
+function setWV(gid, on){
   const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
-  const btn=document.getElementById("wvBtn"), badge=document.getElementById("wvBadge");
+  const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork");
+  const badge=document.getElementById("wvBadge");
   if(!img||!svg) return;
-  const wrap=svg.closest(".animWrap"), r=wrap.getBoundingClientRect();
+  const wrap=svg.closest(".animWrap");
   const st=WVST[gid]||(WVST[gid]={on:false,th:0,sc:1});
-  if(st.on){
-    st.on=false; img.style.transform=""; svg.style.transform="";
-    if(btn) btn.textContent="작업자 시점"; if(badge) badge.style.display="none";
+  if(bB) bB.classList.toggle("on", !on);
+  if(bW) bW.classList.toggle("on", !!on);
+  if(badge) badge.style.display = on ? "block" : "none";
+  try{ localStorage.setItem("pbView", on ? "worker" : "base"); }catch(e){}
+  if(!on){
+    st.on=false; img.style.transform=""; svg.style.transform=""; wrap.style.background="";
     return;
   }
   const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
+  const r=wrap.getBoundingClientRect();
   const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
   let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
   let th=-(hd+180); th=((th%360)+540)%360-180;     // 최단 방향으로 회전
-  st.th=th; st.sc=coverScale(r.width,r.height,th); st.on=true;
+  st.th=th; st.sc=fitScale(r.width,r.height,th); st.on=true;
   const t=`rotate(${th.toFixed(2)}deg) scale(${st.sc.toFixed(3)})`;
   img.style.transform=t; svg.style.transform=t;
-  if(btn) btn.textContent="기본 방향";
-  if(badge) badge.style.display="block";
+  wrap.style.background="#0a0e1a";                 // 기울어진 사각형 바깥 여백을 도면 배경색으로
 }
 function pickProc(ev, gid){
   ev.stopPropagation();
