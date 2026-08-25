@@ -1,6 +1,6 @@
 {
-  "name": "인천공항 후방견인절차 조회",
-  "short_name": "후방견인",
+  "name": "밀어요 — 인천공항 후방견인절차",
+  "short_name": "밀어요",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
