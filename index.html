@@ -285,6 +285,14 @@
     position:absolute;left:10px;bottom:10px;background:rgba(15,20,28,.78);color:#e8fff4;
     font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;
   }
+  /* 작업자 시점 (시험 적용) */
+  .wvBtn{position:absolute;top:10px;right:10px;z-index:6;border:none;cursor:pointer;
+    background:rgba(11,46,89,.88);color:#fff;font-family:inherit;
+    font-size:12px;font-weight:700;padding:7px 12px;border-radius:16px;}
+  .wvBadge{position:absolute;top:10px;left:10px;z-index:6;pointer-events:none;
+    background:rgba(0,224,138,.16);color:#00e08a;
+    font-size:11px;font-weight:700;padding:6px 10px;border-radius:14px;}
+  #animBg,#animSvg{transition:transform .45s ease;will-change:transform;}
   .mapLocBtn{
     width:100%;margin-top:10px;background:var(--accent-soft);border:1px solid var(--accent-border);
     color:var(--accent);border-radius:12px;padding:11px;font-size:13.5px;font-weight:700;
@@ -623,6 +631,7 @@ function stepsHtml(g){
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
+  if(typeof WVST!=="undefined" && WVST[id]) WVST[id].on=false;   // 화면 재구성 시 작업자 시점 초기화
   if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
   const d = document.getElementById("detail");
@@ -675,6 +684,7 @@ function openGate(id){
             <image id="acImg" preserveAspectRatio="none" href="${cfg.paths[0].sprite}" width="${cfg.sw}" height="${cfg.sh}" style="display:none"/>
             ${hits}
           </svg>
+          ${WV_GATES.indexOf(g.id)>=0 ? `<button class="wvBtn" id="wvBtn" onclick="toggleWV('${g.id}')">작업자 시점</button><div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>` : ``}
           <div class="animHint">항공기를 탭하면 그 절차가 재생됩니다 ▶</div>
         </div>
         `;
@@ -2697,16 +2707,52 @@ function setAcType(i, btn, gid){
   if(btn){ btn.parentNode.querySelectorAll("button").forEach(b=>b.classList.remove("on")); btn.classList.add("on"); }
   playAnim(gid, ANIM_SEL[gid]||0);
 }
+// ───────── 작업자 시점 (시험 적용) ─────────
+// 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
+const WV_GATES=["250"];
+const WVST={};
+function coverScale(w,h,deg){                     // 회전해도 모서리가 비지 않는 최소 확대율
+  const a=Math.abs(deg)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
+  return Math.max((w*c+h*s)/w, (w*s+h*c)/h);
+}
+function toggleWV(gid){
+  const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
+  const btn=document.getElementById("wvBtn"), badge=document.getElementById("wvBadge");
+  if(!img||!svg) return;
+  const wrap=svg.closest(".animWrap"), r=wrap.getBoundingClientRect();
+  const st=WVST[gid]||(WVST[gid]={on:false,th:0,sc:1});
+  if(st.on){
+    st.on=false; img.style.transform=""; svg.style.transform="";
+    if(btn) btn.textContent="작업자 시점"; if(badge) badge.style.display="none";
+    return;
+  }
+  const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
+  const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
+  let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
+  let th=-(hd+180); th=((th%360)+540)%360-180;     // 최단 방향으로 회전
+  st.th=th; st.sc=coverScale(r.width,r.height,th); st.on=true;
+  const t=`rotate(${th.toFixed(2)}deg) scale(${st.sc.toFixed(3)})`;
+  img.style.transform=t; svg.style.transform=t;
+  if(btn) btn.textContent="기본 방향";
+  if(badge) badge.style.display="block";
+}
 function pickProc(ev, gid){
   ev.stopPropagation();
   const cfg=PATH_ANIM[gid]; if(!cfg||!cfg.paths||cfg.paths.length<2) return;
-  const svg=ev.currentTarget, r=svg.getBoundingClientRect();
+  const svg=ev.currentTarget;
   const [vx,vy,vw,vh]=cfg.vb;
-  // 화면 좌표 → 도면 좌표 (viewBox는 비율 유지로 그려짐)
+  // 화면 좌표 → 도면 좌표. 회전(작업자 시점) 중에는 역회전으로 되돌려 판정
+  const wrap=svg.closest(".animWrap")||svg;
+  const r=wrap.getBoundingClientRect();
   const sc=Math.min(r.width/vw, r.height/vh);
-  const ox=(r.width - vw*sc)/2, oy=(r.height - vh*sc)/2;
-  const px=vx + (ev.clientX - r.left - ox)/sc;
-  const py=vy + (ev.clientY - r.top  - oy)/sc;
+  let dx=ev.clientX-(r.left+r.width/2), dy=ev.clientY-(r.top+r.height/2);
+  const wv=WVST[gid];
+  if(wv && wv.on){
+    const a=-wv.th*Math.PI/180, ca=Math.cos(a), sa=Math.sin(a);
+    const nx=(dx*ca-dy*sa)/wv.sc, ny=(dx*sa+dy*ca)/wv.sc; dx=nx; dy=ny;
+  }
+  const px=vx+vw/2+dx/sc;
+  const py=vy+vh/2+dy/sc;
   // ① 코 끝 한 점이 아니라 '항공기 몸통'으로 판정 ② 겹친 자리는 다시 누르면 다음 항공기
   const hits=[];
   cfg.paths.forEach((p,k)=>{ if(acBodyHit(px,py,p,cfg)) hits.push(k); });
@@ -2739,10 +2785,16 @@ function hoverProc(ev, gid){
   if(!cfg||!cfg.paths) return;
   let k=-1;
   if(ev){
-    const r=svg.getBoundingClientRect(), vb=cfg.vb;
+    const wrap=svg.closest(".animWrap")||svg;
+    const r=wrap.getBoundingClientRect(), vb=cfg.vb;
     const sc=Math.min(r.width/vb[2], r.height/vb[3]);
-    const ox=(r.width-vb[2]*sc)/2, oy=(r.height-vb[3]*sc)/2;
-    const px=vb[0]+(ev.clientX-r.left-ox)/sc, py=vb[1]+(ev.clientY-r.top-oy)/sc;
+    let dx=ev.clientX-(r.left+r.width/2), dy=ev.clientY-(r.top+r.height/2);
+    const wv=WVST[gid];
+    if(wv && wv.on){
+      const a=-wv.th*Math.PI/180, ca=Math.cos(a), sa=Math.sin(a);
+      const nx=(dx*ca-dy*sa)/wv.sc, ny=(dx*sa+dy*ca)/wv.sc; dx=nx; dy=ny;
+    }
+    const px=vb[0]+vb[2]/2+dx/sc, py=vb[1]+vb[3]/2+dy/sc;
     for(let i=0;i<cfg.paths.length;i++) if(acBodyHit(px,py,cfg.paths[i],cfg)){ k=i; break; }
   }
   let g=svg.querySelector("#hoverG");
