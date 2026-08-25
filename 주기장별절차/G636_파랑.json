@@ -51,6 +51,7 @@
     "hdg0": 324.9,
     "turn": 1,
     "mark": null,
+    "hdgAdj": 0.5,
     "gate": "636",
     "color": "blue",
     "colorKo": "파랑"

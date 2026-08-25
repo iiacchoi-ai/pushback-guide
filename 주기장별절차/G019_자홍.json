@@ -1,1 +1,43 @@
-{"19_magenta": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_magenta.png", "sw": 6.45, "sh": 7.36, "ax": 3.23, "ay": 3.53, "pts": [[836.61, 887.35], [834.22, 881.02], [836.15, 874.8]], "bend": [[0, 0], [-1.02, -0.46]], "hdg0": 157.5, "turn": null, "mark": null, "hdgAdj": 18, "gate": "19", "color": "magenta", "colorKo": "자홍"}}
+{
+  "19_magenta": {
+    "slide": 0,
+    "w": 2000,
+    "h": 1380,
+    "sprite": "img/ac/ac_magenta.png",
+    "sw": 6.45,
+    "sh": 7.36,
+    "ax": 3.23,
+    "ay": 3.53,
+    "pts": [
+      [
+        836.61,
+        887.35
+      ],
+      [
+        834.22,
+        881.02
+      ],
+      [
+        836.15,
+        874.8
+      ]
+    ],
+    "bend": [
+      [
+        0,
+        0
+      ],
+      [
+        -1.02,
+        -0.46
+      ]
+    ],
+    "hdg0": 157.5,
+    "turn": null,
+    "mark": null,
+    "hdgAdj": 12.5,
+    "gate": "19",
+    "color": "magenta",
+    "colorKo": "자홍"
+  }
+}

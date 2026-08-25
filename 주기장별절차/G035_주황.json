@@ -1,1 +1,43 @@
-{"35_orange": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_orange.png", "sw": 6.45, "sh": 7.36, "ax": 3.23, "ay": 3.53, "pts": [[788.89, 921.19], [784.75, 916.25], [786.4, 910.14]], "bend": [[0, 0], [-1.82, 0.23]], "hdg0": 142.1, "turn": null, "mark": null, "hdgAdj": 9.5, "gate": "35", "color": "orange", "colorKo": "주황"}}
+{
+  "35_orange": {
+    "slide": 0,
+    "w": 2000,
+    "h": 1380,
+    "sprite": "img/ac/ac_orange.png",
+    "sw": 6.45,
+    "sh": 7.36,
+    "ax": 3.23,
+    "ay": 3.53,
+    "pts": [
+      [
+        788.89,
+        921.19
+      ],
+      [
+        784.75,
+        916.25
+      ],
+      [
+        786.4,
+        910.14
+      ]
+    ],
+    "bend": [
+      [
+        0,
+        0
+      ],
+      [
+        -1.82,
+        0.23
+      ]
+    ],
+    "hdg0": 142.1,
+    "turn": null,
+    "mark": null,
+    "hdgAdj": 6,
+    "gate": "35",
+    "color": "orange",
+    "colorKo": "주황"
+  }
+}

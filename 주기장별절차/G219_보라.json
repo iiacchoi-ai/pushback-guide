@@ -1,1 +1,44 @@
-{"219_purple": {"slide": 0, "w": 2000, "h": 1380, "sprite": "img/ac/ac_purple.png", "sw": 3.56, "sh": 4.43, "ax": 1.78, "ay": 2.13, "pts": [[636.03, 729.47], [631.32, 733.07], [624.97, 732.28]], "bend": [[0, 0], [-0.18, 1.28]], "hdg0": 51.9, "turn": null, "mark": null, "hdgAdj": 370, "turnAdj": -4, "gate": "219", "color": "purple", "colorKo": "보라"}}
+{
+  "219_purple": {
+    "slide": 0,
+    "w": 2000,
+    "h": 1380,
+    "sprite": "img/ac/ac_purple.png",
+    "sw": 3.56,
+    "sh": 4.43,
+    "ax": 1.78,
+    "ay": 2.13,
+    "pts": [
+      [
+        636.03,
+        729.47
+      ],
+      [
+        631.32,
+        733.07
+      ],
+      [
+        624.97,
+        732.28
+      ]
+    ],
+    "bend": [
+      [
+        0,
+        0
+      ],
+      [
+        -0.18,
+        1.28
+      ]
+    ],
+    "hdg0": 51.9,
+    "turn": null,
+    "mark": null,
+    "hdgAdj": 367.5,
+    "turnAdj": -4,
+    "gate": "219",
+    "color": "purple",
+    "colorKo": "보라"
+  }
+}

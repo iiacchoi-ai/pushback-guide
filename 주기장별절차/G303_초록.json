@@ -35,7 +35,7 @@
     "hdg0": 326,
     "turn": null,
     "mark": null,
-    "hdgAdj": 8,
+    "hdgAdj": 0.5,
     "gate": "303",
     "color": "green",
     "colorKo": "초록"

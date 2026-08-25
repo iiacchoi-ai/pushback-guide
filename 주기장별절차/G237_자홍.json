@@ -1,9 +1,9 @@
 {
-  "236R_blue": {
+  "237_magenta": {
     "slide": 0,
     "w": 2000,
     "h": 1380,
-    "sprite": "img/ac/ac_blue.png",
+    "sprite": "img/ac/ac_magenta.png",
     "sw": 3.56,
     "sh": 4.43,
     "ax": 1.78,
@@ -14,12 +14,12 @@
         805.6
       ],
       [
-        685.93,
-        811.38
+        686.13,
+        815.02
       ],
       [
-        689.36,
-        817.92
+        678.66,
+        817.33
       ]
     ],
     "bend": [
@@ -28,16 +28,16 @@
         0
       ],
       [
-        0,
-        0
+        1.15,
+        3.74
       ]
     ],
     "hdg0": 357.3,
     "turn": null,
     "mark": null,
-    "hdgAdj": -1.5,
-    "gate": "236R",
-    "color": "blue",
-    "colorKo": "파랑"
+    "hdgAdj": 11.5,
+    "gate": "237",
+    "color": "magenta",
+    "colorKo": "자홍"
   }
 }

@@ -59,6 +59,7 @@
     "hdg0": 0.2,
     "turn": 5,
     "mark": null,
+    "hdgAdj": 1,
     "gate": "258",
     "color": "red",
     "colorKo": "빨강"
