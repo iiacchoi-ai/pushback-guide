@@ -635,10 +635,11 @@ function stepsHtml(g){
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
-  if(typeof WVST!=="undefined" && WVST[id]) WVST[id].on=false;   // 화면 재구성 시 회전 상태 초기화
-  // 저장된 보기 모드가 '작업자 시점'이면 화면 구성 직후 자동 적용
+  if(typeof WVST!=="undefined" && WVST[id]) { WVST[id].on=false; WVST[id].mode="base"; }   // 화면 재구성 시 회전 상태 초기화
+  // 저장된 보기 모드(작업자/조종사)를 화면 구성 직후 자동 적용
   setTimeout(()=>{ try{
-    if(WV_GATES.indexOf(id)>=0 && localStorage.getItem("pbView")==="worker") setWV(id,true);
+    const vm=localStorage.getItem("pbView");
+    if(WV_GATES.indexOf(id)>=0 && (vm==="worker"||vm==="pilot")) setWV(id,vm);
   }catch(e){} },0);
   if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
@@ -673,7 +674,7 @@ function openGate(id){
     </div>` : ``}
     ${(typeof SLIDE_IMG !== "undefined" && SLIDE_IMG[g.id]) ? `
     <div class="card">
-      <div class="secT">${ico.map} 후방견인 도면${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvSeg"><button id="wvBase" class="on" onclick="setWV('${g.id}',false)">기본 시점</button><button id="wvWork" onclick="setWV('${g.id}',true)">작업자 시점</button></div>` : ``}</div>
+      <div class="secT">${ico.map} 후방견인 도면${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvSeg"><button id="wvBase" class="on" onclick="setWV('${g.id}','base')">기본</button><button id="wvWork" onclick="setWV('${g.id}','worker')">작업자</button><button id="wvPilot" onclick="setWV('${g.id}','pilot')">조종사</button></div>` : ``}</div>
       ${SLIDE_IMG[g.id].map(n=>{
         const SRC = String(n).includes(".") ? `img/${n}` : `img/s${n}.jpg`;
         const _pa = (typeof PATH_ANIM!=="undefined") ? PATH_ANIM[g.id] : null;
@@ -2719,31 +2720,41 @@ function setAcType(i, btn, gid){
 // 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
 const WV_GATES=["250","243"];
 const WVST={};
-function setWV(gid, on){
+function setWV(gid, mode){
+  if(mode===true) mode="worker"; if(mode===false) mode="base";
   const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
-  const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork");
+  const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork"), bP=document.getElementById("wvPilot");
   const badge=document.getElementById("wvBadge");
   if(!img||!svg) return;
   const wrap=svg.closest(".animWrap");
-  const st=WVST[gid]||(WVST[gid]={on:false,th:0,sc:1});
-  if(bB) bB.classList.toggle("on", !on);
-  if(bW) bW.classList.toggle("on", !!on);
-  if(badge) badge.style.display = on ? "block" : "none";
-  try{ localStorage.setItem("pbView", on ? "worker" : "base"); }catch(e){}
-  if(on === st.on) return;
+  const st=WVST[gid]||(WVST[gid]={mode:"base",on:false,th:0,sc:1});
+  if(bB) bB.classList.toggle("on", mode==="base");
+  if(bW) bW.classList.toggle("on", mode==="worker");
+  if(bP) bP.classList.toggle("on", mode==="pilot");
+  if(badge){
+    badge.style.display = mode==="base" ? "none" : "block";
+    badge.textContent = mode==="pilot" ? "기수 방향 ↑" : "견인 진행방향 ↑";
+  }
+  try{ localStorage.setItem("pbView", mode); }catch(e){}
+  if(mode === st.mode) return;
+  st.mode=mode;
   wrap.classList.add("wvAnim");                    // 전환 중에만 트랜지션 활성 (상시 GPU 레이어 없음)
   setTimeout(()=>wrap.classList.remove("wvAnim"), 520);
-  if(!on){
+  if(mode==="base"){
     st.on=false; img.style.transform=""; svg.style.transform="";
     img.style.marginTop=""; wrap.style.height=""; wrap.style.background=""; wrap.style.overflow="";
     return;
   }
   const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
-  const r=wrap.getBoundingClientRect(), W=r.width, H0=r.height;
+  const r=wrap.getBoundingClientRect(), W=r.width;
+  const H0 = st.on ? (st.h0||r.height) : r.height;  // 이미 회전 중이면 원래 높이 기준으로 재계산
+  st.h0=H0;
   const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
   let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
-  let th=-(hd+180); th=((th%360)+540)%360-180;     // 최단 방향으로 회전
-  // 원본 크기 유지: 축소 대신 프레임 높이를 회전 사각형에 맞춰 늘림 (가로만 살짝 잘림)
+  // 작업자 = 견인 진행방향(꼬리 쪽)이 위 / 조종사 = 기수 방향이 위
+  let th = (mode==="pilot") ? -hd : -(hd+180);
+  th=((th%360)+540)%360-180;                       // 최단 방향으로 회전
+  // 원본 크기 유지: 축소 대신 프레임 높이를 회전 사각형에 맞춰 늘림
   const a=Math.abs(th)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
   const newH=Math.round(W*s + H0*c);
   st.th=th; st.sc=1; st.on=true;
