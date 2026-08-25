@@ -295,7 +295,8 @@
   .wvBadge{position:absolute;top:10px;left:10px;z-index:6;pointer-events:none;
     background:rgba(0,224,138,.16);color:#00e08a;
     font-size:11px;font-weight:700;padding:6px 10px;border-radius:14px;}
-  #animBg,#animSvg{transition:transform .45s ease;will-change:transform;}
+  .animWrap.wvAnim #animBg,.animWrap.wvAnim #animSvg{transition:transform .45s ease;}
+  .animWrap.wvAnim{transition:height .45s ease;}
   .mapLocBtn{
     width:100%;margin-top:10px;background:var(--accent-soft);border:1px solid var(--accent-border);
     color:var(--accent);border-radius:12px;padding:11px;font-size:13.5px;font-weight:700;
@@ -2718,10 +2719,6 @@ function setAcType(i, btn, gid){
 // 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
 const WV_GATES=["250","243"];
 const WVST={};
-function fitScale(w,h,deg){                       // 회전한 사각형이 통째로 프레임 안에 들어오는 축소율
-  const a=Math.abs(deg)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
-  return Math.min(w/(w*c+h*s), h/(w*s+h*c));
-}
 function setWV(gid, on){
   const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
   const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork");
@@ -2733,19 +2730,28 @@ function setWV(gid, on){
   if(bW) bW.classList.toggle("on", !!on);
   if(badge) badge.style.display = on ? "block" : "none";
   try{ localStorage.setItem("pbView", on ? "worker" : "base"); }catch(e){}
+  if(on === st.on) return;
+  wrap.classList.add("wvAnim");                    // 전환 중에만 트랜지션 활성 (상시 GPU 레이어 없음)
+  setTimeout(()=>wrap.classList.remove("wvAnim"), 520);
   if(!on){
-    st.on=false; img.style.transform=""; svg.style.transform=""; wrap.style.background="";
+    st.on=false; img.style.transform=""; svg.style.transform="";
+    img.style.marginTop=""; wrap.style.height=""; wrap.style.background=""; wrap.style.overflow="";
     return;
   }
   const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
-  const r=wrap.getBoundingClientRect();
+  const r=wrap.getBoundingClientRect(), W=r.width, H0=r.height;
   const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
   let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
   let th=-(hd+180); th=((th%360)+540)%360-180;     // 최단 방향으로 회전
-  st.th=th; st.sc=fitScale(r.width,r.height,th); st.on=true;
-  const t=`rotate(${th.toFixed(2)}deg) scale(${st.sc.toFixed(3)})`;
-  img.style.transform=t; svg.style.transform=t;
+  // 원본 크기 유지: 축소 대신 프레임 높이를 회전 사각형에 맞춰 늘림 (가로만 살짝 잘림)
+  const a=Math.abs(th)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
+  const newH=Math.round(W*s + H0*c);
+  st.th=th; st.sc=1; st.on=true;
+  wrap.style.height=newH+"px"; wrap.style.overflow="hidden";
   wrap.style.background="#0a0e1a";                 // 기울어진 사각형 바깥 여백을 도면 배경색으로
+  img.style.marginTop=((newH-H0)/2).toFixed(1)+"px";   // 이미지 중심 = 프레임 중심
+  const t=`rotate(${th.toFixed(2)}deg)`;
+  img.style.transform=t; svg.style.transform=t;
 }
 function pickProc(ev, gid){
   ev.stopPropagation();
