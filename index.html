@@ -2709,7 +2709,7 @@ function setAcType(i, btn, gid){
 }
 // ───────── 작업자 시점 (시험 적용) ─────────
 // 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
-const WV_GATES=["250"];
+const WV_GATES=["250","243"];
 const WVST={};
 function coverScale(w,h,deg){                     // 회전해도 모서리가 비지 않는 최소 확대율
   const a=Math.abs(deg)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
