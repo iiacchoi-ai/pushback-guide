@@ -3207,7 +3207,7 @@ async function precacheAll(){
   const list=[...urls]; let done=0, fail=0; btn.disabled=true;
   const worker=async ()=>{ let u;
     while((u=list.shift())!==undefined){
-      try{ const r=await fetch(u,{cache:"no-cache"}); if(!r.ok) fail++; }catch(e){ fail++; }
+      try{ const r=await fetch(u,{cache:"reload"}); if(!r.ok) fail++; }catch(e){ fail++; }
       done++; if(done%20===0||list.length===0) btn.textContent=`도면 저장 중… ${done}/${done+list.length}`;
     } };
   await Promise.all([worker(),worker(),worker(),worker(),worker(),worker()]);
@@ -3216,9 +3216,17 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          btn.textContent="전체 도면 저장 완료 ✓ — 오프라인 조회 가능"; }
 }
-var C_VER="v160";
-try{ if(localStorage.getItem("pbPreAll")){ const b=document.getElementById("preBtn");
-  if(b) b.textContent="오프라인 도면 저장됨 · 다시 저장하기"; } }catch(e){}
+var C_VER="v161";
+try{
+  const b=document.getElementById("preBtn"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
+  if(b && pre){
+    // 저장 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
+    b.textContent = (pv && pv!==C_VER)
+      ? "절차 개정됨 · 전체 도면 다시 저장 권장"
+      : "오프라인 도면 저장됨 · 다시 저장하기";
+  }
+  localStorage.setItem("pbVer", C_VER);
+}catch(e){}
 
 if ("serviceWorker" in navigator){
   let refreshing=false;
