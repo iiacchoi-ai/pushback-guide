@@ -64,6 +64,12 @@
   .wrap{max-width:560px;margin:0 auto;padding:18px 16px;}
   .hello{margin:4px 2px 16px;}
   .hello h2{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+.helloRow{display:flex;align-items:center;gap:10px;}
+.dlBtn{margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;
+  background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
+  border-radius:12px;padding:8px 11px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;}
+.dlBtn svg{width:14px;height:14px;flex:none;}
+.dlBtn:disabled{opacity:.6;}
   .hello p{font-size:13.5px;color:var(--ink-sub);margin-top:4px;line-height:1.5;}
   .gpsBtn{
     width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
@@ -341,7 +347,13 @@
 <div class="wrap">
   <div id="list">
     <div class="hello">
-      <h2>어느 주기장인가요?</h2>
+      <div class="helloRow">
+        <h2>어느 주기장인가요?</h2>
+        <button class="dlBtn" id="preBtn" onclick="precacheAll()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+          <span id="preLbl">전체 도면 다운로드</span>
+        </button>
+      </div>
       <p>게이트 번호를 입력하면 해당 주기장의 후방견인절차가 표시됩니다.</p>
     </div>
     <div id="surveyBarWrap"></div>
@@ -371,7 +383,6 @@
     <div id="matchWrap"></div>
     <button class="zoneBtn" id="zoneBtn" onclick="toggleZones()">구역별 전체 보기 ▾</button>
     <div id="zoneView"><div class="tabs" id="tabs"></div><div id="chips"></div></div>
-    <button class="zoneBtn" id="preBtn" onclick="precacheAll()" style="padding-top:8px">오프라인 대비 · 전체 도면 저장</button>
   </div>
 
   <div id="detail"></div>
@@ -3269,6 +3280,7 @@ function imgFail(el){
 // 전체 도면을 한 번에 받아 서비스워커 캐시에 저장 → 이후 전 주기장 오프라인 조회
 async function precacheAll(){
   const btn=document.getElementById("preBtn"); if(!btn) return;
+  const setL=t=>{ const l=document.getElementById("preLbl"); if(l) l.textContent=t; else btn.textContent=t; };
   if(!navigator.serviceWorker || !navigator.serviceWorker.controller){
     alert("저장 기능 준비 중입니다. 화면을 새로고침한 뒤 다시 눌러 주세요."); return; }
   if(!navigator.onLine){ alert("통신 가능한 곳에서 실행해 주세요."); return; }
@@ -3282,22 +3294,22 @@ async function precacheAll(){
   const worker=async ()=>{ let u;
     while((u=list.shift())!==undefined){
       try{ const r=await fetch(u,{cache:"reload"}); if(!r.ok) fail++; }catch(e){ fail++; }
-      done++; if(done%20===0||list.length===0) btn.textContent=`도면 저장 중… ${done}/${done+list.length}`;
+      done++; if(done%20===0||list.length===0) setL(`다운로드 ${done}/${done+list.length}`);
     } };
   await Promise.all([worker(),worker(),worker(),worker(),worker(),worker()]);
   btn.disabled=false;
-  if(fail){ btn.textContent=`저장 완료(${fail}개 실패) — 다시 눌러 재시도`; }
+  if(fail){ setL(`${fail}개 실패 — 다시 받기`); }
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
-         btn.textContent="전체 도면 저장 완료 ✓ — 오프라인 조회 가능"; }
+         setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
 var C_VER="v161";
 try{
-  const b=document.getElementById("preBtn"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
+  const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
-    // 저장 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
+    // 다운로드 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
     b.textContent = (pv && pv!==C_VER)
-      ? "절차 개정됨 · 전체 도면 다시 저장 권장"
-      : "오프라인 도면 저장됨 · 다시 저장하기";
+      ? "개정됨 · 도면 다시 받기"
+      : "다운로드됨 · 다시 받기";
   }
   localStorage.setItem("pbVer", C_VER);
 }catch(e){}
