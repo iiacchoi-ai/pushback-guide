@@ -636,10 +636,9 @@ function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
   if(typeof WVST!=="undefined" && WVST[id]) { WVST[id].on=false; WVST[id].mode="base"; }   // 화면 재구성 시 회전 상태 초기화
-  // 저장된 보기 모드(작업자/조종사)를 화면 구성 직후 자동 적용
+  // 저장된 보기 모드가 작업자 시점이면 화면 구성 직후 자동 적용 (도해 보유 전 주기장)
   setTimeout(()=>{ try{
-    const vm=localStorage.getItem("pbView");
-    if(WV_GATES.indexOf(id)>=0 && (vm==="worker"||vm==="pilot")) setWV(id,vm);
+    if(typeof PATH_ANIM!=="undefined" && PATH_ANIM[id] && localStorage.getItem("pbView")==="worker") setWV(id,"worker");
   }catch(e){} },0);
   if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
@@ -674,7 +673,7 @@ function openGate(id){
     </div>` : ``}
     ${(typeof SLIDE_IMG !== "undefined" && SLIDE_IMG[g.id]) ? `
     <div class="card">
-      <div class="secT">${ico.map} 후방견인 도면${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvSeg"><button id="wvBase" class="on" onclick="setWV('${g.id}','base')">기본</button><button id="wvWork" onclick="setWV('${g.id}','worker')">작업자</button><button id="wvPilot" onclick="setWV('${g.id}','pilot')">조종사</button></div>` : ``}</div>
+      <div class="secT">${ico.map} 후방견인 도면${(typeof PATH_ANIM!=="undefined"&&PATH_ANIM[g.id]) ? `<div class="wvSeg"><button id="wvBase" class="on" onclick="setWV('${g.id}','base')">기본 시점</button><button id="wvWork" onclick="setWV('${g.id}','worker')">작업자 시점</button></div>` : ``}</div>
       ${SLIDE_IMG[g.id].map(n=>{
         const SRC = String(n).includes(".") ? `img/${n}` : `img/s${n}.jpg`;
         const _pa = (typeof PATH_ANIM!=="undefined") ? PATH_ANIM[g.id] : null;
@@ -693,7 +692,7 @@ function openGate(id){
             <image id="acImg" preserveAspectRatio="none" href="${cfg.paths[0].sprite}" width="${cfg.sw}" height="${cfg.sh}" style="display:none"/>
             ${hits}
           </svg>
-          ${WV_GATES.indexOf(g.id)>=0 ? `<div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>` : ``}
+          <div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>
           <div class="animHint">항공기를 탭하면 그 절차가 재생됩니다 ▶</div>
         </div>
         `;
@@ -2718,23 +2717,19 @@ function setAcType(i, btn, gid){
 }
 // ───────── 작업자 시점 (시험 적용) ─────────
 // 도면을 '견인 진행방향(기수→꼬리)이 위'가 되게 회전 — 절차 데이터의 hdg0로 계산하므로 센서 오차 없음
-const WV_GATES=["250","243"];
+// 작업자 시점 — 도해 보유 전 주기장 적용
 const WVST={};
 function setWV(gid, mode){
-  if(mode===true) mode="worker"; if(mode===false) mode="base";
+  if(mode===true) mode="worker"; if(mode===false||mode==="pilot") mode=(mode==="pilot")?"worker":"base";
   const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
-  const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork"), bP=document.getElementById("wvPilot");
+  const bB=document.getElementById("wvBase"), bW=document.getElementById("wvWork");
   const badge=document.getElementById("wvBadge");
   if(!img||!svg) return;
   const wrap=svg.closest(".animWrap");
   const st=WVST[gid]||(WVST[gid]={mode:"base",on:false,th:0,sc:1});
   if(bB) bB.classList.toggle("on", mode==="base");
   if(bW) bW.classList.toggle("on", mode==="worker");
-  if(bP) bP.classList.toggle("on", mode==="pilot");
-  if(badge){
-    badge.style.display = mode==="base" ? "none" : "block";
-    badge.textContent = mode==="pilot" ? "기수 방향 ↑" : "견인 진행방향 ↑";
-  }
+  if(badge) badge.style.display = mode==="base" ? "none" : "block";
   try{ localStorage.setItem("pbView", mode); }catch(e){}
   if(mode === st.mode) return;
   st.mode=mode;
@@ -2751,8 +2746,7 @@ function setWV(gid, mode){
   st.h0=H0;
   const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
   let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
-  // 작업자 = 견인 진행방향(꼬리 쪽)이 위 / 조종사 = 기수 방향이 위
-  let th = (mode==="pilot") ? -hd : -(hd+180);
+  let th=-(hd+180);                                // 견인 진행방향(꼬리 쪽)이 위
   th=((th%360)+540)%360-180;                       // 최단 방향으로 회전
   // 원본 크기 유지: 축소 대신 프레임 높이를 회전 사각형에 맞춰 늘림
   const a=Math.abs(th)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
