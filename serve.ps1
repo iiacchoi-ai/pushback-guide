@@ -1,4 +1,5 @@
-﻿$ErrorActionPreference="Stop"
+﻿param([switch]$NoBrowser)
+$ErrorActionPreference="Stop"
 Set-Location -LiteralPath $PSScriptRoot
 $port=8765
 try{
@@ -6,16 +7,17 @@ try{
   $l.Start()
 }catch{
   Write-Host "Port $port busy - opening existing server page."
-  Start-Process "http://localhost:$port/tool.html"; exit
+  if(-not $NoBrowser){ Start-Process "http://localhost:$port/tool.html" }; exit
 }
 Write-Host ""
 Write-Host "  Drawing TOOL  :  http://localhost:$port/tool.html"
 Write-Host "  Close this window to stop."
 Write-Host ""
-Start-Process "http://localhost:$port/tool.html"
+if(-not $NoBrowser){ Start-Process "http://localhost:$port/tool.html" }
 $mt=@{".html"="text/html";".js"="text/javascript";".svg"="image/svg+xml";".png"="image/png";".json"="application/json";".ico"="image/x-icon"}
 while($true){
   $c=$l.AcceptTcpClient()
+  $c.ReceiveTimeout=5000   # 요청을 안 보내는 유령 연결이 서버 전체를 멈추지 않도록
   try{
     $s=$c.GetStream()
     $r=New-Object System.IO.StreamReader($s)

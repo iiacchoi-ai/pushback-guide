@@ -1,4 +1,4 @@
-const C="pushback-v170";
+const C="pushback-v171";
 const IMG="pushback-img";   // 도면·항공기 이미지 전용 캐시 — 앱 버전이 바뀌어도 유지
 const SHELL=["./","./index.html","./gates.js","./manifest.json","./icon-192.png"];
 
@@ -16,6 +16,7 @@ self.addEventListener("message", e=>{ if(e.data==="skipWaiting") self.skipWaitin
 
 self.addEventListener("fetch", e=>{
   if(e.request.method!=="GET") return;
+  if(new URL(e.request.url).origin!==location.origin) return;   // 외부 요청(통계 픽셀 등)은 관여·캐시하지 않음
   const isImg = e.request.url.includes("/img/");
   if(isImg && e.request.cache!=="reload"){
     // 도면: 저장본 우선 — 온라인이어도 데이터를 다시 쓰지 않음
