@@ -2753,7 +2753,10 @@ function setWV(gid, mode){
   }
   const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
   const r=wrap.getBoundingClientRect(), W=r.width;
-  const H0 = st.on ? (st.h0||r.height) : r.height;  // 이미 회전 중이면 원래 높이 기준으로 재계산
+  // 기준 높이는 화면 측정이 아니라 도면 데이터(viewBox 비율)로 계산
+  // — 이미지 로드 전에 자동 적용돼도 배경·애니메이션 중심이 어긋나지 않음
+  const vbb=cfg.vb||[0,0,(cfg.w||1000),(cfg.h||700)];
+  const H0=W*vbb[3]/vbb[2];
   st.h0=H0;
   const p=(cfg.paths&&cfg.paths[ANIM_SEL[gid]||0])||cfg;
   let hd=+p.hdg0; if(isNaN(hd)) hd=+cfg.hdg0||0;
