@@ -65,6 +65,10 @@
   .hello{margin:4px 2px 16px;}
   .hello h2{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
 .helloRow{display:flex;align-items:center;gap:10px;}
+.helloLogo{display:flex;align-items:center;gap:11px;min-width:0;}
+.helloLogo img{width:46px;height:46px;border-radius:13px;flex:none;display:block;}
+.helloLogoTxt{font-size:22px;font-weight:800;letter-spacing:-0.02em;line-height:1.12;}
+.helloLogoTxt small{display:block;font-size:10.5px;font-weight:600;color:var(--ink-mut);letter-spacing:.07em;}
 .dlBtn{margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;
   background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
   border-radius:12px;padding:8px 11px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;}
@@ -347,7 +351,10 @@
 <div class="wrap">
   <div id="list">
     <div class="hello">
-      <div class="helloRow" style="justify-content:flex-end">
+      <div class="helloRow">
+        <div class="helloLogo">
+          <img src="icon-192.png" alt="밀어요 로고">
+        </div>
         <button class="dlBtn" id="preBtn" onclick="precacheAll()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
           <span id="preLbl">전체 도면 다운로드</span>
