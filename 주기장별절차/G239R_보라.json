@@ -1,9 +1,9 @@
 {
-  "239R_amber": {
+  "239R_purple": {
     "slide": 0,
     "w": 2000,
     "h": 1380,
-    "sprite": "img/ac/ac4_amber.png",
+    "sprite": "img/ac/ac4_purple.png",
     "sw": 7.95,
     "sh": 7.24,
     "ax": 3.98,
@@ -68,7 +68,7 @@
     "turn": null,
     "mark": null,
     "gate": "239R",
-    "color": "amber",
-    "colorKo": "노랑"
+    "color": "purple",
+    "colorKo": "보라"
   }
 }

@@ -1,4 +1,4 @@
-const C="pushback-v172";
+const C="pushback-v173";
 const IMG="pushback-img";   // 도면·항공기 이미지 전용 캐시 — 앱 버전이 바뀌어도 유지
 const SHELL=["./","./index.html","./gates.js","./manifest.json","./icon-192.png"];
 

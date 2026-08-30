@@ -1,9 +1,9 @@
 {
-  "259_amber": {
+  "259_purple": {
     "slide": 0,
     "w": 2000,
     "h": 1380,
-    "sprite": "img/ac/ac_amber.png",
+    "sprite": "img/ac/ac_purple.png",
     "sw": 3.56,
     "sh": 4.43,
     "ax": 1.78,
@@ -60,7 +60,7 @@
     "turn": 8,
     "mark": null,
     "gate": "259",
-    "color": "amber",
-    "colorKo": "노랑"
+    "color": "purple",
+    "colorKo": "보라"
   }
 }

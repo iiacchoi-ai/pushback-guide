@@ -1,9 +1,9 @@
 {
-  "253_amber": {
+  "253_white": {
     "slide": 0,
     "w": 2000,
     "h": 1380,
-    "sprite": "img/ac/ac_amber.png",
+    "sprite": "img/ac/ac_white.png",
     "sw": 6.45,
     "sh": 7.36,
     "ax": 3.23,
@@ -37,7 +37,7 @@
     "mark": null,
     "hdgAdj": 11.5,
     "gate": "253",
-    "color": "amber",
-    "colorKo": "노랑"
+    "color": "white",
+    "colorKo": "흰색주기중"
   }
 }

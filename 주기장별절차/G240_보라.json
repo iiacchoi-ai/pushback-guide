@@ -1,9 +1,9 @@
 {
-  "240_amber": {
+  "240_purple": {
     "slide": 0,
     "w": 2000,
     "h": 1380,
-    "sprite": "img/ac/ac_amber.png",
+    "sprite": "img/ac/ac_purple.png",
     "sw": 3.56,
     "sh": 4.43,
     "ax": 1.78,
@@ -34,8 +34,8 @@
         793.52
       ],
       [
-        703.35,
-        782.15
+        705.36,
+        785.01
       ]
     ],
     "bend": [
@@ -67,9 +67,8 @@
     "hdg0": 303.3,
     "turn": null,
     "mark": null,
-    "hdgAdj": -2,
     "gate": "240",
-    "color": "amber",
-    "colorKo": "노랑"
+    "color": "purple",
+    "colorKo": "보라"
   }
 }
