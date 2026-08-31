@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -303,7 +303,9 @@
   .animHint{
     position:absolute;left:10px;bottom:10px;background:rgba(15,20,28,.78);color:#e8fff4;
     font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;
+    pointer-events:none;transition:opacity .7s ease;
   }
+  .animWrap.hintOff .animHint{opacity:0;}
   /* 작업자 시점 (시험 적용) — 좌우 고정 선택 */
   .wvSeg{margin-left:auto;display:flex;
     background:rgba(15,20,28,.82);border-radius:18px;padding:3px;gap:2px;}
@@ -667,6 +669,10 @@ function openGate(id){
   setTimeout(()=>{ try{
     if(typeof PATH_ANIM!=="undefined" && PATH_ANIM[id] && localStorage.getItem("pbView")==="worker") setWV(id,"worker");
   }catch(e){} },0);
+  // 힌트 문구는 4초만 보여주고 페이드아웃 — 도면을 가리지 않도록
+  setTimeout(()=>{ try{
+    document.querySelectorAll("#detail .animWrap").forEach(w=>w.classList.add("hintOff"));
+  }catch(e){} },4000);
   if(location.hash !== "#gate="+id) history.replaceState(null,"","#gate="+id);
   document.getElementById("list").style.display="none";
   const d = document.getElementById("detail");
@@ -2989,6 +2995,7 @@ function playAnimHdg(gid, idx, btn){
   const rings=svg.querySelectorAll(".hitG .ring");
   const wrap=svg.closest(".animWrap");
   if(wrap) wrap.classList.add("playing");                       // 재생 중 원 숨김(깜빡임 정지)
+  if(wrap) wrap.classList.add("hintOff");                       // 한 번 재생했으면 힌트 불필요
   const baseSrc = base.file ? ("img/"+base.file) : (base.clean||"");
   // 절차가 자기 vb 를 가지면(558 MRO 이동절차처럼 도면 밖까지 나가는 장거리 견인)
   // 재생 동안만 그 범위로 넓힌다. 평소 도면은 주기장 주변 그대로 유지.
@@ -3449,7 +3456,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v175";
+var C_VER="v176";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
