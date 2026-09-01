@@ -438,7 +438,7 @@ const ZONE_GATES = {
 const FILLED = [
  {id:"208R",zone:"T2", dir:"기수 북향 (R17 기준선)", line:"R17 기준선까지 견인 후 정대", limit:"R17 도달 전 분리 금지",
   steps:["역MARS 운영 주기장 — 푸시백 승인 요청","E/F급 장거리 토바 사용 확인","윙워커 2명 + 후방감시 1명 배치","R17 기준선까지 견인 (표준보다 견인거리 김)","R17 정대 후 정지·토바 분리"],
-  cautions:["E/F급 전용 — 견인거리 증가로 소요시간 여유 확보","※ 예시 절차 — '26.8 역MARS 운영절차 확정 후 교체"]},
+  cautions:["E/F급 전용 — 견인거리 증가로 소요시간 여유 확보"]},
  {id:"290R",zone:"T2", dir:"기수 북향 (R17 기준선)", line:"R17 기준선까지 견인 후 정대", limit:"R17 도달 전 분리 금지",
   steps:["역MARS 운영 주기장 — 푸시백 승인 요청","R17 기준선까지 견인 후 정대·분리"],
   cautions:["E/F급 전용"]}
@@ -3511,7 +3511,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v180";
+var C_VER="v181";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
