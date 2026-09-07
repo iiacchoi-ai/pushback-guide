@@ -43,7 +43,7 @@
                        "steps":  [
                                      {
                                          "pt":  0,
-                                         "txt":  "SHORT PUSH",
+                                         "txt":  "M15 항공기 이동 가능하도록 SHORT PUSHBACK 할 것!",
                                          "chk":  false
                                      }
                                  ]
