@@ -2803,6 +2803,7 @@ let AC_TI = 0;               // 현재 선택 기종
 let REF = 1;                 // 0=노즈기어가 선을 따라감, 1=메인기어가 선을 따라감(기본)
 let ANIM_SEL = {};           // 게이트별 마지막 선택 절차
 let animRAF = null;
+let msgHideT = null;   // 재생 종료 후 안내 라벨 숨김 타이머
 let CAM_ON = false;   // 추적 카메라 재생 중 (탭 = 중지)
 let animCancelFn = null;                 // 재생 중일 때만 값이 있음 (빈 곳 탭 = 취소)
 // 재생 중 화면 빈 곳을 누르면 중단하고 재생 전 화면으로 복귀 (버튼·링크·도해 영역은 제외)
@@ -3047,6 +3048,7 @@ function playAnimHdg(gid, idx, btn){
   const cfg = sel ? Object.assign({}, base, sel) : base;
   if(btn){ btn.parentNode.querySelectorAll("button").forEach(b=>b.classList.remove("on")); btn.classList.add("on"); }
   if(animRAF){ cancelAnimationFrame(animRAF); animRAF=null; }
+  if(msgHideT){ clearTimeout(msgHideT); msgHideT=null; }   // 이전 재생의 라벨 숨김 타이머 무효화 (재실행 시 사라짐 방지)
   const bg=document.getElementById("animBg");
   if(cfg.clean) bg.src=cfg.clean;      // 절차별 clean 이 있으면 그 절차만 표시
   ANIM_SEL[gid]=idx||0;
@@ -3242,6 +3244,8 @@ function playAnimHdg(gid, idx, btn){
       if(!MSG.chk[MSG.gi]){ showMsg(MSG.gi,false); MSG.gi++; }           // 통과 단계: 정지 없이 표시만
       else { MSG.paused=now; te=MSG.at[MSG.gi]; showMsg(MSG.gi,true); }  // 그 지점에 정지 + 확인 대기
     }
+    // 안내형(정지 없는) 문구는 재생 중 계속 표시 — 이전 재생의 숨김 타이머 등으로 지워져도 즉시 복구
+    if(MSG && MSG.gi>0 && !MSG.chk[MSG.gi-1] && msgEl && (msgEl.style.display==="none" || !msgEl.style.display)) showMsg(MSG.gi-1,false);
     const s=sOfT(te); let [x,y]=atLen(P,C,s);
     if(CAM){                                        // 카메라가 항공기를 따라 이동 (경로 끝단은 창이 범위 밖을 안 보게 고정)
       const hw=CAM.vw/CAM.Z/2, hh=CAM.vh/CAM.Z/2;
@@ -3299,7 +3303,7 @@ function playAnimHdg(gid, idx, btn){
     tug.setAttribute("transform",`translate(${(noseX+ux*SHv*0.03).toFixed(2)},${(noseY+uy*SHv*0.03).toFixed(2)}) rotate(${deg.toFixed(2)})`);
     tug.style.display="block";
     if(t<1) animRAF=requestAnimationFrame(frame);
-    else { animRAF=null; showRings(); animCancelFn=null; setTimeout(hideMsg, 2500); }
+    else { animRAF=null; showRings(); animCancelFn=null; msgHideT=setTimeout(hideMsg, 2500); }
   }
   animRAF=requestAnimationFrame(frame);
 }
@@ -3584,7 +3588,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v186";
+var C_VER="v187";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
