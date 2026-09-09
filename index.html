@@ -344,6 +344,17 @@
     color:var(--accent);border-radius:12px;padding:11px;font-size:13.5px;font-weight:700;
     font-family:inherit;cursor:pointer;
   }
+  .devBar{
+    margin-top:8px;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700;line-height:1.5;
+    background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
+  }
+  .devBar.hit{
+    background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);
+    animation:devPulse .8s ease-in-out infinite;
+  }
+  @keyframes devPulse{0%,100%{opacity:1}50%{opacity:.55}}
+  .devBar small{display:block;font-weight:600;font-size:11.5px;color:var(--ink-sub);margin-top:3px;}
+  .mapLocBtn.on{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);}
   .surveyBar{
     background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--radius);
     padding:12px 14px;margin-top:12px;font-size:13px;font-weight:600;color:var(--amber-t);
@@ -685,6 +696,7 @@ function stepsHtml(g){
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
+  if(typeof devKeep==="function") devKeep(id);
   try{ stGate(id); }catch(e){}
   if(typeof WVST!=="undefined" && WVST[id]) { WVST[id].on=false; WVST[id].mode="base"; }   // 화면 재구성 시 회전 상태 초기화
   // 저장된 보기 모드가 작업자 시점이면 화면 구성 직후 자동 적용 (도해 보유 전 주기장)
@@ -746,11 +758,20 @@ function openGate(id){
           <svg id="animSvg" viewBox="${cfg.vb.join(' ')}" style="pointer-events:auto" onclick="pickProc(event,'${g.id}')" onmousemove="hoverProc(event,'${g.id}')" onmouseleave="hoverProc(null,'${g.id}')">
             <image id="acImg" preserveAspectRatio="none" href="${cfg.paths[0].sprite}" width="${cfg.sw}" height="${cfg.sh}" style="display:none"/>
             ${hits}
+            <g id="devG" style="display:none">
+              <circle id="devAcc" cx="0" cy="0" r="0" fill="#2a6fd6" opacity=".16"/>
+              <line id="devLine" x1="0" y1="0" x2="0" y2="0" stroke="#d0342c"
+                    stroke-width="0.3" stroke-dasharray="0.7 0.5" style="display:none"/>
+              <circle id="devDot" cx="0" cy="0" r="0.6" fill="#2a6fd6" stroke="#fff" stroke-width="0.2"/>
+            </g>
           </svg>
           <div class="wvBadge" id="wvBadge" style="display:none">견인 진행방향 ↑</div>
           <div class="animHint">항공기를 탭하면 그 절차가 재생됩니다 ▶</div>
           <div class="animMsg" id="animMsg"></div>
         </div>
+        ${(typeof DEV_GEO!=="undefined" && DEV_GEO[g.id]) ? `
+        <button class="mapLocBtn" id="devBtn" onclick="devToggle('${g.id}')">경로이탈 감지 시작 (시범)</button>
+        <div class="devBar" id="devBar" style="display:none"></div>` : ``}
         `;
 
         }
@@ -777,10 +798,12 @@ function openGate(id){
       <div class="surveyInfo" id="svInfo">${getSurvey()[g.id] ? `기존 기록: ${getSurvey()[g.id].lat}, ${getSurvey()[g.id].lng} (±${getSurvey()[g.id].acc}m) — 다시 측정하면 덮어씁니다` : `주기장 앞 개방된 위치(작업자가 서는 곳)에서 기록하세요`}</div>
     </div>` : ``}
     `;
+  if(typeof devRestore==="function") devRestore(id);
   window.scrollTo(0,0);
 }
 function goList(){
   if(typeof stopLive==="function") stopLive();
+  if(typeof devStop==="function") devStop();
   history.replaceState(null,"",location.pathname);
   document.getElementById("detail").style.display="none";
   document.getElementById("list").style.display="block";
@@ -3478,6 +3501,120 @@ function toggleLive(gid){
   }, e=>{ if(note) note.textContent="위치 오류 — 권한을 확인하세요"; }, {enableHighAccuracy:true});
 }
 
+// ───────── 경로이탈 감지 (시범: 250번 · 작업자 참고용) ─────────
+/* GPS(WGS84) → 주기장 도면 좌표 아핀 변환.
+   전 주기장 STAND_LL 301점(기수 위치 보정)과 도면 좌표를 최소자승 정합해 산출한 잠정값으로,
+   250번 인근 대조 잔차는 중앙값 3.1 m · RMS 4.3 m. 현장 '측정 모드' 실측값으로 대체하면 더 정확해진다. */
+const DEV_GEO = {
+  "250": { lat0:37.4602, lng0:126.4407, K1:88363.146, K2:110540,
+           m:[ 0.02433192,-0.09679287, 657.10395,
+               0.09679287, 0.02433192, 812.49492],
+           upm:0.0998043 }          // 도면 단위 / m  (1 단위 ≒ 10.02 m)
+};
+const DEV_TH = 50;                  // 경보 기준 이탈거리 (m)
+let devWatch=null, devGid=null, devBeepT=0, devMax=0, devLast=null;
+
+function devLL2XY(cfg, lat, lng){
+  const e=(lng-cfg.lng0)*cfg.K1, s=-(lat-cfg.lat0)*cfg.K2;
+  return [cfg.m[0]*e+cfg.m[1]*s+cfg.m[2], cfg.m[3]*e+cfg.m[4]*s+cfg.m[5]];
+}
+// 점 → 기준경로(꺾은선)까지 최단거리. 도면 단위로 반환
+function devNearest(pts, px, py){
+  let best={d:Infinity,x:pts[0][0],y:pts[0][1]};
+  for(let i=0;i<pts.length-1;i++){
+    const x1=pts[i][0], y1=pts[i][1], dx=pts[i+1][0]-x1, dy=pts[i+1][1]-y1;
+    const L=dx*dx+dy*dy;
+    let t = L ? ((px-x1)*dx+(py-y1)*dy)/L : 0;
+    t = t<0?0:(t>1?1:t);
+    const qx=x1+t*dx, qy=y1+t*dy, d=Math.hypot(px-qx,py-qy);
+    if(d<best.d) best={d,x:qx,y:qy};
+  }
+  return best;
+}
+function devBeep(){
+  try{
+    const A = window._devAC || (window._devAC = new (window.AudioContext||window.webkitAudioContext)());
+    const o=A.createOscillator(), g=A.createGain();
+    o.type="square"; o.frequency.value=880; g.gain.value=0.05;
+    o.connect(g); g.connect(A.destination); o.start();
+    setTimeout(()=>{ try{ o.stop(); }catch(e){} }, 170);
+  }catch(e){}
+  try{ if(navigator.vibrate) navigator.vibrate([120,80,120]); }catch(e){}
+}
+function devStop(){
+  if(devWatch!==null){ try{ navigator.geolocation.clearWatch(devWatch); }catch(e){} devWatch=null; }
+  devGid=null; devLast=null;
+  const b=document.getElementById("devBtn");
+  if(b){ b.textContent="경로이탈 감지 시작 (시범)"; b.classList.remove("on"); }
+  const g=document.getElementById("devG"); if(g) g.style.display="none";
+  const bar=document.getElementById("devBar"); if(bar){ bar.style.display="none"; bar.className="devBar"; }
+}
+// 화면이 다시 그려질 때(다른 주기장 이동·앱 복귀 등) 감지 상태 유지 여부 판단
+function devKeep(id){ if(devGid && devGid!==id) devStop(); }
+function devRestore(id){
+  if(devGid!==id || devWatch===null) return;
+  const b=document.getElementById("devBtn"), bar=document.getElementById("devBar");
+  if(b){ b.textContent="경로이탈 감지 중지"; b.classList.add("on"); }
+  if(!bar) return;
+  bar.style.display="block";
+  if(devLast){ bar.className=devLast.cls; bar.innerHTML=devLast.html; }
+  else { bar.className="devBar"; bar.textContent="위치 수신 중…"; }
+}
+function devToggle(gid){
+  const cfg=DEV_GEO[gid], bar=document.getElementById("devBar"), btn=document.getElementById("devBtn");
+  if(!cfg || !bar) return;
+  if(devWatch!==null){ devStop(); return; }
+  if(!navigator.geolocation){ bar.style.display="block"; bar.textContent="이 기기는 위치 서비스를 지원하지 않습니다."; return; }
+  devMax=0; devBeepT=0; devGid=gid; devLast=null;
+  btn.textContent="경로이탈 감지 중지"; btn.classList.add("on");
+  bar.style.display="block"; bar.className="devBar"; bar.textContent="위치 수신 중…";
+  devWatch=navigator.geolocation.watchPosition(
+    p=>devDraw(gid, p),
+    e=>{ const b2=document.getElementById("devBar"); if(!b2) return;
+         b2.className="devBar"; b2.innerHTML="위치를 받지 못했습니다<small>위치 권한과 GPS 상태를 확인하세요</small>";
+         devLast={cls:b2.className, html:b2.innerHTML}; },
+    {enableHighAccuracy:true, maximumAge:1000, timeout:15000});
+}
+function devDraw(gid, p){
+  const cfg=DEV_GEO[gid], anim=(typeof PATH_ANIM!=="undefined") ? PATH_ANIM[gid] : null;
+  const bar=document.getElementById("devBar"), G=document.getElementById("devG");
+  if(!cfg || !anim || !bar || !G) return;
+  const pr=(anim.paths && anim.paths[ANIM_SEL[gid]||0]) || anim;
+  if(!pr || !pr.pts || pr.pts.length<2) return;
+  const xy=devLL2XY(cfg, p.coords.latitude, p.coords.longitude);
+  const vb=anim.vb, pad=vb ? Math.max(vb[2],vb[3])*0.6 : 60;
+  const inb = !vb || (xy[0]>vb[0]-pad && xy[0]<vb[0]+vb[2]+pad && xy[1]>vb[1]-pad && xy[1]<vb[1]+vb[3]+pad);
+  G.style.display = inb ? "block" : "none";
+  bar.style.display="block";
+  if(!inb){
+    bar.className="devBar";
+    bar.innerHTML="현재 위치가 이 주기장 도면 범위 밖입니다<small>250번 주기장 부근에서 사용하세요</small>";
+    devLast={cls:bar.className, html:bar.innerHTML};
+    return;
+  }
+  const near=devNearest(pr.pts, xy[0], xy[1]);
+  const dev = near.d / cfg.upm;                       // 도면 단위 → m
+  if(dev>devMax) devMax=dev;
+  const acc = p.coords.accuracy||0;
+  const hit = dev > DEV_TH;
+
+  const dot=document.getElementById("devDot"), ac=document.getElementById("devAcc"), ln=document.getElementById("devLine");
+  dot.setAttribute("cx", xy[0].toFixed(2)); dot.setAttribute("cy", xy[1].toFixed(2));
+  ac.setAttribute("cx", xy[0].toFixed(2)); ac.setAttribute("cy", xy[1].toFixed(2));
+  ac.setAttribute("r", (acc*cfg.upm).toFixed(2));
+  ln.setAttribute("x1", xy[0].toFixed(2)); ln.setAttribute("y1", xy[1].toFixed(2));
+  ln.setAttribute("x2", near.x.toFixed(2)); ln.setAttribute("y2", near.y.toFixed(2));
+  ln.style.display = dev>8 ? "block" : "none";
+
+  bar.className = "devBar" + (hit ? " hit" : "");
+  bar.innerHTML = (hit
+      ? `\u26A0 경로이탈 ${Math.round(dev)} m — 기준 ${DEV_TH} m 초과`
+      : `기준경로 이내 · 이탈 ${Math.round(dev)} m`)
+    + `<small>절차 ${pr.label||"1"} 기준 · 위치정확도 \u00B1${Math.round(acc)} m · 최대 ${Math.round(devMax)} m`
+    + ` — 작업자 단말 위치이며 항공기 위치가 아닙니다</small>`;
+  devLast={cls:bar.className, html:bar.innerHTML};
+  if(hit && Date.now()-devBeepT>2000){ devBeepT=Date.now(); devBeep(); }
+}
 // ───────── 측정 모드 (하단 '인천국제공항공사' 5회 연타로 토글) ─────────
 let survey = false;
 try{ survey = localStorage.getItem("survey")==="1"; }catch(e){}
@@ -3619,7 +3756,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v188";
+var C_VER="v189";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
