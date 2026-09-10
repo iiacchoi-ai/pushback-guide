@@ -1,0 +1,41 @@
+# CLAUDE.md — 밀어요 (인천공항 후방견인절차 안내 PWA)
+
+## 프로젝트 개요
+- 단일 파일 PWA. 앱 본체는 `index.html`(인라인 CSS/JS), 주기장 절차 데이터는 `gates.js`, 오프라인 캐시는 `sw.js`.
+- `도면제작TOOL.html` 은 도면·절차 제작 도구. `주기장별절차/*.json` 은 툴이 만든 주기장별 절차 데이터, `img/` 는 도면 이미지.
+- 빌드 도구 없음. 로컬 확인은 `serve.ps1`(포트 8765) 로 정적 서빙.
+- UI 문구·커밋 메시지·문서는 모두 한국어로 작성한다.
+
+## 브랜치·배포 규칙 (필수)
+- **main 브랜치가 곧 실서비스다.** GitHub Pages 가 main 을 그대로 서빙하므로 main 에 push 하는 순간 현장 작업자 휴대폰에 배포된다.
+- **main 에 직접 커밋하지 않는다.** 모든 기능·수정 작업은 `feature/<주제>` 브랜치(또는 `superpowers:using-git-worktrees` 로 만든 워크트리)에서 한다. 실험 중이거나 "(시험)" 상태인 작업은 브랜치에만 둔다.
+- 예외: CLAUDE.md·docs 등 앱 동작과 무관한 문서만 바꿀 때는 main 에 바로 커밋해도 된다.
+- **main 병합 = 배포.** 병합 전에 아래 배포 체크리스트를 모두 거친다. 병합은 `git merge --no-ff` 로 하고, 병합 커밋 메시지에 `(vNNN)` 을 붙인다.
+- 작업을 시작할 때 현재 브랜치가 main 이면 먼저 브랜치를 만든 뒤 진행한다.
+
+### 배포 체크리스트 (main 병합 직전)
+1. `index.html` 의 `C_VER` 과 `sw.js` 의 캐시 이름 `C`(`pushback-vNNN`) 를 같은 번호로 함께 올린다. 하나만 올리면 휴대폰에 개정이 반영되지 않는다.
+2. `serve.ps1 -NoBrowser` 로 로컬 서빙 후 헤드리스 Edge 로 `http://localhost:8765/index.html` 을 열어 콘솔 오류가 없는지 확인한다.
+3. 도면 툴을 사용한 작업이면 `git diff --stat` 으로 `주기장별절차/`·`img/` 의 변경 파일 수가 의도한 범위인지 확인한다 (툴이 다른 주기장 데이터를 덮어쓴 적이 있음).
+4. 위 확인 결과를 사용자에게 보고한 뒤 병합·push 한다.
+
+## 커밋 규칙
+- 커밋 메시지는 한국어 한 줄 요약. 배포(main 병합) 커밋에는 끝에 `(vNNN)` 을 붙인다. 예: `경로이탈 감지: 주기장 화면의 경보 음량 선택 제거 (v193)`.
+- 브랜치 안의 중간 커밋에는 버전 번호를 붙이지 않는다.
+
+## 작업 방식: Spec Driven (필수)
+새 기능 추가, 새 작업 구현, 동작 변경은 **반드시** 아래 순서로 진행한다. 순서를 건너뛰고 바로 코드를 수정하지 않는다.
+
+1. **브레인스토밍** — `superpowers:brainstorming` 스킬을 먼저 실행해 의도·요구사항·설계를 사용자와 함께 검토한다.
+2. **Spec 문서 작성** — 검토가 끝난 설계를 `docs/superpowers/specs/YYYY-MM-DD-<주제>-design.md` 에 저장하고 사용자 확인을 받는다.
+3. **Plan 문서 작성** — `superpowers:writing-plans` 스킬로 구현 계획을 `docs/superpowers/plans/YYYY-MM-DD-<주제>.md` 에 저장한다.
+4. **구현** — plan 문서에 따라 코딩한다 (`superpowers:executing-plans` 또는 `superpowers:subagent-driven-development`).
+5. **검증 후 완료 보고** — `superpowers:verification-before-completion` 에 따라 실제 실행·점검 결과를 확인한 뒤에만 완료로 보고한다.
+
+예외:
+- 오타 수정, 문구 변경, 한 줄짜리 명백한 버그 수정처럼 설계 판단이 필요 없는 작업은 spec/plan 없이 바로 진행해도 된다. 애매하면 사용자에게 묻지 말고 spec driven 으로 진행한다.
+- 버그 조사는 `superpowers:systematic-debugging` 을 먼저 적용하고, 원인 수정이 동작 변경을 동반하면 위 절차로 넘어간다.
+
+## 검증 도구
+- 문법 검사·데이터 정합성 점검은 node 스크립트로 한다 (Node 24, Python 3.13 설치됨. 기존 셸은 PATH 갱신 필요).
+- 런타임 확인은 배포 체크리스트 2번과 같은 방법을 쓴다.
