@@ -357,6 +357,13 @@
   @keyframes devPulse{0%,100%{opacity:1}50%{opacity:.5}}
   .devBar small{display:block;font-weight:600;font-size:11.5px;color:var(--ink-sub);margin-top:3px;}
   .mapLocBtn.on{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);}
+  .devVol{display:flex;align-items:center;gap:6px;margin-top:7px;
+    font-size:11.5px;font-weight:700;color:var(--ink-mut);}
+  .devVol .seg{margin-left:auto;display:flex;gap:3px;
+    background:var(--line-soft);border-radius:14px;padding:3px;}
+  .devVol .seg button{border:none;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:700;
+    padding:6px 11px;border-radius:11px;background:transparent;color:var(--ink-sub);}
+  .devVol .seg button.on{background:var(--accent);color:var(--card);}
   .surveyBar{
     background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--radius);
     padding:12px 14px;margin-top:12px;font-size:13px;font-weight:600;color:var(--amber-t);
@@ -771,9 +778,10 @@ function openGate(id){
           <div class="animHint">항공기를 탭하면 그 절차가 재생됩니다 ▶</div>
           <div class="animMsg" id="animMsg"></div>
         </div>
-        ${(typeof DEV_ROT!=="undefined" && DEV_ROT[g.id]) ? `
+        ${(typeof devCfg==="function" && devCfg(g.id)) ? `
         <button class="mapLocBtn" id="devBtn" onclick="devToggle('${g.id}')">경로이탈 감지 시작 (시범)</button>
-        <div class="devBar" id="devBar" style="display:none"></div>` : ``}
+        <div class="devBar" id="devBar" style="display:none"></div>
+        <div class="devVol" id="devVol">경보 음량<span class="seg">${devVolHtml()}</span></div>` : ``}
         `;
 
         }
@@ -797,9 +805,10 @@ function openGate(id){
         </div>` + ((typeof DIAG_GEO!=="undefined" && DIAG_GEO[g.id]) ? `
         <button class="mapLocBtn" id="liveBtn" onclick="toggleLive('${g.id}')">내 위치 표시 (작업자 참고용)</button>
         <div class="meta" id="liveNote" style="margin-top:6px"></div>` : ``)
-        + ((typeof DEV_ROT!=="undefined" && DEV_ROT[g.id] && cfg.vb) ? `
+        + ((typeof devCfg==="function" && devCfg(g.id) && cfg.vb) ? `
         <button class="mapLocBtn" id="devBtn" onclick="devToggle('${g.id}')">경로이탈 감지 시작 (시범)</button>
-        <div class="devBar" id="devBar" style="display:none"></div>` : ``);
+        <div class="devBar" id="devBar" style="display:none"></div>
+        <div class="devVol" id="devVol">경보 음량<span class="seg">${devVolHtml()}</span></div>` : ``);
       }).join("")}
     </div>` : ``}
     ${survey ? `
@@ -810,6 +819,7 @@ function openGate(id){
     </div>` : ``}
     `;
   if(typeof devRestore==="function") devRestore(id);
+  if(typeof devVolPaint==="function") devVolPaint();
   window.scrollTo(0,0);
 }
 function goList(){
@@ -3589,9 +3599,10 @@ const DEV_ROT = {
   "681":[75.84,954.942,627.684],"682":[75.84,965.087,623.466],"683":[75.84,972.631,621.572],"7":[25.84,890.944,914.431],"8":[25.84,884.177,907.914],
   "9":[25.84,877.720,910.453],
 };
-/* 자체 대조(주기장 좌표 → 도면)에서 25 m 넘게 어긋나거나 대조할 좌표가 없어
-   위치 표시를 그대로 믿기 어려운 주기장 — 화면에 확인 안내를 띄운다 */
-const DEV_CHK = ["1","2","3","6","16","39","46","208R","214R","224L","231R","232L","235","236R","239R",
+/* 자체 대조(주기장 좌표 → 도면)에서 25 m 넘게 어긋나거나 대조할 좌표가 없는 주기장.
+   위치 기준을 믿을 수 없으므로 경로이탈 감지를 아예 제공하지 않는다(버튼 자체가 나오지 않음).
+   현장 '측정 모드' 로 기준점을 실측해 확인되면 목록에서 빼면 된다. */
+const DEV_OFF = ["1","2","3","6","16","39","46","208R","214R","224L","231R","232L","235","236R","239R",
   "258R","261R","266L","266R","267L","268L","275L","282","290R","301","302","303","305","306","307",
   "308","309","310","311","312","322","341L","342L","343R","344","347","511","522R","543R","551","603",
   "609","632","635","641","648R","655"];
@@ -3601,10 +3612,10 @@ const _devCfg = {};
 // GPS → 해당 주기장 도면 좌표 아핀. 전체도면 변환에 주기장별 회전을 합성한다
 function devCfg(gid){
   if(_devCfg[gid]!==undefined) return _devCfg[gid];
-  const R=DEV_ROT[gid]; if(!R) return _devCfg[gid]=null;
+  const R=DEV_ROT[gid];
+  if(!R || DEV_OFF.indexOf(String(gid))>=0) return _devCfg[gid]=null;
   const B=DEV_BASE, th=R[0]*Math.PI/180, ca=Math.cos(th), sa=Math.sin(th), cx=R[1], cy=R[2];
   return _devCfg[gid] = {lat0:B.lat0, lng0:B.lng0, K1:B.K1, K2:B.K2, upm:B.upm,
-    chk: DEV_CHK.indexOf(String(gid))>=0,
     m:[ ca*B.a - sa*B.b, -ca*B.b - sa*B.a, cx + ca*(B.tx-cx) - sa*(B.ty-cy),
         sa*B.a + ca*B.b, -sa*B.b + ca*B.a, cy + sa*(B.tx-cx) + ca*(B.ty-cy) ]};
 }
@@ -3640,16 +3651,35 @@ function devAudio(){                      // 사용자가 버튼을 누른 시�
     return A;
   }catch(e){ return null; }
 }
+const DEV_VOL   = [0, 0.45, 1, 1.8];              // 경보 음량 배수
+const DEV_VOL_L = ["무음","작게","보통","크게"];
+let devVol = 2;
+try{ const s=localStorage.getItem("devVol"); if(s!==null && +s>=0 && +s<=3) devVol=+s; }catch(e){}
+function devVolHtml(){
+  return DEV_VOL_L.map((t,i)=>'<button onclick="devSetVol('+i+')">'+t+'</button>').join("");
+}
+function devVolPaint(){
+  const w=document.getElementById("devVol"); if(!w) return;
+  w.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("on", i===devVol));
+}
+function devSetVol(i){
+  devVol=i;
+  try{ localStorage.setItem("devVol", String(i)); }catch(e){}
+  devVolPaint();
+  if(i>0) devBeep({n:1, hz:880, vol:0.22, vib:[60]});   // 고른 크기를 바로 들어볼 수 있게
+}
 function devBeep(L){
-  const A=devAudio();
+  const mul = DEV_VOL[devVol];
+  const A = mul>0 ? devAudio() : null;
   if(A) try{
     for(let i=0;i<L.n;i++){
       const t=A.currentTime + i*0.23;
       const o=A.createOscillator(), g=A.createGain();
       o.type="square"; o.frequency.value=L.hz;
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(L.vol, t+0.012);   // 딸깍 소리 없이 최대 음량까지
-      g.gain.setValueAtTime(L.vol, t+0.13);
+      const vol = Math.min(0.85, L.vol*mul);
+      g.gain.exponentialRampToValueAtTime(vol, t+0.012);   // 딸깍 소리 없이 최대 음량까지
+      g.gain.setValueAtTime(vol, t+0.13);
       g.gain.exponentialRampToValueAtTime(0.0001, t+0.18);
       o.connect(g); g.connect(A.destination);
       o.start(t); o.stop(t+0.2);
@@ -3705,7 +3735,7 @@ function devDraw(gid, p){
   bar.style.display="block";
   if(!inb){
     bar.className="devBar";
-    bar.innerHTML="현재 위치가 이 주기장 도면 범위 밖입니다<small>250번 주기장 부근에서 사용하세요</small>";
+    bar.innerHTML="현재 위치가 이 주기장 도면 범위 밖입니다<small>"+gid+"번 주기장 부근에서 사용하세요</small>";
     devLast={cls:bar.className, html:bar.innerHTML};
     return;
   }
@@ -3730,7 +3760,6 @@ function devDraw(gid, p){
       : `기준경로 이내 · 이탈 ${Math.round(dev)} m`)
     + `<small>절차 ${pr.label||"1"} 기준 · 위치정확도 \u00B1${Math.round(acc)} m · 최대 ${Math.round(devMax)} m`
     + ` — 작업자 단말 위치이며 항공기 위치가 아닙니다`
-    + (cfg.chk ? ` · <b>이 주기장은 위치 기준이 확인되지 않았습니다 — 표시 위치를 현장에서 대조하세요</b>` : ``)
     + `</small>`;
   devLast={cls:bar.className, html:bar.innerHTML};
   if(hit && Date.now()-devBeepT>L.gap){ devBeepT=Date.now(); devBeep(L); }
@@ -3876,7 +3905,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v191";
+var C_VER="v192";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
