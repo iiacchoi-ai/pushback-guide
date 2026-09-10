@@ -2921,16 +2921,6 @@ function pbFixVb(){
 pbFixVb();
 const WVST={};
 const WV_FLIP=["558"];   // 작업자 시점을 반대(기수 쪽이 위)로 돌리는 주기장
-const WV_WIDE=["250"];   // 시험: 작업자 시점에서 회전으로 비는 모서리를 주변 도면으로 채우는 주기장 (툴에서 넓게 잘라낸 SVG 필요·자체 vb 장거리 절차 주기장 제외)
-// 확장 표시 중이면 도면 URL 에 표시 영역(svgView) 조각을 붙임 — 재생 중 clean 교체·복귀 시에도 같은 영역 유지
-function wvSrc(gid, url){
-  if(!url) return url;
-  const st=WVST[gid], u=String(url).split("#")[0].split("?")[0];
-  // 확장 표시는 쿼리(?wv=1)를 붙여 별도 리소스로 로드 — 브라우저가 조각(#svgView)만 다른 같은 파일을 한 이미지로 캐시해
-  // 마지막 표시 영역을 재사용하는 문제 회피. (sw 는 ignoreSearch 로 캐시를 찾으므로 오프라인에서도 동작)
-  if(st && st.on && st.view) return u+"?wv=1#svgView(viewBox("+st.view.join(",")+"))";
-  return u;
-}
 function setWV(gid, mode){
   if(mode===true) mode="worker"; if(mode===false||mode==="pilot") mode=(mode==="pilot")?"worker":"base";
   const img=document.getElementById("animBg"), svg=document.getElementById("animSvg");
@@ -2951,15 +2941,6 @@ function setWV(gid, mode){
   if(mode==="base"){
     st.on=false; img.style.transform=""; svg.style.transform="";
     img.style.marginTop=""; wrap.style.height=""; wrap.style.background=""; wrap.style.overflow="";
-    if(st.view){                                   // 확장 표시 해제 (도면 크기·경로 viewBox·URL 원복)
-      st.view=null; st.sc=1;
-      img.style.width=""; img.style.height=""; img.style.marginLeft="";
-      svg.style.left=""; svg.style.top=""; svg.style.width=""; svg.style.height="";
-      const c0=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null;
-      if(c0 && c0.vb) svg.setAttribute("viewBox", c0.vb.join(" "));
-      img.src=wvSrc(gid, img.getAttribute("src"));
-      if(c0 && c0.vb) img.style.aspectRatio=c0.vb[2]+"/"+c0.vb[3];   // 확장 이미지의 비율이 요소에 남는 브라우저 문제 회피 — 도면 비율을 명시
-    }
     return;
   }
   const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null; if(!cfg) return;
@@ -2977,22 +2958,10 @@ function setWV(gid, mode){
   // 원본 크기 유지: 축소 대신 프레임 높이를 회전 사각형에 맞춰 늘림
   const a=Math.abs(th)*Math.PI/180, c=Math.abs(Math.cos(a)), s=Math.abs(Math.sin(a));
   const newH=Math.round(W*s + H0*c);
-  st.th=th; st.sc=1; st.on=true; st.view=null;
+  st.th=th; st.sc=1; st.on=true;
   wrap.style.height=newH+"px"; wrap.style.overflow="hidden";
   wrap.style.background="#0a0e1a";                 // 기울어진 사각형 바깥 여백을 도면 배경색으로
-  if(WV_WIDE.indexOf(gid)>=0 && cfg.vb){
-    // 프레임(W×newH)을 역회전한 영역까지 도면을 넓게 표시 → 회전해도 모서리가 비지 않음. 배율(W/vb폭)은 그대로.
-    const s0=W/vbb[2], RW=(W*c+newH*s)/s0, RH=(W*s+newH*c)/s0;
-    const vcx=vbb[0]+vbb[2]/2, vcy=vbb[1]+vbb[3]/2;
-    st.view=[vcx-RW/2, vcy-RH/2, RW, RH].map(v=>+v.toFixed(3));
-    const pw=RW*s0, ph=RH*s0, ml=(W-pw)/2, mt=(newH-ph)/2;   // 프레임 중심에 맞춰 바깥으로 확장
-    img.style.width=pw.toFixed(1)+"px"; img.style.height=ph.toFixed(1)+"px";
-    img.style.marginLeft=ml.toFixed(1)+"px"; img.style.marginTop=mt.toFixed(1)+"px";
-    svg.setAttribute("viewBox", st.view.join(" "));
-    svg.style.left=ml.toFixed(1)+"px"; svg.style.top=mt.toFixed(1)+"px"; svg.style.width=pw.toFixed(1)+"px"; svg.style.height=ph.toFixed(1)+"px";
-    st.sc=s0/Math.min(W/RW, newH/RH);            // 탭 판정·라벨 부착: 프레임 기준 배율 → 실제 배율 보정
-    img.src=wvSrc(gid, img.getAttribute("src"));
-  } else img.style.marginTop=((newH-H0)/2).toFixed(1)+"px";   // 이미지 중심 = 프레임 중심
+  img.style.marginTop=((newH-H0)/2).toFixed(1)+"px";   // 이미지 중심 = 프레임 중심
   const t=`rotate(${th.toFixed(2)}deg)`;
   img.style.transform=t; svg.style.transform=t;
 }
@@ -3115,7 +3084,7 @@ function playAnimHdg(gid, idx, btn){
   if(animRAF){ cancelAnimationFrame(animRAF); animRAF=null; }
   if(msgHideT){ clearTimeout(msgHideT); msgHideT=null; }   // 이전 재생의 라벨 숨김 타이머 무효화 (재실행 시 사라짐 방지)
   const bg=document.getElementById("animBg");
-  if(cfg.clean) bg.src=wvSrc(gid, cfg.clean);      // 절차별 clean 이 있으면 그 절차만 표시 (확장 표시 영역 유지)
+  if(cfg.clean) bg.src=cfg.clean;      // 절차별 clean 이 있으면 그 절차만 표시
   ANIM_SEL[gid]=idx||0;
   try{ stProc(gid, (HB[gid] && HB[gid][idx||0] && HB[gid][idx||0][0]) || ("절차 "+((idx||0)+1))); }catch(e){}
   const rings=svg.querySelectorAll(".hitG .ring");
@@ -3143,7 +3112,7 @@ function playAnimHdg(gid, idx, btn){
                bg.style.transform=""; svg.style.transform="";
                wrap.style.overflow=""; CAM_ON=false; CAM=null;
                if(wvBack){ setWV(gid,wvBack); wvBack=null; } }
-    if(baseSrc) bg.src=wvSrc(gid, baseSrc);           // 원본 도면(전체 항공기)으로 복귀 (확장 표시 영역 유지)
+    if(baseSrc) bg.src=baseSrc;                       // 원본 도면(전체 항공기)으로 복귀
     const acEl=svg.querySelector("#acImg"); if(acEl) acEl.style.display="none";
     const tugEl=svg.querySelector("#tugG"); if(tugEl) tugEl.style.display="none"; };
   animCancelFn=()=>{ if(animRAF){ cancelAnimationFrame(animRAF); animRAF=null; } showRings(); hideMsg(); animCancelFn=null; };
@@ -3334,7 +3303,7 @@ function playAnimHdg(gid, idx, btn){
         let dx=(x-(vb2[0]+vb2[2]/2))*s0b, dy=(y-(vb2[1]+vb2[3]/2))*s0b;
         const wv=WVST[gid];
         if(wv && wv.on){ const a=wv.th*Math.PI/180, ca=Math.cos(a), sa=Math.sin(a);
-          const nx=(dx*ca-dy*sa)*(wv.sc||1), ny=(dx*sa+dy*ca)*(wv.sc||1); dx=nx; dy=ny; }
+          const nx=dx*ca-dy*sa, ny=dx*sa+dy*ca; dx=nx; dy=ny; }
         lx=rc2.width/2+dx; ly=rc2.height/2+dy;
       }
       const half=((msgEl.offsetWidth||230)/2)+6;           // 라벨 실제 폭 기준으로 좌우 잘림 방지
@@ -3876,7 +3845,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("다운로드 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v193";
+var C_VER="v194";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
