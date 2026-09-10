@@ -11,11 +11,31 @@ const theme=q.get("theme")||"light", view=q.get("view")||"home", gate=q.get("gat
 try{ localStorage.setItem("theme",theme); localStorage.removeItem("pbView"); }catch(e){}
 const f=document.getElementById("f");
 f.src="/index.html"+(view==="home"?"":"#gate="+gate);
+function poll(check,onReady,timeoutMs){
+  const start=Date.now();
+  const t=setInterval(()=>{
+    let ok=false;
+    try{ ok=check(); }catch(e){}
+    if(ok || Date.now()-start>timeoutMs){ clearInterval(t); onReady(); }
+  },100);
+}
+
 f.addEventListener("load",()=>{
   const w=f.contentWindow;
   if(view==="lightbox"){
-    setTimeout(()=>{ const box=w.document.querySelector(".dwgBox img, .animWrap img");
-      if(box) w.openDwg(box.getAttribute("src")); },1500);
+    poll(
+      ()=>{ const box=w.document.querySelector(".dwgBox img, .animWrap img"); return !!(box && box.complete); },
+      ()=>{
+        const box=w.document.querySelector(".dwgBox img, .animWrap img");
+        if(box) w.openDwg(box.getAttribute("src"));
+        poll(
+          ()=>{ const img=w.document.querySelector(".lightbox img"); return !!(img && img.complete); },
+          ()=>{},
+          8000
+        );
+      },
+      8000
+    );
   }
 });
 </script>
