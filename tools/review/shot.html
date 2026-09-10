@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html,body{margin:0;height:100%;overflow:hidden}iframe{border:0;width:100%;height:100%;display:block}</style>
+</head><body>
+<iframe id="f"></iframe>
+<script>
+// 사용: shot.html?theme=dark&view=home|detail|lightbox&gate=250
+const q=new URLSearchParams(location.search);
+const theme=q.get("theme")||"light", view=q.get("view")||"home", gate=q.get("gate")||"250";
+try{ localStorage.setItem("theme",theme); localStorage.removeItem("pbView"); }catch(e){}
+const f=document.getElementById("f");
+f.src="/index.html"+(view==="home"?"":"#gate="+gate);
+f.addEventListener("load",()=>{
+  const w=f.contentWindow;
+  if(view==="lightbox"){
+    setTimeout(()=>{ const box=w.document.querySelector(".dwgBox img, .animWrap img");
+      if(box) w.openDwg(box.getAttribute("src")); },1500);
+  }
+});
+</script>
+</body></html>
