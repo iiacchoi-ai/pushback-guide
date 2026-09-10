@@ -10,6 +10,38 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-10-frontend-design-review-design.md`
 
+## 진행 현황 (2026-09-10 작업 종료 시점)
+
+□ 실행 방식: superpowers:subagent-driven-development. 원장(ledger)은 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외 폴더)
+□ 브랜치: `feature/frontend-polish` (main 352aa9a 에서 분기). main 은 v193 그대로
+□ 완료
+  - Task 1 Step 1~5, 7 완료 (커밋 78c3410). PRODUCT.md, tools/review/shot.html, tools/review/shots.ps1, 기준 스크린샷 6장
+  - Task 1 검토 완료 → "수정 필요" 판정 (아래 TODO 1·2)
+□ 보류 중
+  - Task 1 Step 6 사용자 확인: PRODUCT.md 사실 확인 (성공 기준 "3초 안에 절차 확인", 다크모드 자동 18:30~06:30)
+□ Task 2 이후 미착수. 브리프 파일은 `.superpowers/sdd/.../task-N-brief.md` 로 추출되어 있음
+
+### TODO (남은 작업, 순서대로)
+
+1. [ ] Task 1 수정 라운드 1: `shot-lightbox-dark.png` 재촬영. shot.html 의 고정 1500ms 대기를 라이트박스 요소(`.lightbox`)가 생기고 이미지 `complete` 가 될 때까지 기다리는 방식으로 변경
+2. [ ] Task 1 수정 라운드 1: shots.ps1 의 `$ErrorActionPreference="Stop"` 을 `"Continue"` 로 변경 (PowerShell 5.1 에서 `2>$null` 이 stderr 를 막지 못해 루프가 중단될 수 있음). 같은 이유로 Task 5 check.ps1 도 Continue 유지 확인
+3. [ ] Task 1 범위 한정 재검토 → 원장에 `Task 1: complete` 기록
+4. [ ] Task 1 Step 6 사용자 확인 결과를 PRODUCT.md 에 반영
+5. [ ] Task 2 audit 스크립트 (contrast.js, colors.js, measure.html, 검출기 JSON)
+6. [ ] Task 3 critique 하위 에이전트 A/B 병렬
+7. [ ] Task 4 보고서 작성 → 사용자 수정 항목 선택 (정지 지점)
+8. [ ] Task 5 check.ps1
+9. [ ] Task 6 1차 수정 → 사용자 병합 승인 (정지 지점) → v194
+10. [ ] Task 7 2차 수정 → 사용자 병합 승인 (정지 지점) → v195
+11. [ ] Task 8 재채점·보고서 마감
+12. [ ] 최종 검토에서 처리할 Minor 이월분: shots.ps1 Edge 경로 존재 확인 없음, 임시 프로필 폴더(`%TEMP%\pushback-shot-profile`) 미정리
+
+### 재개 방법
+
+□ 새 세션에서 "plan 문서 진행 현황부터 재개" 라고 지시. 원장 첫 줄이 이 plan 을 가리키면 `Task 1: complete` 가 없으므로 Task 1 수정 라운드부터 이어감
+□ 로컬 서버는 종료된 상태. 촬영·측정 전 `Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` 으로 재기동
+□ shots.ps1 은 일반 Edge 창이 열려 있어도 동작하도록 임시 프로필(`--user-data-dir`)을 쓰는 것으로 이미 수정되어 있음
+
 ## Global Constraints
 
 - main 직접 커밋 금지. 모든 코드 변경은 `feature/frontend-polish` 브랜치. 문서만 바꾸는 커밋은 main 허용.
@@ -58,7 +90,7 @@
 - Produces: `docs/superpowers/reviews/raw/shot-{home,detail,lightbox}-{light,dark}.png` 6장. Task 3 의 하위 에이전트 A 가 읽음.
 - Produces: `PRODUCT.md`. impeccable `context` 가 읽음.
 
-- [ ] **Step 1: 브랜치 생성**
+- [x] **Step 1: 브랜치 생성**
 
 ```powershell
 git checkout -b feature/frontend-polish
@@ -66,7 +98,7 @@ git branch --show-current
 ```
 Expected: `feature/frontend-polish`
 
-- [ ] **Step 2: PRODUCT.md 작성**
+- [x] **Step 2: PRODUCT.md 작성**
 
 impeccable init 은 사용자 인터뷰를 요구하나 spec 3·4절에 답이 있으므로 아래 내용으로 작성하고 Step 6 에서 사용자 확인을 받는다.
 
@@ -108,7 +140,7 @@ web
 □ 경보는 소리·진동·색·깜박임을 병행
 ```
 
-- [ ] **Step 3: 촬영 하니스 작성**
+- [x] **Step 3: 촬영 하니스 작성**
 
 `tools/review/shot.html`:
 
@@ -137,7 +169,7 @@ f.addEventListener("load",()=>{
 </body></html>
 ```
 
-- [ ] **Step 4: 촬영 스크립트 작성**
+- [x] **Step 4: 촬영 스크립트 작성**
 
 `tools/review/shots.ps1`:
 
@@ -158,7 +190,7 @@ foreach($theme in "light","dark"){
 }
 ```
 
-- [ ] **Step 5: 서버 기동 후 촬영**
+- [x] **Step 5: 서버 기동 후 촬영**
 
 ```powershell
 Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden
@@ -171,7 +203,7 @@ Expected: `OK` 6줄. 각 PNG 를 Read 로 열어 홈은 키패드, 상세는 주
 
 PRODUCT.md 내용과 스크린샷 6장 확인 결과를 사용자에게 보고. PRODUCT.md 의 사실 오류 지적이 있으면 반영.
 
-- [ ] **Step 7: 커밋**
+- [x] **Step 7: 커밋**
 
 ```powershell
 git add PRODUCT.md tools/review/shot.html tools/review/shots.ps1 docs/superpowers/reviews/raw/
