@@ -12,9 +12,9 @@
 |---|---|---|---|---|
 | low-contrast | 2 (동일 항목 중복) | index.html | 0→CSS 17,30행(`--ink-mut` 정의), 실사용 다수(§3 표 참조) | `2.6:1 (need 4.5:1) — text #9aa1ab on #ffffff` |
 
-- line 이 0 이라 Grep 으로 실제 값을 찾음: `--ink-mut:#9aa1ab`(라이트, 17행) / `#ffffff`는 `--card`(16행). 이 조합을 쓰는 선택자는 §3 표에 정리.
+- line 이 0 이라 Grep 으로 실제 값을 찾음: `--ink-mut:#9aa1ab`(라이트, 17행) / `#ffffff`는 `--card`(16행). 이 조합을 쓰는 선택자는 §3(대비) 표에 정리.
 
-### 1-2. URL 스캔 (audit-detect-url.json) — 총 36건 (홈 10 / 상세(gate=250) 26)
+### 1-2. URL 스캔 (audit-detect-url.json) — 총 36건 (홈 9 / 상세(gate=250) 27)
 
 | antipattern | 홈 | 상세(gate=250) | 대표 스니펫 |
 |---|---|---|---|
@@ -23,26 +23,28 @@
 | layout-transition | 1 | 1 | `transition: height` |
 | text-occlusion | 0 | 1 | `div.animHint "항공기를 탭하면 그 절차가 재생됩니다 ▶" is 100% covered by overlapping text (path)` |
 
-- low-contrast(URL, 다크): CSS 30행 `--ink-mut:#6b7480`(다크), 28행 `html[data-theme="dark"]` 블록 시작. `--card`(다크)=29행 아님, 실제 29행은 `--line` 등 — `--card:#1b1e23` 는 29행. 사용 선택자는 §3 표.
+- low-contrast(URL, 다크): CSS 30행 `--ink-mut:#6b7480`(다크), 28행 `html[data-theme="dark"]` 블록 시작. `--card`(다크)=29행 아님, 실제 29행은 `--line` 등 — `--card:#1b1e23` 는 29행. 사용 선택자는 §3(대비) 표.
 - ai-color-palette: 색상값 직접 지정 없이 "인상(perceptual)" 판정이라 CSS/JS 상 단일 지점을 특정하기 어려움. 홈·상세 공통으로 반복되는 건 `--accent`(다크 `#5dcaa5`, 15행 목록 기준 CSS 전역 15곳에서 `var(--accent)` 사용, index.html 31행 정의)로 추정 — 버튼·배지·안내문 등 앱 전역 브랜드 색이 화면 전반에 걸쳐 청록(민트~시안 계열)으로 반복 노출되는 구조. "Purple/violet" 2건은 상세 화면(gate=250)에서만 나와 도면 SVG 항공기 팔레트(예: `#6a2a96`,`#a010a0`, 654~660행 `KWCOLOR` 매핑, 967~979행 등 개별 주기장 paths)일 가능성이 높음.
 - layout-transition: index.html 341행 `.animWrap.wvAnim{transition:height .45s ease;}` — 작업자 시점 전환 시 카드 높이 변경 애니메이션. 홈·상세 모두에서 잡힌 것은 CSS 규칙 자체가 스캔되었기 때문으로 보임(실제 애니메이션은 상세 화면에서만 발생).
 - text-occlusion: index.html 324~329행 `.animHint` CSS(`position:absolute;left:10px;bottom:10px;background:rgba(15,20,28,.78);...`), HTML 출력은 771행(`"항공기를 탭하면 그 절차가 재생됩니다 ▶"`, gate 250은 애니메이션형 절차 카드). `.animHint` 자체는 반투명 배경 박스를 갖고 있어 정상 상태라면 가려지지 않아야 함 — SVG `path`(견인 경로선 등)가 그 위에 겹쳐 그려진 것으로 추정되나 원인(SVG z-index/좌표) 미확인.
-
-### 오탐 후보 판단 근거 (판정 아님, 표시만)
-
-| 항목 | 오탐 후보 사유 |
-|---|---|
-| ai-color-palette "Cyan neon" (21건) | `--accent`(다크 `#5dcaa5`)는 앱 전역 디자인 토큰이며 라이트/다크 대비 모두 AA 이상 통과(§2 참조). 랜덤 네온 효과가 아니라 일관된 브랜드 색으로 의도적 설계 가능성. |
-| ai-color-palette "Purple/violet" (2건, 상세만) | CLAUDE.md 지시대로 도면 SVG 항공기 팔레트(KWCOLOR, 654~660행)는 데이터이며 디자인 토큰 대상이 아님. 상세 화면에만 나타나는 점이 도면 렌더링 기원임을 뒷받침. |
-| layout-transition (height, 341행) | 작업자 시점 전환 시 카드 높이를 의도적으로 애니메이션하는 기능(경보 배너류 아님). 성능 이슈 소지는 남지만 "의도치 않은 버그"는 아닐 수 있음. |
-| text-occlusion (animHint) | `.animHint` 는 자체 반투명 배경 박스가 있어 통상적으로는 가려지지 않아야 함 — 오탐이 아니라 실제 겹침(SVG path 레이어 순서 문제)일 가능성도 있어 오탐 여부 불확실. 스크린샷 재확인 필요. |
-| low-contrast (ink-mut, 4건) | CSS 변수로 앱 전역에 쓰이는 회색조 텍스트(§3). 데이터/장식색이 아니라 실사용 UI 텍스트 색이라 오탐 후보로 보기 어려움. |
 
 수집 실패·생략: 없음(2개 JSON 모두 정상 파싱, 전건 반영).
 
 ---
 
-## 2) 대비(WCAG) 미달 조합 — 총 24건 중 AA 미달 4건 / AAA 미달(AA 통과) 15건 / 둘 다 통과 5건
+## 2) 오탐 후보 판단 근거 (판정 아님, 표시만)
+
+| 항목 | 오탐 후보 사유 |
+|---|---|
+| ai-color-palette "Cyan neon" (21건) | `--accent`(다크 `#5dcaa5`)는 앱 전역 디자인 토큰이며 라이트/다크 대비 모두 AA 이상 통과(§3 참조). 랜덤 네온 효과가 아니라 일관된 브랜드 색으로 의도적 설계 가능성. |
+| ai-color-palette "Purple/violet" (2건, 상세만) | CLAUDE.md 지시대로 도면 SVG 항공기 팔레트(KWCOLOR, 654~660행)는 데이터이며 디자인 토큰 대상이 아님. 상세 화면에만 나타나는 점이 도면 렌더링 기원임을 뒷받침. |
+| layout-transition (height, 341행) | 작업자 시점 전환 시 카드 높이를 의도적으로 애니메이션하는 기능(경보 배너류 아님). 성능 이슈 소지는 남지만 "의도치 않은 버그"는 아닐 수 있음. |
+| text-occlusion (animHint) | `.animHint` 는 자체 반투명 배경 박스가 있어 통상적으로는 가려지지 않아야 함 — 오탐이 아니라 실제 겹침(SVG path 레이어 순서 문제)일 가능성도 있어 오탐 여부 불확실. 스크린샷 재확인 필요. |
+| low-contrast (ink-mut, 4건) | CSS 변수로 앱 전역에 쓰이는 회색조 텍스트(§3). 데이터/장식색이 아니라 실사용 UI 텍스트 색이라 오탐 후보로 보기 어려움. |
+
+---
+
+## 3) 대비(WCAG) 미달 조합 — 총 40건 중 AA 미달 4건 / AAA 미달(AA 통과) 13건 / 둘 다 통과 23건
 
 ### AA(4.5:1) 미달 — 총 4건
 
@@ -55,7 +57,7 @@
 
 `--ink-mut` 을 `color`(또는 `fill`)로 쓰는 선택자 전체(라이트/다크 공통 CSS 변수라 동일 목록): `.brand small`(59), `.helloLogoTxt small`(71), `#gpsStatus`(88), `.numDisp.empty`(110), `.key.del`(119), `.subT`(120), `.zone .zc`(142), `.noresult`(151), `.gateHead .zn`(188), `.row .k`(192), `.kwNote`(224), `.meta`(234), `.typePick .lb`(279), `.stT td.dim`(317), 382행(줌힌트류 소계), SVG 텍스트(523,531,532), 3830행(안내 placeholder).
 
-### AAA(7:1) 미달, AA 통과 — 총 15건
+### AAA(7:1) 미달, AA 통과 — 총 13건
 
 | 테마 | fg | bg | 비율 | 비고 |
 |---|---|---|---|---|
@@ -72,20 +74,18 @@
 | dark | --red-t / --card | 6.89 | |
 | fixed | gpsBtn.on (fff/#0a7d4f) | 5.17 | 85행 `.gpsBtn.on` |
 | fixed | candBtn.first (fff/var(--accent)) | 6.2 | 103행 `.candBtn.first` |
-| (light amber-t/card 중복 방지용 — 위와 동일) | | | |
-| (light red-t/card 중복 방지용 — 위와 동일) | | | |
 
-주: light `--red-body`/`--red-bg`(8.89), dark 동일 조합(8.18), light/dark `--ink`/`--card`·`--ink`/`--bg`, `--btn-text`/`--btn-bg`, `--badge-text`/`--badge`, dark `--ink-sub`/*, dark `--amber-t`/* 는 AAA 까지 통과(총 5건 완전 통과 중 대표)하여 표에서 제외.
+주: light `--ink`/`--card`, light `--ink`/`--bg`, light `--btn-text`/`--btn-bg`, light `--badge-text`/`--badge`, light `--red-body`/`--red-bg`(8.89, 총 light 5건 완전 통과) / dark `--ink`/`--card`, dark `--ink`/`--bg`, dark `--ink-sub`/`--card`, dark `--ink-sub`/`--bg`, dark `--btn-text`/`--btn-bg`, dark `--badge-text`/`--badge`, dark `--amber-t`/`--amber-bg`, dark `--amber-t`/`--card`, dark `--red-body`/`--red-bg`(8.18)(총 dark 10건 완전 통과) / fixed 8건(zoomHint, lbTip, lbZoom .pct, animMsg, msgChk, wvSeg, wvSeg.on, wvBadge, 총 fixed 8건 완전 통과) — 이상 **둘 다 통과 23건**은 AA/AAA 모두 만족하여 미달 표에서 제외.
 
 수집 실패·생략: 없음. `fixed` 배열 10건 중 AA/AAA 모두 통과한 8건(zoomHint, lbTip, lbZoom .pct, animMsg, msgChk, wvSeg, wvSeg.on, wvBadge)은 미달 표에서 제외.
 
 ---
 
-## 3) 터치 타깃 48px 미만 — 총 9종(요소 유형) × 2테마(라이트/다크 값 동일, 텍스트만 테마별 상이) — 44px 미만도 전항목 동일하게 해당
+## 4) 터치 타깃 48px 미만 — 총 11종(요소 유형: 홈 3 + 상세 버튼류 6 + 비버튼 2) × 2테마(라이트/다크 값 동일, 텍스트만 테마별 상이) — 44px 미만도 전항목 동일하게 해당
 
 라이트/다크 모두 크기(w×h)는 동일(테마 버튼 텍스트 길이 차이로 width만 다름). 화면별 표 분리.
 
-### 홈 화면 — 48px 미만 4종
+### 홈 화면 — 48px 미만 3종
 
 | 선택자/클래스·id | 텍스트 | w×h (라이트/다크) | 44px 미만 |
 |---|---|---|---|
@@ -119,9 +119,9 @@
 
 ---
 
-## 4) 색 하드코딩 — CSS 27건 / JS 인라인 스타일 77건(대표만 표기) / JS 색 리터럴 344건(대부분 도면 데이터)
+## 5) 색 하드코딩 — CSS 27건 / JS 인라인 스타일 77건(대표만 표기) / JS 색 리터럴 344건(대부분 도면 데이터)
 
-### 4-1. cssHardcoded — 총 27건, 다크모드 대응 여부
+### 5-1. cssHardcoded — 총 27건, 다크모드 대응 여부
 
 전체 27건 중 **다크 전용 대응 토큰이 있는 것은 1건(160/161행 쌍)뿐** — 나머지 26건은 `html[data-theme="dark"]` 블록에 대응 규칙이 없어 다크에서도 동일 값 고정. (파일 전체에서 다크 전용 블록은 28행 `:root` 대응부와 161행 단 2곳뿐.)
 
@@ -155,13 +155,13 @@
 | 338 | rgba(0,224,138,.16), #00e08a | `.wvBadge` | 아니오 |
 | 372 | #fff | 경보 배너류 버튼 텍스트 | 아니오 |
 
-오탐 후보 근거: 237,246,257,264,265,268,273,300,301,304,306,309,325,332,335,336,338행 다수는 "도면/라이트박스/작업자시점 오버레이"용 고정 다크 UI(항상 어두운 배경 위에 뜨는 오버레이·배지류)로, 애초에 라이트·다크 테마와 무관하게 고정 다크로 설계됐을 가능성(§2 `fixed` 배열과 대응) — 즉 "다크모드 미대응"이 아니라 "테마 비의존 고정 다크 컴포넌트"일 수 있음. 최종 판정은 보류.
+오탐 후보 근거: 237,246,257,264,265,268,273,300,301,304,306,309,325,332,335,336,338행 다수는 "도면/라이트박스/작업자시점 오버레이"용 고정 다크 UI(항상 어두운 배경 위에 뜨는 오버레이·배지류)로, 애초에 라이트·다크 테마와 무관하게 고정 다크로 설계됐을 가능성(§3 `fixed` 배열과 대응) — 즉 "다크모드 미대응"이 아니라 "테마 비의존 고정 다크 컴포넌트"일 수 있음. 최종 판정은 보류.
 
-### 4-2. jsInlineStyle — 총 77건
+### 5-2. jsInlineStyle — 총 77건
 
 대부분(약 65건)은 색상이 아닌 `display:none/block`, `transform`, `width/height/margin`(카메라 추적·확대축소 좌표 계산용) 토글/레이아웃 코드. 색상값이 포함된 항목은: 3930~3933행(`var(--btn-bg)`,`var(--btn-text)` — 토큰 사용, 하드코딩 아님), 2982행(`wrap.style.background="#0a0e1a"`, 도면 배경색 고정), 3935행(`background:var(--accent);color:#fff`). 나머지는 색상 무관 — 표 생략.
 
-### 4-3. jsColorLiteral — 총 344건, UI 색만 추려 표시(제외 331건: 도면/데이터)
+### 5-3. jsColorLiteral — 총 344건, UI 색만 추려 표시(제외 331건: 도면/데이터)
 
 - 제외 331건 = KWCOLOR 팔레트 정의(654~660행, 7건: PPT 색코드→렌더색 매핑) + 개별 주기장 `paths:[...]` 데이터(893~3084행 부근, 324건: 주기장별 항공기/지시선 색 배열). 모두 도면 원본색이며 디자인 토큰 대상 아님(CLAUDE.md 명시).
 
