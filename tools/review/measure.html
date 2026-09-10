@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+<style>html,body{margin:0;height:100%}iframe{border:0;width:390px;height:844px}#out{white-space:pre;font:11px monospace}</style>
+</head><body><iframe id="f"></iframe><pre id="out"></pre>
+<script>
+// 사용: measure.html?theme=light&gate=250  → 홈과 상세 두 화면의 클릭 가능 요소 크기를 #out 에 JSON 으로 출력
+const q=new URLSearchParams(location.search); const theme=q.get("theme")||"light", gate=q.get("gate")||"250";
+try{ localStorage.setItem("theme",theme); }catch(e){}
+const f=document.getElementById("f"); const res={theme,home:[],detail:[]};
+function scan(doc,label){
+  const sel="button,[onclick],a,.chip,.tab,.mchip,.candBtn,.key,.kw-go,.hitG";
+  doc.querySelectorAll(sel).forEach(el=>{
+    const r=el.getBoundingClientRect(); if(r.width===0||r.height===0) return;
+    const cls=(el.className&&el.className.baseVal!==undefined)?el.className.baseVal:String(el.className||"");
+    res[label].push({tag:el.tagName.toLowerCase(),cls,id:el.id||"",text:(el.textContent||"").trim().slice(0,20),
+      w:Math.round(r.width),h:Math.round(r.height),ok48:r.width>=48&&r.height>=48,ok44:r.width>=44&&r.height>=44});
+  });
+}
+f.src="/index.html";
+f.addEventListener("load",()=>{ const w=f.contentWindow;
+  setTimeout(()=>{ scan(w.document,"home"); w.openGate(gate);
+    setTimeout(()=>{ scan(w.document,"detail"); document.getElementById("out").textContent="MEASURE_JSON="+JSON.stringify(res); },1500);
+  },1200);
+},{once:true});
+</script></body></html>
