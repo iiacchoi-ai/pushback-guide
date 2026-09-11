@@ -20,6 +20,7 @@
     --badge:#17191d; --badge-text:#ffffff;
     --amber-t:#8a5a00; --amber-bg:#fbf3e2; --amber-bd:#ecd9a8;
     --red-t:#b42318; --red-bg:#fdf0ef; --red-bd:#f3d2ce; --red-body:#7a2620;
+    --red-glow:rgba(180,35,24,.34);   /* 2차 수정(P0-01): 경보 배너 외곽 글로우 — red 계열 파생 */
     --shadow:0 1px 2px rgba(20,24,32,.05), 0 4px 14px rgba(20,24,32,.05);
     --radius:18px;
     --safe-top:env(safe-area-inset-top,0px);
@@ -33,6 +34,7 @@
     --badge:#2a2e35; --badge-text:#e9ecef;
     --amber-t:#e2b25c; --amber-bg:#2a2418; --amber-bd:#54462a;
     --red-t:#f08a80; --red-bg:#2c1a18; --red-bd:#553029; --red-body:#e0a9a2;
+    --red-glow:rgba(240,138,128,.42);
     --shadow:none;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -354,8 +356,21 @@
   }
   .devBar.hit.sev2{animation-duration:.6s;}
   .devBar.hit.sev3{animation-duration:.38s;border-width:2px;}
-  @keyframes devPulse{0%,100%{opacity:1}50%{opacity:.5}}
+  /* 2차 수정(P0-01): 깜박임 대상을 배너 전체(opacity)에서 테두리·외곽 글로우로 이전 —
+     이탈 수치·기준 절차는 항상 불투명(opacity 1) 유지 */
+  @keyframes devPulse{
+    0%,100%{border-color:var(--red-bd);box-shadow:0 0 0 0 var(--red-glow);}
+    50%    {border-color:var(--red-t); box-shadow:0 0 0 4px var(--red-glow);}
+  }
   .devBar small{display:block;font-weight:600;font-size:11.5px;color:var(--ink-sub);margin-top:3px;}
+  /* 2차 수정(P0-01): 배너 안 확인 안내 한 줄 + 소리·진동 끄기 버튼(48px) */
+  .devBar .devAct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .devBar .devGuide{flex:1 1 140px;min-width:0;font-size:12.5px;font-weight:700;color:var(--red-t);line-height:1.45;}
+  .devBar .devMute{
+    flex:none;min-height:48px;padding:0 16px;background:var(--card);border:1px solid var(--red-bd);
+    border-radius:12px;color:var(--red-t);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .devBar .devMute:active{transform:scale(.97);}
   .mapLocBtn.on{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);}
   .surveyBar{
     background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--radius);
@@ -3672,7 +3687,23 @@ function devAudio(){                      // 사용자가 버튼을 누른 시�
     return A;
   }catch(e){ return null; }
 }
+// 2차 수정(P0-01): 경보 배너 안에서 소리·진동만 끄고 켤 수 있게 한다 (표시·색은 그대로 유지)
+let devMute=false;
+try{ devMute = localStorage.getItem("devMute")==="1"; }catch(e){}
+function devMuteLabel(){ return devMute ? "소리·진동 켜기" : "소리·진동 끄기"; }
+function devActHtml(){
+  return `<div class="devAct"><span class="devGuide">도면에서 현재 위치와 기준경로를 확인하세요</span>`
+       + `<button type="button" class="devMute" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button></div>`;
+}
+function devMuteToggle(){
+  devMute=!devMute;
+  try{ localStorage.setItem("devMute", devMute?"1":"0"); }catch(e){}
+  if(devMute){ try{ if(navigator.vibrate) navigator.vibrate(0); }catch(e){} }
+  const b=document.getElementById("devMuteBtn"); if(b) b.textContent=devMuteLabel();
+  if(devLast) devLast.html=devLast.html.replace(/(id="devMuteBtn"[^>]*>)[^<]*/, "$1"+devMuteLabel());
+}
 function devBeep(L){
+  if(devMute) return;                     // 소리·진동만 중지 — 배너 표시는 계속
   const A=devAudio();
   if(A) try{
     for(let i=0;i<L.n;i++){
@@ -3762,7 +3793,8 @@ function devDraw(gid, p){
       : `기준경로 이내 · 이탈 ${Math.round(dev)} m`)
     + `<small>절차 ${pr.label||"1"} 기준 · 위치정확도 \u00B1${Math.round(acc)} m · 최대 ${Math.round(devMax)} m`
     + ` — 작업자 단말 위치이며 항공기 위치가 아닙니다`
-    + `</small>`;
+    + `</small>`
+    + (hit ? devActHtml() : "");      // 2차 수정(P0-01): 경보 시 확인 안내 한 줄 + 소리·진동 끄기
   devLast={cls:bar.className, html:bar.innerHTML};
   if(hit && Date.now()-devBeepT>L.gap){ devBeepT=Date.now(); devBeep(L); }
 }
