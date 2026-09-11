@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html,body{margin:0}iframe{border:0;width:390px;height:844px;display:block}</style>
+</head><body>
+<iframe id="f"></iframe>
+<script>
+// 사용: shot.html?theme=dark&view=home|detail|lightbox&gate=250
+const q=new URLSearchParams(location.search);
+const theme=q.get("theme")||"light", view=q.get("view")||"home", gate=q.get("gate")||"250";
+try{ localStorage.setItem("theme",theme); localStorage.removeItem("pbView"); }catch(e){}
+const f=document.getElementById("f");
+f.src="/index.html"+(view==="home"?"":"#gate="+gate);
+function poll(check,onReady,timeoutMs){
+  const start=Date.now();
+  const t=setInterval(()=>{
+    let ok=false;
+    try{ ok=check(); }catch(e){}
+    if(ok || Date.now()-start>timeoutMs){ clearInterval(t); onReady(); }
+  },100);
+}
+
+f.addEventListener("load",()=>{
+  const w=f.contentWindow;
+  if(view==="lightbox"){
+    poll(
+      ()=>{ const box=w.document.querySelector(".dwgBox img, .animWrap img"); return !!(box && box.complete); },
+      ()=>{
+        const box=w.document.querySelector(".dwgBox img, .animWrap img");
+        if(box) w.openDwg(box.getAttribute("src"));
+        poll(
+          ()=>{ const img=w.document.querySelector(".lightbox img"); return !!(img && img.complete); },
+          ()=>{},
+          8000
+        );
+      },
+      8000
+    );
+  }
+});
+</script>
+</body></html>

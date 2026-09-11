@@ -10,6 +10,33 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-10-frontend-design-review-design.md`
 
+## 진행 현황 (2026-09-11 갱신)
+
+□ 실행 방식: superpowers:subagent-driven-development. 원장(ledger)은 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외 폴더). 최신 상태는 항상 원장이 기준
+□ 브랜치: `feature/frontend-polish` (main 352aa9a 에서 분기). main 은 v193 그대로
+□ 완료
+  - Task 1 촬영 하니스·기준 스크린샷 6장 (수정 3라운드: DOM 대기, ErrorActionPreference Continue, 헤드리스 Edge 창 폭 496px 클램프 회피 → 고정 iframe + 크롭)
+  - Task 2 audit 스크립트 3종 + 검출기 JSON 6종 (BOM 제거)
+  - Task 3 critique A(디자인 리뷰)·B(검출기·측정 증거) 병렬, 수정 1라운드
+  - Task 4 보고서 `docs/superpowers/reviews/20260910_프론트엔드점검.md` (audit 10/20, 휴리스틱 28/40, 이슈 18건·표 22행, 수정 2라운드)
+  - Task 4 Step 5 사용자 선택 완료: **1차 6행 전부 + 2차 P0·P1 9행 채택(15행), P2·P3 2차 7행 이월**. 채택 열 기록 커밋 8d0cf2d
+  - Task 1 Step 6 사실 확인: 다크모드 18:30~06:30 은 코드(isNight) 확인, "3초 안에 절차 확인"은 목표치(미측정)로 PRODUCT.md 에 명기
+□ 진행 중: Task 5 check.ps1
+
+### TODO (남은 작업, 순서대로)
+
+1. [ ] Task 5 check.ps1 (진행 중)
+2. [ ] Task 6 1차 수정 6행(P1-04a·P1-05a·P1-06a·P2-01·P2-02·P3-01) → 사용자 병합 승인 (정지 지점) → v194
+3. [ ] Task 7 2차 수정 9행(P0-01·P0-02·P1-01·P1-02·P1-03·P1-04b·P1-05b·P1-06b·P1-06c). P1-03 은 버튼명 통일(문구 변경)이라 사용자 확인 후 → 병합 승인 (정지 지점) → v195
+4. [ ] Task 8 재채점·보고서 마감
+5. [ ] 최종 검토에서 처리할 Minor 이월분: shots.ps1 Edge 경로 존재 확인 없음, 임시 프로필 폴더(`%TEMP%\pushback-shot-profile`) 미정리, critique-A 근사 터치 크기(보고서는 B 실측값 사용)
+
+### 재개 방법
+
+□ 새 세션에서 "plan 문서 진행 현황부터 재개" 라고 지시. 원장의 마지막 `Task N: complete` 다음 태스크부터 이어감
+□ 로컬 서버가 꺼져 있으면 `Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` 으로 재기동
+□ shots.ps1 은 임시 프로필(`--user-data-dir`)을 쓰므로 일반 Edge 창이 열려 있어도 동작
+
 ## Global Constraints
 
 - main 직접 커밋 금지. 모든 코드 변경은 `feature/frontend-polish` 브랜치. 문서만 바꾸는 커밋은 main 허용.
@@ -58,7 +85,7 @@
 - Produces: `docs/superpowers/reviews/raw/shot-{home,detail,lightbox}-{light,dark}.png` 6장. Task 3 의 하위 에이전트 A 가 읽음.
 - Produces: `PRODUCT.md`. impeccable `context` 가 읽음.
 
-- [ ] **Step 1: 브랜치 생성**
+- [x] **Step 1: 브랜치 생성**
 
 ```powershell
 git checkout -b feature/frontend-polish
@@ -66,7 +93,7 @@ git branch --show-current
 ```
 Expected: `feature/frontend-polish`
 
-- [ ] **Step 2: PRODUCT.md 작성**
+- [x] **Step 2: PRODUCT.md 작성**
 
 impeccable init 은 사용자 인터뷰를 요구하나 spec 3·4절에 답이 있으므로 아래 내용으로 작성하고 Step 6 에서 사용자 확인을 받는다.
 
@@ -108,7 +135,7 @@ web
 □ 경보는 소리·진동·색·깜박임을 병행
 ```
 
-- [ ] **Step 3: 촬영 하니스 작성**
+- [x] **Step 3: 촬영 하니스 작성**
 
 `tools/review/shot.html`:
 
@@ -137,7 +164,7 @@ f.addEventListener("load",()=>{
 </body></html>
 ```
 
-- [ ] **Step 4: 촬영 스크립트 작성**
+- [x] **Step 4: 촬영 스크립트 작성**
 
 `tools/review/shots.ps1`:
 
@@ -158,7 +185,7 @@ foreach($theme in "light","dark"){
 }
 ```
 
-- [ ] **Step 5: 서버 기동 후 촬영**
+- [x] **Step 5: 서버 기동 후 촬영**
 
 ```powershell
 Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden
@@ -171,7 +198,7 @@ Expected: `OK` 6줄. 각 PNG 를 Read 로 열어 홈은 키패드, 상세는 주
 
 PRODUCT.md 내용과 스크린샷 6장 확인 결과를 사용자에게 보고. PRODUCT.md 의 사실 오류 지적이 있으면 반영.
 
-- [ ] **Step 7: 커밋**
+- [x] **Step 7: 커밋**
 
 ```powershell
 git add PRODUCT.md tools/review/shot.html tools/review/shots.ps1 docs/superpowers/reviews/raw/
