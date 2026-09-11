@@ -33,7 +33,7 @@
     --btn-bg:#e9ecef; --btn-text:#16181c;
     --badge:#2a2e35; --badge-text:#e9ecef;
     --amber-t:#e2b25c; --amber-bg:#2a2418; --amber-bd:#54462a;
-    --red-t:#f08a80; --red-bg:#2c1a18; --red-bd:#553029; --red-body:#e0a9a2;
+    --red-t:#f08a80; --red-bg:#281614; --red-bd:#553029; --red-body:#e0a9a2;   /* 2차 검토 반영: 경보 배너 대비 6.82:1 -> 7.12:1 */
     --red-glow:rgba(240,138,128,.42);
     --shadow:none;
   }
@@ -3802,19 +3802,33 @@ function devAudio(){                      // 사용자가 버튼을 누른 시�
   }catch(e){ return null; }
 }
 // 2차 수정(P0-01): 경보 배너 안에서 소리·진동만 끄고 켤 수 있게 한다 (표시·색은 그대로 유지)
+// 2차 검토 반영: 저장하지 않는 '이번 경보 한정' 무음 — 감지 시작·중지·새 경보 구간마다 다시 켜진다
 let devMute=false;
-try{ devMute = localStorage.getItem("devMute")==="1"; }catch(e){}
 function devMuteLabel(){ return devMute ? "소리·진동 켜기" : "소리·진동 끄기"; }
-function devActHtml(){
-  return `<div class="devAct"><span class="devGuide">도면에서 현재 위치와 기준경로를 확인하세요</span>`
-       + `<button type="button" class="barBtn" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button></div>`;
+// 2차 검토 반영: 배너를 텍스트 영역(.devTxt)과 동작 영역(.devAct)으로 나눈다.
+// 위치 갱신(약 1초 주기)마다 .devTxt 만 다시 쓰고 .devAct 는 경보 구간 내내 같은 노드를 유지해
+// 누르는 도중 노드가 교체돼 탭이 사라지는 일이 없게 한다.
+function devTxtEl(bar){
+  let t=bar.querySelector(".devTxt");
+  if(!t){ bar.textContent=""; t=document.createElement("div"); t.className="devTxt"; bar.appendChild(t); }
+  return t;
+}
+function devSetTxt(bar, html){ devTxtEl(bar).innerHTML=html; }
+function devSetAct(bar, on){
+  const cur=bar.querySelector(".devAct");
+  if(on && !cur){
+    devMute=false;                       // 새 경보 구간은 소리·진동이 켜진 상태로 시작
+    const d=document.createElement("div");
+    d.className="devAct";
+    d.innerHTML=`<span class="devGuide">도면에서 현재 위치와 기준경로를 확인하세요</span>`
+      + `<button type="button" class="barBtn" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button>`;
+    bar.appendChild(d);
+  } else if(!on && cur){ cur.remove(); }
 }
 function devMuteToggle(){
   devMute=!devMute;
-  try{ localStorage.setItem("devMute", devMute?"1":"0"); }catch(e){}
   if(devMute){ try{ if(navigator.vibrate) navigator.vibrate(0); }catch(e){} }
   const b=document.getElementById("devMuteBtn"); if(b) b.textContent=devMuteLabel();
-  if(devLast) devLast.html=devLast.html.replace(/(id="devMuteBtn"[^>]*>)[^<]*/, "$1"+devMuteLabel());
 }
 function devBeep(L){
   if(devMute) return;                     // 소리·진동만 중지 — 배너 표시는 계속
@@ -3836,7 +3850,7 @@ function devBeep(L){
 }
 function devStop(){
   if(devWatch!==null){ try{ navigator.geolocation.clearWatch(devWatch); }catch(e){} devWatch=null; }
-  devGid=null; devLast=null;
+  devGid=null; devLast=null; devMute=false;      // 2차 검토 반영: 무음은 이번 감지에 한정
   const b=document.getElementById("devBtn");
   if(b){ b.textContent="경로이탈 감지 시작 (시범)"; b.classList.remove("on"); }
   const g=document.getElementById("devG"); if(g) g.style.display="none";
@@ -3850,7 +3864,8 @@ function devRestore(id){
   if(b){ b.textContent="경로이탈 감지 중지"; b.classList.add("on"); }
   if(!bar) return;
   bar.style.display="block";
-  if(devLast){ bar.className=devLast.cls; bar.innerHTML=devLast.html; }
+  if(devLast){ bar.className=devLast.cls; bar.innerHTML=devLast.html;
+                const b2=bar.querySelector("#devMuteBtn"); if(b2) b2.textContent=devMuteLabel(); }
   else { bar.className="devBar"; bar.textContent="위치 수신 중…"; }
 }
 function devToggle(gid){
@@ -3859,7 +3874,7 @@ function devToggle(gid){
   if(devWatch!==null){ devStop(); return; }
   if(!navigator.geolocation){ bar.style.display="block"; bar.textContent="이 기기는 위치 서비스를 지원하지 않습니다."; return; }
   devAudio();                       // 버튼 탭(사용자 동작) 시점에 오디오 준비
-  devMax=0; devBeepT=0; devGid=gid; devLast=null;
+  devMax=0; devBeepT=0; devGid=gid; devLast=null; devMute=false;   // 2차 검토 반영: 시작 시 소리·진동 켬
   btn.textContent="경로이탈 감지 중지"; btn.classList.add("on");
   bar.style.display="block"; bar.className="devBar"; bar.textContent="위치 수신 중…";
   devWatch=navigator.geolocation.watchPosition(
@@ -3882,7 +3897,8 @@ function devDraw(gid, p){
   bar.style.display="block";
   if(!inb){
     bar.className="devBar";
-    bar.innerHTML="현재 위치가 이 주기장 도면 범위 밖입니다<small>"+gid+"번 주기장 부근에서 사용하세요</small>";
+    devSetAct(bar,false);
+    devSetTxt(bar,"현재 위치가 이 주기장 도면 범위 밖입니다<small>"+gid+"번 주기장 부근에서 사용하세요</small>");
     devLast={cls:bar.className, html:bar.innerHTML};
     return;
   }
@@ -3902,13 +3918,14 @@ function devDraw(gid, p){
 
   const L = hit ? devLevel(dev) : null;
   bar.className = "devBar" + (hit ? " hit sev"+L.lv : "");
-  bar.innerHTML = (hit
+  // 2차 검토 반영: 매 갱신마다 다시 쓰는 것은 텍스트 영역뿐. 동작 영역(.devAct)은 경보 구간 동안 그대로 둔다
+  devSetTxt(bar, (hit
       ? `\u26A0 경로이탈 ${Math.round(dev)} m — 기준 ${DEV_TH} m 초과${L.lv===3 ? " (심각)" : ""}`
       : `기준경로 이내 · 이탈 ${Math.round(dev)} m`)
     + `<small>절차 ${pr.label||"1"} 기준 · 위치정확도 \u00B1${Math.round(acc)} m · 최대 ${Math.round(devMax)} m`
     + ` — 작업자 단말 위치이며 항공기 위치가 아닙니다`
-    + `</small>`
-    + (hit ? devActHtml() : "");      // 2차 수정(P0-01): 경보 시 확인 안내 한 줄 + 소리·진동 끄기
+    + `</small>`);
+  devSetAct(bar, hit);              // 2차 수정(P0-01): 경보 시 확인 안내 한 줄 + 소리·진동 끄기
   devLast={cls:bar.className, html:bar.innerHTML};
   if(hit && Date.now()-devBeepT>L.gap){ devBeepT=Date.now(); devBeep(L); }
 }
