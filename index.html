@@ -600,7 +600,8 @@ function applyTheme(){
   document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
   document.getElementById("themeBtn").textContent = THEME_LABEL[themePref];
   const mc = document.querySelector('meta[name="theme-color"]');
-  if(mc) mc.setAttribute("content", dark ? "#101214" : "#eef0f3");
+  // 1차 수정(P1-06a): 색값을 여기서 따로 적지 않고 --bg 토큰 계산값을 그대로 읽어 씀 (렌더 결과 동일)
+  if(mc) mc.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());
 }
 function cycleTheme(){
   themePref = THEMES[(THEMES.indexOf(themePref)+1) % THEMES.length];
