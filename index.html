@@ -393,8 +393,11 @@
   #wvBase::before,#wvWork::before{content:"";position:absolute;top:-12px;bottom:-12px;left:0;right:0;}
   #devBtn::before{content:"";position:absolute;top:-6px;bottom:-6px;left:0;right:0;}
 
-  /* ── 1차 수정(P1-05a): 라이트박스 키보드 포커스 표시 — 마우스 클릭 시엔 보이지 않음 ── */
+  /* ── 1차 수정(P1-05a): 라이트박스 키보드 포커스 표시 — 마우스 클릭 시엔 보이지 않음.
+     .chip/.mchip 은 tabindex 가 없어 포커스를 받을 수 없으므로 :focus-visible 대상에서 의도적으로 제외 ── */
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  /* 포인터로 연 라이트박스는 키 입력이 있기 전까지 닫기 버튼 링을 숨김(controller ruling, 입력 양식 게이팅) */
+  .lightbox.lb-ptr .lbClose:focus-visible{outline:none;}
 
   /* ── 1차 수정(P2-01): 인라인 지시 키워드 탭 영역 — 글자 크기·색·줄 간격 그대로, 상하로만 투명 확장 ── */
   .kw-go{position:relative;}
@@ -3445,7 +3448,9 @@ function openDwg(src){
   // 닫을 때 원래 위치로 포커스 복귀, Escape 키로 닫기
   const opener = document.activeElement;
   const lb=document.createElement("div");
-  lb.className="lightbox";
+  // lb-ptr: 포인터(탭/클릭)로 열렸다고 가정하고 닫기 버튼 포커스 링을 우선 숨김.
+  // 키보드 입력이 한 번이라도 들어오면 아래 keydown 리스너에서 즉시 제거해 그 다음부터는 링이 보이게 함
+  lb.className="lightbox lb-ptr";
   lb.setAttribute("role","dialog");
   lb.setAttribute("aria-modal","true");
   lb.setAttribute("aria-label","후방견인 도면 확대 보기");
@@ -3458,8 +3463,14 @@ function openDwg(src){
     <div class="lbTip">두 손가락으로 확대 · 끌어서 이동 · 두 번 탭하면 확대</div>`;
   document.body.appendChild(lb);
   lb._opener = (opener && typeof opener.focus === "function") ? opener : null;
-  lb._onKey = e=>{ if(e.key==="Escape"){ e.stopPropagation(); closeLb(lb); } };
+  lb._onKey = e=>{
+    if(!lb.isConnected){ document.removeEventListener("keydown", lb._onKey); return; }  // hashchange 등으로 떨어져 나간 뒤 남은 리스너 방어
+    lb.classList.remove("lb-ptr");  // 어떤 키든 한 번 누르면 그 다음부터 포커스 링 노출
+    if(e.key==="Escape"){ e.stopPropagation(); closeLb(lb); }
+  };
   document.addEventListener("keydown", lb._onKey);
+  lb._onHash = ()=>closeLb(lb);
+  window.addEventListener("hashchange", lb._onHash, {once:true});  // 열려 있는 채로 뒤/앞으로 이동해도 정리되게
   bindZoom(lb);
   const closeBtn = lb.querySelector(".lbClose");
   if(closeBtn) closeBtn.focus();
@@ -3467,6 +3478,7 @@ function openDwg(src){
 function closeLb(lb){
   if(!lb) return;
   if(lb._onKey) document.removeEventListener("keydown", lb._onKey);
+  if(lb._onHash) window.removeEventListener("hashchange", lb._onHash);
   const opener = lb._opener;
   lb.remove();
   if(opener) opener.focus();
