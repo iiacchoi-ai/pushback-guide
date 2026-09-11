@@ -87,7 +87,8 @@
   .gpsBtn.on{background:#0a7d4f;color:#fff;box-shadow:0 0 0 3px rgba(10,125,79,.18);}
   .gpsBtn.on svg{animation:gpsPulse 1.6s ease-in-out infinite;}
   @keyframes gpsPulse{0%,100%{opacity:1}50%{opacity:.35}}
-  #gpsStatus{font-size:12px;color:var(--ink-mut);text-align:center;margin-top:8px;line-height:1.5;}
+  /* 2차 수정(P1-01): 상태·빈 상태·라벨 문구를 --ink-sub 로 승격 (--ink-mut 은 장식 전용) */
+  #gpsStatus{font-size:12px;color:var(--ink-sub);text-align:center;margin-top:8px;line-height:1.5;}
   #gpsBanner{
     display:none;background:var(--accent-soft);border:1px solid var(--accent-border);
     border-radius:var(--radius);padding:14px 16px;margin-top:10px;
@@ -109,7 +110,7 @@
     padding:14px;text-align:center;font-size:28px;font-weight:800;letter-spacing:.14em;
     color:var(--ink);margin-top:14px;min-height:62px;display:flex;align-items:center;justify-content:center;
   }
-  .numDisp.empty{color:var(--ink-mut);font-size:15px;font-weight:500;letter-spacing:0;}
+  .numDisp.empty{color:var(--ink-sub);font-size:15px;font-weight:500;letter-spacing:0;}
   .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px;}
   .key{
     background:var(--card);border:none;border-radius:16px;box-shadow:var(--shadow);
@@ -119,7 +120,7 @@
   .key:active{transform:scale(.95);}
   .key.alt{color:var(--amber-t);}
   .key.del{color:var(--ink-mut);font-size:18px;}
-  .subT{font-size:12px;font-weight:600;color:var(--ink-mut);margin:16px 2px 8px;}
+  .subT{font-size:12px;font-weight:600;color:var(--ink-sub);margin:16px 2px 8px;}
   .matchRow{display:flex;flex-wrap:wrap;gap:8px;}
   .mchip{
     background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
@@ -150,7 +151,13 @@
   }
   .chip:active{transform:scale(.95);}
   .chip.special{background:var(--amber-bg);color:var(--amber-t);}
-  .noresult{text-align:center;color:var(--ink-mut);font-size:14px;padding:36px 0;}
+  .noresult{text-align:center;color:var(--ink-sub);font-size:14px;padding:36px 0;}
+  /* 2차 수정(P1-01): 실패 문구는 회색 캡션에서 분리해 amber 배너로 — 기존 surveyBar 계열과 같은 토큰 */
+  .failBox{
+    background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:12px;
+    padding:16px;color:var(--amber-t);font-size:13.5px;font-weight:600;line-height:1.7;text-align:center;
+  }
+  .failBox b{font-weight:800;}
   #detail{display:none;animation:slidein .18s ease-out;}
   @keyframes slidein{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:none;}}
   .navBar{
@@ -191,7 +198,7 @@
   .gateHead .nm{font-size:17px;font-weight:800;margin-top:2px;letter-spacing:-0.02em;}
   .row{display:flex;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:15px;}
   .row:last-child{border-bottom:none;padding-bottom:2px;}
-  .row .k{width:92px;flex-shrink:0;color:var(--ink-mut);font-size:13px;font-weight:500;}
+  .row .k{width:92px;flex-shrink:0;color:var(--ink-sub);font-size:13px;font-weight:500;}
   .row .v{font-weight:600;line-height:1.45;}
   .row .v.freq{color:var(--accent);font-weight:700;}
   .secT{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:14px;letter-spacing:-0.01em;}
@@ -233,7 +240,7 @@
   }
   .caution li:last-child{margin-bottom:0;}
   .caution li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--red-t);}
-  .meta{font-size:11.5px;color:var(--ink-mut);text-align:center;margin-top:16px;line-height:1.6;}
+  .meta{font-size:11.5px;color:var(--ink-sub);text-align:center;margin-top:16px;line-height:1.6;}
   #mapBox svg{border-radius:12px;}
   .dwgBox{
     position:relative;width:100%;background:#161a21;border-radius:12px;overflow:hidden;
@@ -320,7 +327,7 @@
   .stT{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;}
   .stT td{padding:7px 4px;border-bottom:1px solid var(--line-soft);}
   .stT td.rt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-  .stT td.dim{text-align:right;color:var(--ink-mut);font-size:11px;white-space:nowrap;}
+  .stT td.dim{text-align:right;color:var(--ink-sub);font-size:11px;white-space:nowrap;}
   .stNote{font-size:12px;color:var(--ink-sub);margin-top:4px;}
   .stAct{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
   .stAct button{flex:1;min-width:96px;padding:9px 10px;font-size:13px;font-family:inherit;
@@ -570,7 +577,7 @@ function terminalShape(){
   const cy = ring.reduce((a,p)=>a+p[1],0)/ring.length;
   const pts = ring.map(([x,y])=>[(x+(cx-x)*0.38).toFixed(1), (y+(cy-y)*0.38).toFixed(1)]);
   return `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--card)" stroke="var(--line)" stroke-linejoin="round"/>`
-    + `<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="10" font-weight="700" fill="var(--ink-mut)" text-anchor="middle">T2</text>`;
+    + `<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="10" font-weight="700" fill="var(--ink-sub)" text-anchor="middle">T2</text>`;
 }
 function mapSvg(sel, user){
   let dots="";
@@ -578,8 +585,8 @@ function mapSvg(sel, user){
     if(id===sel.id) return;
     const isR = id.includes("R");
     const lab = (isR || id==="224" || id==="275" || parseInt(id)%5===0)
-      ? `<text x="${x}" y="${y-5}" font-size="7" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" text-anchor="middle" font-weight="${isR?700:400}">${id}</text>` : "";
-    dots += `<circle cx="${x}" cy="${y}" r="2.6" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" opacity=".75"/>` + lab;
+      ? `<text x="${x}" y="${y-5}" font-size="7" fill="${isR?'var(--amber-t)':'var(--ink-sub)'}" text-anchor="middle" font-weight="${isR?700:400}">${id}</text>` : "";
+    dots += `<circle cx="${x}" cy="${y}" r="2.6" fill="${isR?'var(--amber-t)':'var(--ink-sub)'}" opacity=".75"/>` + lab;
   });
   let userDot="";
   if(user){
@@ -611,7 +618,8 @@ function showMeOnMap(id){
       mapNoted=true;
       box.insertAdjacentHTML("afterend", '<div class="subT">현재 위치가 지도 범위(T2 구역) 밖입니다</div>');
     }
-  }, ()=>{ box.insertAdjacentHTML("afterend", '<div class="subT">위치 확인 실패 — 위치 권한을 허용해 주세요</div>'); }, {enableHighAccuracy:true, timeout:8000});
+  // 2차 수정(P1-01): 실패 문구는 amber 배너로 (회색 캡션에서 분리)
+  }, ()=>{ box.insertAdjacentHTML("afterend", '<div class="failBox" style="margin-top:8px">위치 확인 실패 — 위치 권한을 허용해 주세요</div>'); }, {enableHighAccuracy:true, timeout:8000});
 }
 
 const ZONES = [...new Set(GATES.map(g=>g.zone))];
@@ -3893,8 +3901,8 @@ function imgFail(el){
   const msg = navigator.onLine
     ? "도면을 불러오지 못했습니다 — 통신 상태 확인 후 다시 열어 주세요"
     : "오프라인 상태 — 이 주기장 도면이 아직 저장되지 않았습니다.<br>통신 가능 지역에서 홈의 <b>[전체 도면 저장]</b>을 한 번 실행하면<br>모든 주기장을 오프라인에서 볼 수 있습니다.";
-  const html = `<div style="padding:46px 20px;text-align:center;font-size:13.5px;line-height:1.7;
-    color:var(--ink-mut);border:1.5px dashed var(--line);border-radius:12px">${msg}</div>`;
+  // 2차 수정(P1-01): 회색 점선 캡션 → amber 배너(.failBox)
+  const html = `<div class="failBox">${msg}</div>`;
   if(box){ box.style.paddingTop="0"; box.style.cursor="default"; box.onclick=null; box.innerHTML=html; }
   else { el.outerHTML=html; }
 }
