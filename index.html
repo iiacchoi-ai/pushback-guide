@@ -782,7 +782,10 @@ function openGate(id){
         if(cfg.paths && cfg.paths.length>1){
           const hits = cfg.paths.map((pp,k)=>{
             const e=pp.pts[pp.pts.length-1], r=cfg.sh*0.45;
-            return `<g class="hitG"><circle cx="${e[0]}" cy="${e[1]}" r="${r.toFixed(2)}" fill="transparent"/></g>`;
+            // 1차 수정(P3-01): 보이는 마커(위 원)는 그대로 두고, 탭 전용 투명 원을 하나 더 겹쳐
+            // 히트 영역만 44px 이상으로 확대 (실측 31px → 계산상 약 47px)
+            const rHit=cfg.sh*0.68;
+            return `<g class="hitG"><circle cx="${e[0]}" cy="${e[1]}" r="${r.toFixed(2)}" fill="transparent"/><circle cx="${e[0]}" cy="${e[1]}" r="${rHit.toFixed(2)}" fill="transparent" pointer-events="all"/></g>`;
           }).join("");
           return `<div class="animWrap">
           <img id="animBg" src="${SRC}" alt="${g.id}번 주기장 도해" onerror="imgFail(this)">
