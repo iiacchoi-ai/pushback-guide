@@ -826,8 +826,8 @@ function procPickHtml(gid){
 function pickSeg(gid, i){
   ANIM_SEL[gid]=i;                       // 도면이 없어도 선택은 확정 (감지 기준 절차)
   syncProc(gid, i);
-  const wrap=document.querySelector("#detail .animWrap");
-  if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"center"});
+  // 2차 검토 반영: 세그먼트는 지시문 바로 위에 있어 화면을 움직이지 않는다
+  // (문장 안 키워드를 눌렀을 때만 도면을 끌어온다)
   playAnim(gid, i);
 }
 // 선택 상태를 세그먼트·인라인 키워드·단계 목록에 한 번에 반영
@@ -3600,10 +3600,16 @@ function bindZoom(lb){
     tx=ox-(ox-tx)*k; ty=oy-(oy-ty)*k; z=nz; apply();
   };
   st.addEventListener("wheel",e=>{ e.preventDefault(); zoomAt(e.clientX,e.clientY, e.deltaY<0?1.18:1/1.18); },{passive:false});
-  st.addEventListener("dblclick",e=>{ e.preventDefault(); z>1.2 ? (z=1,tx=0,ty=0,apply()) : zoomAt(e.clientX,e.clientY,2.5); });
+  // 2차 검토 반영: 확대 상태에서 배경을 두 번 탭하면 '배율 복귀'가 의도인데 첫 탭의 종료가 먼저 먹힌다.
+  // 배경 탭 종료를 300ms 미뤘다가 두 번째 입력(pointerdown·dblclick)이 오면 취소한다.
+  let closeT=null;
+  const cancelClose=()=>{ if(closeT){ clearTimeout(closeT); closeT=null; } };
+  st.addEventListener("dblclick",e=>{ e.preventDefault(); cancelClose();
+    z>1.2 ? (z=1,tx=0,ty=0,apply()) : zoomAt(e.clientX,e.clientY,2.5); });
 
   const pts=new Map(); let last=null, pinch=null, moved=false, downAt=null;
   st.addEventListener("pointerdown",e=>{
+    cancelClose();
     st.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]);
     if(pts.size===1){ last=[e.clientX,e.clientY]; moved=false; downAt=[e.clientX,e.clientY]; st.classList.add("grabbing"); }
     if(pts.size===2){ const v=[...pts.values()];
@@ -3637,7 +3643,11 @@ function bindZoom(lb){
   });
   // 2차 수정(P1-05b): 확대 상태에서도 도면 바깥(배경)을 탭하면 닫힌다.
   // 끌어서 이동한 직후에는 닫지 않도록 moved 로 구분한다.
-  st.addEventListener("click",e=>{ if(e.target===st && !moved) closeLb(lb); });
+  st.addEventListener("click",e=>{
+    if(e.target!==st || moved) return;
+    cancelClose();
+    closeT=setTimeout(()=>{ closeT=null; if(lb.isConnected) closeLb(lb); }, 300);
+  });
   apply();
 }
 
