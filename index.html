@@ -158,6 +158,14 @@
     padding:16px;color:var(--amber-t);font-size:13.5px;font-weight:600;line-height:1.7;text-align:center;
   }
   .failBox b{font-weight:800;}
+  /* 2차 수정(P0-01·P1-03): 배너 안 동작 버튼 공통형 — 경보 배너의 [소리·진동 끄기] 와
+     도면 실패 배너의 [다시 시도] 가 같은 역할이라 한 스타일로 통일. 색은 배너색을 물려받는다 */
+  .barBtn{
+    min-height:48px;padding:0 16px;background:var(--card);border:1px solid currentColor;
+    border-radius:12px;color:inherit;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .barBtn:active{transform:scale(.97);}
+  .failBox .barBtn{margin-top:12px;}
   #detail{display:none;animation:slidein .18s ease-out;}
   @keyframes slidein{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:none;}}
   .navBar{
@@ -393,11 +401,7 @@
   /* 2차 수정(P0-01): 배너 안 확인 안내 한 줄 + 소리·진동 끄기 버튼(48px) */
   .devBar .devAct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
   .devBar .devGuide{flex:1 1 140px;min-width:0;font-size:12.5px;font-weight:700;color:var(--red-t);line-height:1.45;}
-  .devBar .devMute{
-    flex:none;min-height:48px;padding:0 16px;background:var(--card);border:1px solid var(--red-bd);
-    border-radius:12px;color:var(--red-t);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
-  }
-  .devBar .devMute:active{transform:scale(.97);}
+  .devBar .devAct .barBtn{flex:none;}
   .mapLocBtn.on{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);}
   .surveyBar{
     background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--radius);
@@ -475,7 +479,7 @@
         </div>
         <button class="dlBtn" id="preBtn" onclick="precacheAll()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
-          <span id="preLbl">전체 도면 다운로드</span>
+          <span id="preLbl">전체 도면 저장</span>
         </button>
       </div>
     </div>
@@ -3789,7 +3793,7 @@ try{ devMute = localStorage.getItem("devMute")==="1"; }catch(e){}
 function devMuteLabel(){ return devMute ? "소리·진동 켜기" : "소리·진동 끄기"; }
 function devActHtml(){
   return `<div class="devAct"><span class="devGuide">도면에서 현재 위치와 기준경로를 확인하세요</span>`
-       + `<button type="button" class="devMute" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button></div>`;
+       + `<button type="button" class="barBtn" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button></div>`;
 }
 function devMuteToggle(){
   devMute=!devMute;
@@ -3986,9 +3990,16 @@ function imgFail(el){
     ? "도면을 불러오지 못했습니다 — 통신 상태 확인 후 다시 열어 주세요"
     : "오프라인 상태 — 이 주기장 도면이 아직 저장되지 않았습니다.<br>통신 가능 지역에서 홈의 <b>[전체 도면 저장]</b>을 한 번 실행하면<br>모든 주기장을 오프라인에서 볼 수 있습니다.";
   // 2차 수정(P1-01): 회색 점선 캡션 → amber 배너(.failBox)
-  const html = `<div class="failBox">${msg}</div>`;
+  // 2차 수정(P1-03): 같은 배너 안에서 도면을 다시 요청할 수 있게 [다시 시도] 제공
+  const html = `<div class="failBox">${msg}`
+    + `<br><button type="button" class="barBtn" onclick="imgRetry()">다시 시도</button></div>`;
   if(box){ box.style.paddingTop="0"; box.style.cursor="default"; box.onclick=null; box.innerHTML=html; }
   else { el.outerHTML=html; }
+}
+// 2차 수정(P1-03): 상세 화면을 다시 그려 도면을 새로 요청한다 (도해·히트영역까지 원래대로 복구)
+function imgRetry(){
+  const m=/#gate=([^&]+)/.exec(location.hash||"");
+  if(m) openGate(decodeURIComponent(m[1]));
 }
 // 전체 도면을 한 번에 받아 서비스워커 캐시에 저장 → 이후 전 주기장 오프라인 조회
 async function precacheAll(){
@@ -4006,7 +4017,7 @@ async function precacheAll(){
       try{
         if(sessionStorage.getItem("pbPreReload")==="1"){
           sessionStorage.removeItem("pbPreReload");
-          setL("전체 도면 다운로드");
+          setL("전체 도면 저장");
           alert("저장 기능 준비에 실패했습니다. 잠시 후 다시 눌러 주세요."); return;
         }
         sessionStorage.setItem("pbPreReload","1");
@@ -4014,7 +4025,7 @@ async function precacheAll(){
       }catch(e){}
       location.reload(); return;
     }
-    setL("전체 도면 다운로드");
+    setL("전체 도면 저장");
   }
   if(!navigator.onLine){ alert("통신 가능한 곳에서 실행해 주세요."); return; }
   if(!confirm("전 주기장 도면(약 100MB)을 내려받아 저장합니다.\nWi-Fi 환경을 권장합니다. 계속할까요?")) return;
@@ -4027,13 +4038,13 @@ async function precacheAll(){
   const worker=async ()=>{ let u;
     while((u=list.shift())!==undefined){
       try{ const r=await fetch(u,{cache:"reload"}); if(!r.ok) fail++; }catch(e){ fail++; }
-      done++; if(done%20===0||list.length===0) setL(`다운로드 ${done}/${done+list.length}`);
+      done++; if(done%20===0||list.length===0) setL(`저장 ${done}/${done+list.length}`);
     } };
   await Promise.all([worker(),worker(),worker(),worker(),worker(),worker()]);
   btn.disabled=false;
-  if(fail){ setL(`${fail}개 실패 — 다시 받기`); }
+  if(fail){ setL(`${fail}개 실패 — 다시 저장`); }
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
-         setL("다운로드 완료 ✓ 오프라인 가능"); }
+         setL("저장 완료 ✓ 오프라인 가능"); }
 }
 var C_VER="v195";
 try{
@@ -4041,8 +4052,8 @@ try{
   if(b && pre){
     // 다운로드 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
     b.textContent = (pv && pv!==C_VER)
-      ? "개정됨 · 도면 다시 받기"
-      : "다운로드됨 · 다시 받기";
+      ? "개정됨 · 도면 다시 저장"
+      : "저장됨 · 다시 저장";
   }
   localStorage.setItem("pbVer", C_VER);
 }catch(e){}
