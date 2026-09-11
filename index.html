@@ -395,6 +395,10 @@
 
   /* ── 1차 수정(P1-05a): 라이트박스 키보드 포커스 표시 — 마우스 클릭 시엔 보이지 않음 ── */
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ── 1차 수정(P2-01): 인라인 지시 키워드 탭 영역 — 글자 크기·색·줄 간격 그대로, 상하로만 투명 확장 ── */
+  .kw-go{position:relative;}
+  .kw-go::before{content:"";position:absolute;top:-8px;bottom:-8px;left:0;right:0;}
 </style>
 </head>
 <body>
