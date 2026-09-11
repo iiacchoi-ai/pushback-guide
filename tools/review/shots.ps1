@@ -8,7 +8,8 @@ Set-Location $root
 New-Item -ItemType Directory -Force $Out | Out-Null
 foreach($theme in "light","dark"){
   foreach($view in "home","detail","lightbox"){
-    $url="http://localhost:8765/tools/review/shot.html?theme=$theme&view=$view&gate=$Gate"
+    # shot.html 의 iframe 을 -W/-H 그대로 만들게 넘긴다 (넘기지 않으면 390x844 고정이라 자르기만 됨)
+    $url="http://localhost:8765/tools/review/shot.html?theme=$theme&view=$view&gate=$Gate&w=$W&h=$H"
     $png=Join-Path (Resolve-Path $Out) "shot-$view-$theme.png"
     $rawPng=Join-Path (Resolve-Path $Out) "shot-$view-$theme.raw.png"
     Remove-Item -Force $png -ErrorAction SilentlyContinue   # 이전 결과가 남아 실패를 OK 로 오판하지 않도록 먼저 삭제
