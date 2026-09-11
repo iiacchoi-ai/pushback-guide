@@ -345,12 +345,19 @@
   }
   .animWrap.hintOff .animHint{opacity:0;}
   /* 작업자 시점 (시험 적용) — 좌우 고정 선택 */
+  /* 2차 수정(P1-06b): 카드 헤더용(기본)과 도면 위 오버레이용(.ovl)을 분리.
+     카드 헤더에 놓이는 기본형은 테마 토큰만 쓰고 팔레트 밖 색(#7FC4FF)을 쓰지 않는다 —
+     선택 상태는 같은 역할의 기존 세그먼트(.tab.on)와 동일한 --btn-bg/--btn-text */
   .wvSeg{margin-left:auto;display:flex;
-    background:rgba(15,20,28,.82);border-radius:18px;padding:3px;gap:2px;}
+    background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:3px;gap:2px;}
   .wvSeg button{border:none;cursor:pointer;font-family:inherit;
     font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:15px;
-    background:transparent;color:#9fb3c8;}
-  .wvSeg button.on{background:#7FC4FF;color:#0B2E59;}
+    background:transparent;color:var(--ink-sub);}
+  .wvSeg button.on{background:var(--btn-bg);color:var(--btn-text);}
+  /* 도면 위에 얹는 경우에만 쓰는 고정 다크 오버레이형 (항상 어두운 도면 위라 테마 비의존) */
+  .wvSeg.ovl{background:rgba(15,20,28,.82);border-color:transparent;}
+  .wvSeg.ovl button{color:#9fb3c8;}
+  .wvSeg.ovl button.on{background:#7FC4FF;color:#0B2E59;}
   .wvBadge{position:absolute;top:10px;left:10px;z-index:6;pointer-events:none;
     background:rgba(0,224,138,.16);color:#00e08a;
     font-size:11px;font-weight:700;padding:6px 10px;border-radius:14px;}
