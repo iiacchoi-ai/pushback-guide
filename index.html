@@ -286,10 +286,13 @@
     display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.14);
     border-radius:22px;padding:4px;backdrop-filter:blur(6px);
   }
+  /* 2차 수정(P1-05b): 하단 배율 바 버튼을 48px 로 — 왼쪽 끝에 닫기를 함께 둔다(상단 닫기 병존) */
   .lightbox .lbZoom button{
     background:none;border:none;color:#fff;font-family:inherit;font-size:15px;font-weight:800;
-    padding:7px 15px;border-radius:18px;cursor:pointer;
+    min-height:48px;padding:7px 15px;border-radius:18px;cursor:pointer;
   }
+  .lightbox .lbZoom .lbCloseB{background:rgba(255,255,255,.16);font-size:14px;font-weight:700;
+    flex:none;white-space:nowrap;}
   .lightbox .lbZoom button:active{background:rgba(255,255,255,.18);}
   .lightbox .lbZoom .pct{color:#cfd8e3;font-size:12.5px;font-weight:700;min-width:46px;text-align:center;}
   .lightbox .lbClose{
@@ -3545,6 +3548,7 @@ function openDwg(src){
   lb.innerHTML=`<div class="lbStage"><img src="${src}" alt="후방견인 도면 확대"></div>
     <button class="lbClose" onclick="closeLb(this.closest('.lightbox'))">닫기 ✕</button>
     <div class="lbZoom">
+      <button class="lbCloseB" data-z="close">닫기 ✕</button>
       <button data-z="out">−</button><span class="pct">100%</span>
       <button data-z="in">＋</button><button data-z="fit">맞춤</button>
     </div>
@@ -3596,16 +3600,19 @@ function bindZoom(lb){
   st.addEventListener("wheel",e=>{ e.preventDefault(); zoomAt(e.clientX,e.clientY, e.deltaY<0?1.18:1/1.18); },{passive:false});
   st.addEventListener("dblclick",e=>{ e.preventDefault(); z>1.2 ? (z=1,tx=0,ty=0,apply()) : zoomAt(e.clientX,e.clientY,2.5); });
 
-  const pts=new Map(); let last=null, pinch=null;
+  const pts=new Map(); let last=null, pinch=null, moved=false, downAt=null;
   st.addEventListener("pointerdown",e=>{
     st.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]);
-    if(pts.size===1){ last=[e.clientX,e.clientY]; st.classList.add("grabbing"); }
+    if(pts.size===1){ last=[e.clientX,e.clientY]; moved=false; downAt=[e.clientX,e.clientY]; st.classList.add("grabbing"); }
     if(pts.size===2){ const v=[...pts.values()];
       pinch={d:Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]), c:[(v[0][0]+v[1][0])/2,(v[0][1]+v[1][1])/2]}; }
   });
   st.addEventListener("pointermove",e=>{
     if(!pts.has(e.pointerId)) return;
     pts.set(e.pointerId,[e.clientX,e.clientY]);
+    // 2차 수정(P1-05b): 끌기(이동·핀치)와 단순 탭을 구분 — 끌었으면 배경 탭 종료로 보지 않는다
+    if(downAt && Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1])>8) moved=true;
+    if(pts.size===2){ moved=true; }
     if(pts.size===2 && pinch){
       const v=[...pts.values()], d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);
       const c=[(v[0][0]+v[1][0])/2,(v[0][1]+v[1][1])/2];
@@ -3621,11 +3628,14 @@ function bindZoom(lb){
   lb.querySelectorAll(".lbZoom button").forEach(b=>b.onclick=()=>{
     const r=st.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
     const m=b.dataset.z;
+    if(m==="close"){ closeLb(lb); return; }        // 2차 수정(P1-05b)
     if(m==="in") zoomAt(cx,cy,1.5);
     else if(m==="out") zoomAt(cx,cy,1/1.5);
     else { z=1; tx=0; ty=0; apply(); }
   });
-  st.addEventListener("click",e=>{ if(e.target===st && z<=1.02) closeLb(lb); });
+  // 2차 수정(P1-05b): 확대 상태에서도 도면 바깥(배경)을 탭하면 닫힌다.
+  // 끌어서 이동한 직후에는 닫지 않도록 moved 로 구분한다.
+  st.addEventListener("click",e=>{ if(e.target===st && !moved) closeLb(lb); });
   apply();
 }
 
