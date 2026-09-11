@@ -304,13 +304,18 @@
   .animWrap.playing .hitG{pointer-events:none;}
   .animWrap .hitG:active .ring{opacity:1;}
   @keyframes hitPulse{0%,100%{opacity:.35;}50%{opacity:.9;}}
-  .procPick{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 2px;}
+  /* 2차 수정(P1-02): 절차 단일 선택기 — 절차 카드 상단 48px 세그먼트.
+     색점은 지시문 키워드 색과 같은 값(다크에서는 P1-06c 매핑색)이라 도면 항공기와 대응된다 */
+  .procPick{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;}
   .procPick button{
-    display:inline-flex;align-items:center;gap:6px;background:var(--card);
-    border:1px solid var(--line);border-radius:18px;padding:8px 14px;
-    font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;}
-  .procPick button .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+    display:inline-flex;align-items:center;gap:8px;min-height:48px;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:0 16px;
+    font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
+  .procPick button .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;background:var(--kwc,var(--ink-mut));}
+  html[data-theme="dark"] .procPick button .dot{background:var(--kw-d,var(--kwc,var(--ink-mut)));}
   .procPick button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);}
+  /* 선택한 절차가 단계 목록에서도 보이게 — 해당 지시문 단계의 번호를 채움 */
+  .steps li.selProc .stepN{background:var(--accent);color:var(--card);}
   /* 재생 중 단계 안내문 (현재 558 MRO 이동절차 전용) */
   .animMsg{
     position:absolute;left:10px;right:10px;bottom:10px;display:none;
@@ -771,6 +776,58 @@ function colorize(text, gid){
   });
 }
 function legendHtml(){ return ""; }
+/* ── 2차 수정(P1-02): 절차 단일 선택기 ──────────────────────────────────────────
+   같은 결정(어느 절차인지)을 인라인 키워드·도면 히트영역 세 곳에서 하던 것을
+   절차 카드 상단 세그먼트 하나로 모은다. 세그먼트 선택이 ANIM_SEL 을 정하고,
+   ANIM_SEL 이 도면 재생·단계 목록 표시·경로이탈 감지 기준 절차를 함께 결정한다.
+   반대로 키워드·도면 항공기를 눌러 선택이 바뀌어도 playAnimHdg → syncProc 로 세그먼트가 따라온다. */
+function procSegItems(gid){
+  const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null;
+  if(!cfg || !cfg.paths || cfg.paths.length<2) return null;
+  if(typeof SLIDE_IMG==="undefined" || !SLIDE_IMG[gid]) return null;
+  const kw=KWC[gid]||{}, byIdx={};
+  Object.keys(kw).forEach(k=>{
+    const i=kwPathIdx(gid, kw[k]);
+    if(i>=0 && !byIdx[i]) byIdx[i]={label:k.replace(/^Point\s+/,"P"), raw:k, color:kwHex(kw[k])};
+  });
+  const items=cfg.paths.map((p,i)=>
+    Object.assign({i}, byIdx[i] || {label:"절차 "+(p.label||(i+1)), raw:"", color:p.color||"#9aa1ab"}));
+  // 배열 순서(도면 경로 순서)가 아니라 단계 목록에 나오는 순서대로 — 문장과 세그먼트를 같은 순서로 읽게
+  const hb=(typeof HB!=="undefined" && HB[gid]) ? HB[gid] : null;
+  const ord=it=>{
+    if(!hb || !it.raw) return 9e5;
+    const k=hb.findIndex(p=>String(p[0]).indexOf(it.raw)>=0);
+    return k<0 ? 9e5 : k*1000 + String(hb[k][0]).indexOf(it.raw);   // 같은 단계 안에서는 문장에 나온 순서
+  };
+  return items.sort((a,b)=> (ord(a)-ord(b)) || (a.i-b.i));
+}
+function procPickHtml(gid){
+  const items=procSegItems(gid);
+  if(!items) return "";
+  const sel=ANIM_SEL[gid]||0;
+  return `<div class="procPick" id="procPick">`
+    + items.map(it=>`<button type="button" class="procSeg${it.i===sel?" on":""}" data-i="${it.i}" onclick="pickSeg('${gid}',${it.i})">`
+      + `<span class="dot" style="--kwc:${it.color};--kw-d:${kwDark(it.color)}"></span>${it.label}</button>`).join("")
+    + `</div>`;
+}
+function pickSeg(gid, i){
+  ANIM_SEL[gid]=i;                       // 도면이 없어도 선택은 확정 (감지 기준 절차)
+  syncProc(gid, i);
+  const wrap=document.querySelector("#detail .animWrap");
+  if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"center"});
+  playAnim(gid, i);
+}
+// 선택 상태를 세그먼트·인라인 키워드·단계 목록에 한 번에 반영
+function syncProc(gid, idx){
+  const d=document.getElementById("detail"); if(!d) return;
+  d.querySelectorAll(".procPick .procSeg").forEach(b=>b.classList.toggle("on", +b.dataset.i===idx));
+  d.querySelectorAll(".kw-go.on").forEach(x=>x.classList.remove("on"));
+  d.querySelectorAll(".steps li.selProc").forEach(li=>li.classList.remove("selProc"));
+  d.querySelectorAll('.kw-go[data-p="i'+idx+'"]').forEach(x=>{
+    x.classList.add("on");
+    const li=x.closest("li"); if(li) li.classList.add("selProc");
+  });
+}
 function stepsHtml(g){
   if(g.procs) return g.procs.map((p,i)=>
     `<li><span class="stepN">${i+1}</span><span class="stepT"><b>${colorize(p[0],g.id)}</b><br>${p[1]||""}</span></li>`).join("");
@@ -815,6 +872,7 @@ function openGate(id){
     </div>
     <div class="card">
       <div class="secT">${ico.doc} ${g.procs ? "관제 지시별 후방견인 절차" : "표준 절차"}</div>
+      ${procPickHtml(g.id)}
       <ol class="steps">${stepsHtml(g)}</ol>
     </div>
     ${g.cautions && g.cautions.length ? `
@@ -895,6 +953,7 @@ function openGate(id){
     </div>` : ``}
     `;
   if(typeof devRestore==="function") devRestore(id);
+  try{ syncProc(id, ANIM_SEL[id]||0); }catch(e){}     // 2차 수정(P1-02): 화면 진입 시 선택 상태 표시
   window.scrollTo(0,0);
 }
 function goList(){
@@ -2938,8 +2997,9 @@ document.addEventListener("click", e=>{
   const gid = el.getAttribute("data-g");
   const idx = parseInt((el.getAttribute("data-p")||"").slice(1), 10);
   if(!gid || isNaN(idx)) return;
-  document.querySelectorAll(".kw-go.on").forEach(x=>x.classList.remove("on"));
-  el.classList.add("on");
+  // 2차 수정(P1-02): 선택 표시는 syncProc(playAnimHdg 안)에서 세그먼트·단계와 함께 한 번에
+  ANIM_SEL[gid]=idx;
+  syncProc(gid, idx);
   const wrap = document.querySelector(".animWrap");
   if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"center"});   // 도면이 화면 밖이면 끌어옴
   playAnim(gid, idx);
@@ -3171,6 +3231,7 @@ function playAnimHdg(gid, idx, btn){
   const bg=document.getElementById("animBg");
   if(cfg.clean) bg.src=cfg.clean;      // 절차별 clean 이 있으면 그 절차만 표시
   ANIM_SEL[gid]=idx||0;
+  try{ syncProc(gid, ANIM_SEL[gid]); }catch(e){}      // 2차 수정(P1-02): 도면 탭·키워드 탭도 세그먼트에 반영
   try{ stProc(gid, (HB[gid] && HB[gid][idx||0] && HB[gid][idx||0][0]) || ("절차 "+((idx||0)+1))); }catch(e){}
   const rings=svg.querySelectorAll(".hitG .ring");
   const wrap=svg.closest(".animWrap");
