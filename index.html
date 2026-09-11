@@ -248,6 +248,10 @@
     position:fixed;inset:0;z-index:100;background:rgba(8,10,14,.95);
     display:flex;align-items:center;justify-content:center;
   }
+  /* 2차 수정(P0-02): 다크에서는 오버레이를 불투명하게 — 알파 .95 로는 뒤쪽 화면의
+     `251 ›` 버튼·단계 번호가 확대 도면과 같은 층으로 비쳐 판독을 방해한다.
+     라이트 테마는 흰 화면이 균일하게 눌려 문제가 없어 기존 값 유지 */
+  html[data-theme="dark"] .lightbox{background:#080a0e;}
   .lightbox .lbStage{
     position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab;
     display:flex;align-items:center;justify-content:center;
