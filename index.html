@@ -399,6 +399,17 @@
   /* ── 1차 수정(P2-01): 인라인 지시 키워드 탭 영역 — 글자 크기·색·줄 간격 그대로, 상하로만 투명 확장 ── */
   .kw-go{position:relative;}
   .kw-go::before{content:"";position:absolute;top:-8px;bottom:-8px;left:0;right:0;}
+
+  /* ── 1차 수정(P2-02): 동작 감소 설정 대응 — slidein·hitPulse 는 정지, devPulse(경보)는
+     신호를 없애지 않고 주기만 늘림 ── */
+  @media (prefers-reduced-motion:reduce){
+    #detail{animation:none;}
+    .gpsBtn.on svg{animation:none;}
+    .animWrap .hitG .ring{animation:none;}
+    .devBar.hit{animation-duration:4.5s;}
+    .devBar.hit.sev2{animation-duration:3s;}
+    .devBar.hit.sev3{animation-duration:1.9s;}
+  }
 </style>
 </head>
 <body>
