@@ -799,7 +799,9 @@ function procSegItems(gid){
   const kw=KWC[gid]||{}, byIdx={};
   Object.keys(kw).forEach(k=>{
     const i=kwPathIdx(gid, kw[k]);
-    if(i>=0 && !byIdx[i]) byIdx[i]={label:k.replace(/^Point\s+/,"P"), raw:k, color:kwHex(kw[k])};
+    // 2차 검토 반영: 약어 규칙(Point NN -> PNN)은 데이터의 소문자 표기(point 54 등)를 놓쳐 폐기.
+    // 핸드북 원문 표기를 그대로 쓰고 대조는 색점이 맡는다
+    if(i>=0 && !byIdx[i]) byIdx[i]={label:k, raw:k, color:kwHex(kw[k])};
   });
   const items=cfg.paths.map((p,i)=>
     Object.assign({i}, byIdx[i] || {label:"절차 "+(p.label||(i+1)), raw:"", color:p.color||"#9aa1ab"}));
