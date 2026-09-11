@@ -35,9 +35,12 @@ $env:IMPECCABLE_BROWSER="C:\Program Files (x86)\Microsoft\Edge\Application\msedg
 Write-Host "== 4. 대비·색·터치"
 node tools/review/contrast.js; node tools/review/colors.js
 Add-Type -AssemblyName System.Web
+$okThemes=@()
 foreach($t in "light","dark"){
   $domFile=Join-Path $env:TEMP "pushback-check-measure-$t.txt"
-  $measureArgs=@("--headless=new","--disable-gpu","--window-size=420,900","--virtual-time-budget=12000",
+  # --user-data-dir 를 콘솔 오류 단계와 동일하게 지정 — 없으면 사용자가 평소 창을 띄워둔 일반 Edge 로
+  # 헤드리스 명령줄이 전달되어(크로미움 단일 인스턴스 정책) 이 프로세스는 곧바로 종료되고 DOM 이 비게 됨
+  $measureArgs=@("--headless=new","--disable-gpu","--user-data-dir=$udd","--window-size=420,900","--virtual-time-budget=12000",
     "--dump-dom","http://localhost:8765/tools/review/measure.html?theme=$t&gate=250")
   $mproc=Start-Process -FilePath $edge -ArgumentList $measureArgs -PassThru `
     -RedirectStandardOutput $domFile -RedirectStandardError "$env:TEMP\pushback-check-measure-err-$t.txt"
@@ -51,11 +54,19 @@ foreach($t in "light","dark"){
     $outPath=Join-Path $root "docs/superpowers/reviews/raw/audit-touch-$t.json"
     # Set-Content -Encoding utf8 은 PS 5.1 에서 BOM 을 붙여 node require() 를 깨뜨리므로 BOM 없이 직접 저장
     [IO.File]::WriteAllText($outPath,$jsonText,(New-Object Text.UTF8Encoding $false))
+    $okThemes+=$t
   } else {
-    Write-Host "FAIL $t 측정 실패 (MEASURE_JSON 없음)"
+    Write-Host "FAIL $t 측정 실패 (MEASURE_JSON 없음) — 아래 요약에서 $t 제외, 기존 JSON 은 최신 결과 아님"
   }
 }
-node -e "for(const t of ['light','dark']){const j=require('./docs/superpowers/reviews/raw/audit-touch-'+t+'.json');for(const k of ['home','detail']){const a=j[k];console.log(t,k,'48미만',a.filter(x=>!x.ok48).length,'44미만',a.filter(x=>!x.ok44).length)}}"
+if($okThemes.Count -gt 0){
+  # 이번 실행에서 측정에 성공한 테마만 요약 — 실패한 테마는 디스크에 남은(오래된) JSON 을
+  # 마치 이번 결과인 것처럼 보여주지 않도록 제외한다.
+  $themeList=($okThemes | ForEach-Object { "'$_'" }) -join ","
+  node -e "for(const t of [$themeList]){const j=require('./docs/superpowers/reviews/raw/audit-touch-'+t+'.json');for(const k of ['home','detail']){const a=j[k];console.log(t,k,'48미만',a.filter(x=>!x.ok48).length,'44미만',a.filter(x=>!x.ok44).length)}}"
+} else {
+  Write-Host "터치 요약 생략 (light/dark 모두 측정 실패)"
+}
 
 Write-Host "== 5. 데이터 폴더 변경 여부"
 git diff --stat -- 주기장별절차 img
