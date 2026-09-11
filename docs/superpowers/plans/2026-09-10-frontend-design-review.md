@@ -10,37 +10,32 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-10-frontend-design-review-design.md`
 
-## 진행 현황 (2026-09-10 작업 종료 시점)
+## 진행 현황 (2026-09-11 갱신)
 
-□ 실행 방식: superpowers:subagent-driven-development. 원장(ledger)은 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외 폴더)
+□ 실행 방식: superpowers:subagent-driven-development. 원장(ledger)은 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외 폴더). 최신 상태는 항상 원장이 기준
 □ 브랜치: `feature/frontend-polish` (main 352aa9a 에서 분기). main 은 v193 그대로
 □ 완료
-  - Task 1 Step 1~5, 7 완료 (커밋 78c3410). PRODUCT.md, tools/review/shot.html, tools/review/shots.ps1, 기준 스크린샷 6장
-  - Task 1 검토 완료 → "수정 필요" 판정 (아래 TODO 1·2)
-□ 보류 중
-  - Task 1 Step 6 사용자 확인: PRODUCT.md 사실 확인 (성공 기준 "3초 안에 절차 확인", 다크모드 자동 18:30~06:30)
-□ Task 2 이후 미착수. 브리프 파일은 `.superpowers/sdd/.../task-N-brief.md` 로 추출되어 있음
+  - Task 1 촬영 하니스·기준 스크린샷 6장 (수정 3라운드: DOM 대기, ErrorActionPreference Continue, 헤드리스 Edge 창 폭 496px 클램프 회피 → 고정 iframe + 크롭)
+  - Task 2 audit 스크립트 3종 + 검출기 JSON 6종 (BOM 제거)
+  - Task 3 critique A(디자인 리뷰)·B(검출기·측정 증거) 병렬, 수정 1라운드
+  - Task 4 보고서 `docs/superpowers/reviews/20260910_프론트엔드점검.md` (audit 10/20, 휴리스틱 28/40, 이슈 18건·표 22행, 수정 2라운드)
+  - Task 4 Step 5 사용자 선택 완료: **1차 6행 전부 + 2차 P0·P1 9행 채택(15행), P2·P3 2차 7행 이월**. 채택 열 기록 커밋 8d0cf2d
+  - Task 1 Step 6 사실 확인: 다크모드 18:30~06:30 은 코드(isNight) 확인, "3초 안에 절차 확인"은 목표치(미측정)로 PRODUCT.md 에 명기
+□ 진행 중: Task 5 check.ps1
 
 ### TODO (남은 작업, 순서대로)
 
-1. [ ] Task 1 수정 라운드 1: `shot-lightbox-dark.png` 재촬영. shot.html 의 고정 1500ms 대기를 라이트박스 요소(`.lightbox`)가 생기고 이미지 `complete` 가 될 때까지 기다리는 방식으로 변경
-2. [ ] Task 1 수정 라운드 1: shots.ps1 의 `$ErrorActionPreference="Stop"` 을 `"Continue"` 로 변경 (PowerShell 5.1 에서 `2>$null` 이 stderr 를 막지 못해 루프가 중단될 수 있음). 같은 이유로 Task 5 check.ps1 도 Continue 유지 확인
-3. [ ] Task 1 범위 한정 재검토 → 원장에 `Task 1: complete` 기록
-4. [ ] Task 1 Step 6 사용자 확인 결과를 PRODUCT.md 에 반영
-5. [ ] Task 2 audit 스크립트 (contrast.js, colors.js, measure.html, 검출기 JSON)
-6. [ ] Task 3 critique 하위 에이전트 A/B 병렬
-7. [ ] Task 4 보고서 작성 → 사용자 수정 항목 선택 (정지 지점)
-8. [ ] Task 5 check.ps1
-9. [ ] Task 6 1차 수정 → 사용자 병합 승인 (정지 지점) → v194
-10. [ ] Task 7 2차 수정 → 사용자 병합 승인 (정지 지점) → v195
-11. [ ] Task 8 재채점·보고서 마감
-12. [ ] 최종 검토에서 처리할 Minor 이월분: shots.ps1 Edge 경로 존재 확인 없음, 임시 프로필 폴더(`%TEMP%\pushback-shot-profile`) 미정리
+1. [ ] Task 5 check.ps1 (진행 중)
+2. [ ] Task 6 1차 수정 6행(P1-04a·P1-05a·P1-06a·P2-01·P2-02·P3-01) → 사용자 병합 승인 (정지 지점) → v194
+3. [ ] Task 7 2차 수정 9행(P0-01·P0-02·P1-01·P1-02·P1-03·P1-04b·P1-05b·P1-06b·P1-06c). P1-03 은 버튼명 통일(문구 변경)이라 사용자 확인 후 → 병합 승인 (정지 지점) → v195
+4. [ ] Task 8 재채점·보고서 마감
+5. [ ] 최종 검토에서 처리할 Minor 이월분: shots.ps1 Edge 경로 존재 확인 없음, 임시 프로필 폴더(`%TEMP%\pushback-shot-profile`) 미정리, critique-A 근사 터치 크기(보고서는 B 실측값 사용)
 
 ### 재개 방법
 
-□ 새 세션에서 "plan 문서 진행 현황부터 재개" 라고 지시. 원장 첫 줄이 이 plan 을 가리키면 `Task 1: complete` 가 없으므로 Task 1 수정 라운드부터 이어감
-□ 로컬 서버는 종료된 상태. 촬영·측정 전 `Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` 으로 재기동
-□ shots.ps1 은 일반 Edge 창이 열려 있어도 동작하도록 임시 프로필(`--user-data-dir`)을 쓰는 것으로 이미 수정되어 있음
+□ 새 세션에서 "plan 문서 진행 현황부터 재개" 라고 지시. 원장의 마지막 `Task N: complete` 다음 태스크부터 이어감
+□ 로컬 서버가 꺼져 있으면 `Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` 으로 재기동
+□ shots.ps1 은 임시 프로필(`--user-data-dir`)을 쓰므로 일반 Edge 창이 열려 있어도 동작
 
 ## Global Constraints
 
