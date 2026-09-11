@@ -177,19 +177,23 @@
   .navBar.stuck{border-bottom-color:var(--line);box-shadow:0 4px 12px rgba(20,24,32,.06);}
   html[data-theme="dark"] .navBar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.35);}
   .back{
-    display:inline-flex;align-items:center;gap:7px;
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;
     background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;
     color:var(--ink);font-size:16px;font-weight:700;font-family:inherit;
     padding:12px 18px;cursor:pointer;transition:transform .1s;
   }
   .back:active{transform:scale(.95);}
   .back svg{width:19px;height:19px;}
-  .navArrows{display:flex;gap:9px;}
+  /* 2차 수정(P1-04b): 이전/다음 간격 9px -> 12px, 버튼 높이 48px */
+  .navArrows{display:flex;gap:12px;}
   .navBtn{
-    background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;
+    background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;min-height:48px;
     padding:12px 18px;font-size:16px;font-weight:800;color:var(--ink);
     font-family:inherit;cursor:pointer;transition:transform .1s;
   }
+  /* 방향 쪽 모서리와 테두리로 형태를 다르게 — 글자 화살표(‹ ›)와 같은 쪽이라 방향이 두 번 읽힌다 */
+  .navBtn.prev{border-left:3px solid var(--accent);border-radius:6px 14px 14px 6px;}
+  .navBtn.next{border-right:3px solid var(--accent);border-radius:14px 6px 6px 14px;}
   .navBtn:active{transform:scale(.95);}
   .card{
     background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
@@ -863,8 +867,8 @@ function openGate(id){
     <div class="navBar">
       <button class="back" onclick="goList()">${ico.back} 홈화면</button>
       <div class="navArrows">
-        ${prev ? `<button class="navBtn" onclick="openGate('${prev.id}')">‹ ${prev.id}</button>` : ``}
-        ${next ? `<button class="navBtn" onclick="openGate('${next.id}')">${next.id} ›</button>` : ``}
+        ${prev ? `<button class="navBtn prev" onclick="openGate('${prev.id}')">‹ ${prev.id}</button>` : ``}
+        ${next ? `<button class="navBtn next" onclick="openGate('${next.id}')">${next.id} ›</button>` : ``}
       </div>
     </div>
     <div class="card">
