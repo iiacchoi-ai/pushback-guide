@@ -382,6 +382,16 @@
     font-size:11px;color:var(--ink-mut);
   }
   footer b{font-weight:600;color:var(--ink-sub);}
+
+  /* ── 1차 수정(P1-04a): 주 조작 버튼 9종 — 보이는 크기·글자·배경 경계는 그대로 두고
+     투명 ::before 오버레이로 탭 영역만 48px 이상으로 확대. 인접 버튼과 겹치는 자리는
+     상하로만 확장(navBtn·wvBase/wvWork·devBtn) */
+  #themeBtn,#preBtn,.zoneBtn,.back,.navBtn,#wvBase,#wvWork,#devBtn{position:relative;}
+  #themeBtn::before,#preBtn::before{content:"";position:absolute;inset:-10px;}
+  .zoneBtn::before{content:"";position:absolute;inset:-6px;}
+  .back::before,.navBtn::before{content:"";position:absolute;top:-3px;bottom:-3px;left:0;right:0;}
+  #wvBase::before,#wvWork::before{content:"";position:absolute;top:-12px;bottom:-12px;left:0;right:0;}
+  #devBtn::before{content:"";position:absolute;top:-6px;bottom:-6px;left:0;right:0;}
 </style>
 </head>
 <body>
