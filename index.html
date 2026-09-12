@@ -232,6 +232,9 @@
     display:flex;align-items:center;justify-content:center;z-index:1;
   }
   .stepT{font-size:14.5px;line-height:1.55;padding-top:3px;}
+  /* 영문 모드에서 아직 영문이 없는 절차 표시. amber 계열 토큰 재사용 */
+  .koBadge{display:inline-block;vertical-align:2px;margin-left:6px;font-size:10.5px;font-weight:700;letter-spacing:.04em;
+    color:var(--amber-t);background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:8px;padding:1px 7px;}
   .kw{font-weight:800;color:var(--kwc,inherit);}
   /* 2차 수정(P1-06c): 다크에서는 키워드를 도면 원색 그대로가 아니라 명도만 올린 대응 색으로 —
      색상(도면 항공기 색과의 대조)은 그대로 두고 어두운 카드 위 가독성만 올린다.
@@ -807,16 +810,17 @@ function colorize(text, gid){
   const map = KWC[gid]; if(!map || !text) return text;
   // 키를 하나씩 반복해 칠하면, 이미 칠한 구문 안에 짧은 키가 다시 걸린다
   //  예) "North on R6"(초록)을 칠한 뒤 "North"(하늘)가 그 안에서 또 매칭
-  // → 긴 키를 앞에 둔 하나의 정규식으로 '한 번만' 훑는다 (겹칠 수 없음)
-  const keys = Object.keys(map).sort((a,b)=>b.length-a.length);
+  // → 긴 키를 앞에 둔 하나의 정규식으로 '한 번만' 훑는다 (겹칠 수 없음). 정규식은 i18n.js kwRegex
+  //   (영문 모드: 대소문자 무시, Point N ↔ spot N 별칭). 매칭 문자열은 kwCanon 으로 원래 키로 되돌린다
+  const keys = Object.keys(map);
   if(!keys.length) return text;
-  const esc = s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-  const re = new RegExp("(^|[^A-Za-z0-9])(" + keys.map(esc).join("|") + ")(?![A-Za-z0-9])", "g");
-  return text.replace(re, (m,pre,kw)=>{
+  const re = kwRegex(keys);
+  return text.replace(re, (m,pre,hit)=>{
+    const kw = kwCanon(keys, hit); if(!kw) return m;
     const pi = kwPathIdx(gid, map[kw]);
     const att = (pi >= 0) ? ` kw-go" data-g="${gid}" data-p="i${pi}"` : `"`;
     const c = kwHex(map[kw]);
-    return pre+`<span class="kw${att} style="--kwc:${c};--kw-d:${kwDark(c)}">${kw}</span>`;
+    return pre+`<span class="kw${att} style="--kwc:${c};--kw-d:${kwDark(c)}">${hit}</span>`;
   });
 }
 function legendHtml(){ return ""; }
@@ -874,9 +878,12 @@ function syncProc(gid, idx){
     const li=x.closest("li"); if(li) li.classList.add("selProc");
   });
 }
+function koBadge(){ return `<span class="koBadge">KO</span>`; }
 function stepsHtml(g){
-  if(g.procs) return g.procs.map((p,i)=>
-    `<li><span class="stepN">${i+1}</span><span class="stepT"><b>${colorize(p[0],g.id)}</b><br>${p[1]||""}</span></li>`).join("");
+  if(g.procs) return g.procs.map((p,i)=>{
+    const e = hb(g.id, i);
+    return `<li><span class="stepN">${i+1}</span><span class="stepT"><b>${colorize(e.title,g.id)}</b>${e.ko ? koBadge() : ""}<br>${e.body}</span></li>`;
+  }).join("");
   return g.steps.map((s,i)=>`<li><span class="stepN">${i+1}</span><span class="stepT">${t(s)}</span></li>`).join("");
 }
 
