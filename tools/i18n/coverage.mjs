@@ -12,7 +12,11 @@ const require = createRequire(import.meta.url);
 const args = new Set(process.argv.slice(2));           // --no-status: 미검수를 실패로 치지 않음 (Phase 2 중간 확인용)
 
 const KO = /[가-힣]/;
-const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+// CRLF 로 저장된 파일도 LF 기준 스캐너(줄 주석 제거의 "//.*$" 등)가 그대로 동작하도록
+// 읽는 즉시 정규화한다. 그대로 두면 각 줄 끝 \r 때문에 "." 가 매칭을 멈추고 "$" 가
+// 문자열 진짜 끝에서만 성립해 "// 주석" 이 제거되지 않고, 주석 속 작은따옴표가
+// 가짜 문자열 리터럴로 오검출된다.
+const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8").replace(/\r\n/g, "\n");
 
 // ── 1. UI 문구 ─────────────────────────────────────────────
 // 표식 두 종류 (JS 주석 위치 어디든):
