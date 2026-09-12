@@ -8,6 +8,9 @@
 |---|---|---|
 | 주기장 | stand (탑승교 주기장은 gate) | AIP "Aircraft Stands". 화면 라벨은 Stand 통일 |
 | 유도선 (R1 등) | taxilane R1 | AIP "onto taxilane R1" |
+| 유도선 | taxilane | 항공기 주기·이동용 유도선. 핸드북이 "R1 유도로" 라 써도 R1·R4·R7·R10·R12·RA·RC·RF·RG·M18·M19·D9 는 **taxilane** |
+| 유도로 | taxiway | 유도로 명칭(A4·M5·M6 등). 유도선과 섞어 쓰지 않는다 |
+| 관제탑 | the tower (ATC) | 국토교통부 소관. 계류장관제(Incheon Apron)와 구분 |
 | Blue Line 따라 정대 | along blue line until its nosewheel is at spot N | AIP 원문. 앱 키워드 Point N 은 별칭 처리 |
 | 기수방향 북쪽 | to face north | AIP phraseology "Pushback approved to face north" |
 | 후류 | jet blast | AIP "to minimize jet blast effect" |
@@ -28,8 +31,9 @@
 - 문장 구조는 AIP 를 따른다: "The aircraft shall be pushed back … to face <방향>." 방향은 north/south/east/west 소문자.
 - 정대 = "until its nosewheel is at spot N" / "with its nosewheel and fuselage on taxilane R1".
 - 유도로 이동 항공기 = "aircraft taxiing on taxiway A4". 후류 = "jet blast". 견인 = "towed forward".
-- 핸드북의 "* 주의 문구" 는 영문에서도 같은 순서로 문장 끝에 둔다. 이 브랜치에는 `*` 를 빨간 주의 문구로 렌더하는 코드가 없으므로 별도 기호 없이 뒤따르는 문장으로 자연스럽게 붙인다.
-  예: "…푸쉬백한다 * 후류 주의" → "… to face south. Beware of jet blast."
+- 핸드북의 "* 주의 문구" 는 영문에서도 같은 순서로 문장 끝에 둔다. 이 브랜치에는 `*` 를 빨간 주의 문구로 렌더하는 코드가 없으므로 별도 기호 없이 뒤따르는 문장으로 자연스럽게 붙인다. 명령형을 쓰지 않고 수동·사실 서술로 둔다.
+  예: "…푸쉬백한다 * 후류 주의" → "… to face south. Jet blast affects the area behind the aircraft."
+  예: "…푸쉬백한다 * R2 유도선을 개방" → "… to face east or west, leaving taxilane R2 clear."
 - 핸드북이 AIP 보다 상세하면 AIP 문장 뒤에 보충문을 붙이고 src 를 `aip+tr` 로 둔다.
 - 지시·통제 뉘앙스 금지: "instruct", "instruction", "control", "must comply", "violation" 을 쓰지 않는다. 절차는 "shall be pushed back" (AIP 원문) 또는 "Push back …" 명령형.
 
@@ -57,6 +61,7 @@
 10. 제목이 한글인 항목만 `title_en` 을 채운다 (예: "MRO 이동절차" → "MRO towing procedure"). 영문 제목은 손대지 않는다.
 11. 같은 한글 원문은 어느 주기장이든 **같은 영문**을 쓴다.
 12. 안전·규제 표현: 방향·위치·정대는 사실 서술로만 쓴다. 준수 의무를 만들어내는 표현을 쓰지 않는다.
+13. **stand / gate 구분** — 제1여객터미널 탑승교 주기장(1~50, 101~132)은 본문에서 `gate N` (소문자). 원격·화물 주기장(8xx 등)과 그 밖의 주기장은 `stand N`. 따옴표로 인용한 phraseology 안의 `Gate` 는 대문자 그대로 둔다 (예: "abeam Gate 47"). 같은 카드의 AIP 문장 표기와 맞춘다.
 
 ## 5. src 값
 
