@@ -1,6 +1,7 @@
 // tools/i18n/coverage.mjs — 영문판 커버리지 검사. 종료코드 0 = 통과
 // 1) index.html 의 한글 리터럴 중 t()/tf()/data-t 로 감싸지 않은 것
-// 2) handbook.en.js 항목 중 한글 원문 해시가 맞지 않는 것, HANDBOOK 에 있는데 사전에 없는 것
+// 2) handbook.en.js 항목 중 한글 원문 해시가 맞지 않는 것, HANDBOOK 에 있는데 사전에 없는 것,
+//    한글 본문의 "개방" 조건이 영문에서 빠진 것
 // 3) status !== "ok" 인 항목
 // 4) img/*.svg 안의 한글 <text>
 import fs from "node:fs";
@@ -165,6 +166,11 @@ const isAipProc = (gid, en) => {
   const bare = gid.replace(/[LR]$/, "");
   return (aipProcByStand.get(gid) || new Set()).has(en) || (aipProcByStand.get(bare) || new Set()).has(en);
 };
+// "개방" 조건(유도선·유도로·GSE도로를 비워 두는 조건)은 한글 본문에 있으면 영문에도 반드시 남아야 한다.
+// AIP 문장과 글자 그대로 맞아떨어지는 항목에서 이 조건절이 통째로 빠지는 사례가 있었으므로
+// 영문에 clear / available 이 하나도 없으면 누락으로 본다 (leaving … clear, … remains clear,
+// … remains available 이 현재 쓰는 표현)
+const clearMissing = [];
 const stale = [], absent = [], review = [], noteDropped = [], noteMissing = [];
 for (const gid of Object.keys(HANDBOOK)) HANDBOOK[gid].forEach((p, i) => {
   const k = gid + ":" + i, e = HB_EN[k], ko = String(p[1] || "");
@@ -173,6 +179,7 @@ for (const gid of Object.keys(HANDBOOK)) HANDBOOK[gid].forEach((p, i) => {
   if (e.status !== "ok") review.push(k);
   if (e.src === "aip" && ko.includes("*")) noteDropped.push(k);
   if (e.src === "aip+tr" && ko.includes("*") && isAipProc(gid, String(e.en || ""))) noteMissing.push(k);
+  if (ko.includes("개방") && !/clear|available/i.test(String(e.en || ""))) clearMissing.push(k);
 });
 
 // ── 4. SVG 라벨 ─────────────────────────────────────────
@@ -190,8 +197,9 @@ section("절차 사전 없음", absent);
 section("절차 해시 불일치", stale);
 section("주의 문구 누락(src aip)", noteDropped);
 section("주의 문구 보충 안 됨(src aip+tr)", noteMissing);
+section("개방 조건 누락", clearMissing);
 section("절차 미검수", review);
 section("SVG 한글 라벨", svgKo);
 const fail = unwrapped.length || missing.length || absent.length || stale.length || noteDropped.length || noteMissing.length
-  || svgKo.length || (!args.has("--no-status") && review.length);
+  || clearMissing.length || svgKo.length || (!args.has("--no-status") && review.length);
 process.exit(fail ? 1 : 0);

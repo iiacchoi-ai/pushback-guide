@@ -68,9 +68,7 @@ const UI_EN = {
   "관제 지시별 후방견인 절차": "Pushback procedures by phraseology",
   "표준 절차": "Standard procedure",
   "주의사항": "Cautions",
-  // gates.js CAUTIONS 값. "반드시"는 의무를 만드는 표현이라 옮기지 않고 사실 서술로 둔다.
-  // R9 는 AIP 본문 표기(taxilane R9)를 따른다 — 같은 카드의 절차 문장과 표기를 맞춘다
-  "FACE TO NORTH 후방견인 시 R9 유도로 반드시 개방": "When pushing back to face north, taxilane R9 is to be kept clear",
+  // gates.js CAUTIONS 는 현재 비어 있어({}) 별도 키가 없다. R9 개방 문구는 절차 항목 130:1 에 들어 있다
   "후방견인 도면": "Pushback drawing",
   "기본 시점": "Standard view",
   "작업자 시점": "Crew view",
