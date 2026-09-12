@@ -12,9 +12,9 @@ export function normPhr(s) {
   return String(s).toLowerCase()
     .replace(/^pushback approved\s*/, "")
     .replace(/\(number\)/g, "")
-    .replace(/\bgate\s+no\.?\s*\d+(\s*,\s*\d+)*/g, "gate")
+    .replace(/\bgate\s+no\.?\s*(\d+(\s*,\s*\d+)*)?/g, "gate")
     .replace(/(\d)\s*romeo\b/g, "$1r")
-    .replace(/[.,()]/g, " ")
+    .replace(/[.,()[\]]/g, " ")
     .replace(/\s+/g, " ").trim();
 }
 
