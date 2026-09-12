@@ -46,7 +46,7 @@ const HB_EN = {
   "20:1": {"en":"The aircraft shall be pushed back onto taxilane R7 to face west.","src":"aip","aip":"AMDT 7/26","hash":"aaf2a4","status":"review"},
   "20:2": {"en":"The aircraft shall be pushed back to face north along taxilane R2 until its nosewheel is at spot 2.","src":"aip","aip":"AMDT 7/26","hash":"89cf3c","status":"review"},
   "21:0": {"en":"The aircraft shall be pushed back to face north along blue line until its nosewheel is at R2.","src":"aip","aip":"AMDT 7/26","hash":"22b4b9","status":"review"},
-  "21:1": {"en":"The aircraft shall be pushed back to face north until its body is on taxilane R2. Aircraft proceeding on taxilane R7 are taken into account, and the aircraft is pushed back so as not to affect aircraft entering or leaving gate 23.","src":"aip+tr","aip":"AMDT 7/26","hash":"14491c","status":"review"},
+  "21:1": {"en":"The aircraft shall be pushed back to face north until its body is on taxilane R2. Caution: aircraft proceeding on taxilane R7. The aircraft is pushed back so as not to affect aircraft entering or leaving gate 23.","src":"aip+tr","aip":"AMDT 7/26","hash":"14491c","status":"review"},
   "21:2": {"en":"The aircraft shall be pushed back onto taxilane R7 to face east or west, leaving taxilane R2 clear.","src":"aip+tr","hash":"82f164","status":"review"},
   "22:0": {"en":"The aircraft shall be pushed back to face north along blue line until its nosewheel is at R2.","src":"aip","aip":"AMDT 7/26","hash":"22b4b9","status":"review"},
   "22:1": {"en":"The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 2.","src":"aip","aip":"AMDT 7/26","hash":"89cf3c","status":"review"},

@@ -70,7 +70,7 @@ const UI_EN = {
   "주의사항": "Cautions",
   // gates.js CAUTIONS 값. "반드시"는 의무를 만드는 표현이라 옮기지 않고 사실 서술로 둔다.
   // R9 는 AIP 본문 표기(taxilane R9)를 따른다 — 같은 카드의 절차 문장과 표기를 맞춘다
-  "FACE TO NORTH 후방견인 시 R9 유도로 반드시 개방": "When pushing back to face north, taxilane R9 is kept clear",
+  "FACE TO NORTH 후방견인 시 R9 유도로 반드시 개방": "When pushing back to face north, taxilane R9 is to be kept clear",
   "후방견인 도면": "Pushback drawing",
   "기본 시점": "Standard view",
   "작업자 시점": "Crew view",
