@@ -44,6 +44,7 @@
     background:var(--bg);color:var(--ink);
     padding-bottom:calc(64px + var(--safe-bottom));
     letter-spacing:-0.01em;
+    touch-action:manipulation;   /* 휴대폰 더블탭 확대 방지 (핀치·스크롤은 유지). 라이트박스는 자체 touch-action:none */
     word-break:keep-all;overflow-wrap:anywhere;   /* 한글 단어 중간에서 줄이 끊기지 않도록 (앱 전체) */
     transition:background .25s,color .25s;
   }
@@ -331,12 +332,12 @@
   @keyframes hitPulse{0%,100%{opacity:.35;}50%{opacity:.9;}}
   /* 2차 수정(P1-02): 절차 단일 선택기 — 절차 카드 상단 48px 세그먼트.
      색점은 지시문 키워드 색과 같은 값(다크에서는 P1-06c 매핑색)이라 도면 항공기와 대응된다 */
-  .procPick{display:flex;gap:12px 8px;flex-wrap:wrap;margin:0 0 14px;}
+  .procPick{display:flex;gap:12px 6px;flex-wrap:wrap;margin:0 0 14px;}   /* 열 간격 8→6px: 휴대폰 폭에서 4개까지 한 줄 */
   .procPick button{
-    position:relative;flex:1 1 96px;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    position:relative;flex:1 1 64px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
     min-height:36px;text-align:center;background:var(--card);
-    border:1px solid var(--line);border-radius:18px;padding:0 12px;
-    font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
+    border:1px solid var(--line);border-radius:18px;padding:0 9px;
+    font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;white-space:nowrap;}
   .procPick button .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;background:var(--kwc,var(--ink-mut));}
   html[data-theme="dark"] .procPick button .dot{background:var(--kw-d,var(--kwc,var(--ink-mut)));}
   /* 보이는 높이 36px, 누르는 영역은 상하 6px 씩 넓혀 48px 유지 (행 간격 12px 라 겹침 없음) */
@@ -879,8 +880,9 @@ function procPickHtml(gid){
 function pickSeg(gid, i){
   ANIM_SEL[gid]=i;                       // 도면이 없어도 선택은 확정 (감지 기준 절차)
   syncProc(gid, i);
-  // 2차 검토 반영: 세그먼트는 지시문 바로 위에 있어 화면을 움직이지 않는다
-  // (문장 안 키워드를 눌렀을 때만 도면을 끌어온다)
+  // 세그먼트를 누르면 도면으로 내려가 재생을 바로 보게 한다 (사용자 요청: 세그먼트 → 영상)
+  const wrap=document.querySelector("#detail .animWrap");
+  if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"center"});
   playAnim(gid, i);
 }
 // 선택 상태를 세그먼트·인라인 키워드·단계 목록에 한 번에 반영
@@ -4246,7 +4248,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL(t("저장 완료 ✓ 오프라인 가능")); }
 }
-var C_VER="v200";
+var C_VER="v202";
 // 저장 상태(개정됨/저장됨)는 부팅 때 한 번만 판정한다. 아래에서 pbVer 를 C_VER 로 덮어쓰고 나면
 // "개정됨"인지 다시 알 수 없으므로 판정 결과를 들고 있다가 라벨을 다시 그릴 때(언어 전환) 쓴다
 var PRE_REVISED=false;
