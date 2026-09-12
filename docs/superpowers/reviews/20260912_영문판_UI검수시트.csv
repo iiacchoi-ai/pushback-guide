@@ -1,0 +1,115 @@
+﻿key,en,status
+항공기 PUSHBACK 절차 안내,Aircraft Pushback Guide,ok
+자동,Auto,ok
+라이트,Light,ok
+다크,Dark,ok
+밀어요 로고,App logo,ok
+전체 도면 저장,Download all drawings,ok
+내 위치에서 가까운 주기장 찾기,Find the nearest stand from my location,ok
+게이트 번호 입력,Enter stand number,ok
+지우기,Delete,ok
+구역별 전체 보기 ▾,Browse by area ▾,ok
+구역별 목록 접기 ▴,Collapse area list ▴,ok
+인천국제공항공사,Incheon International Airport Corp.,ok
+운항관리처,Flight Operations Division,ok
+개정,Rev.,ok
+탑승동,Concourse,ok
+화물계류장1,Cargo apron 1,ok
+화물계류장2,Cargo apron 2,ok
+원격·기타,Remote / other,ok
+{n}개소,{n} stands,ok
+{z} 주기장,{z} · Stand,ok
+내 위치,My location,ok
+{n}번 주기장 위치도,Stand {n} location map,ok
+현재 위치가 지도 범위(T2 구역) 밖입니다,Current location is outside the map area (T2),ok
+위치 확인 실패 — 위치 권한을 허용해 주세요,Location unavailable. Please allow location access,ok
+일치하는 게이트가 없습니다,No matching stand,ok
+일치 게이트 · {n}개,Matching stands · {n},ok
+…계속 입력하세요,…keep typing,ok
+이 기기는 위치 서비스를 지원하지 않습니다.,This device does not support location services.,ok
+위치 추적 중 — 누르면 끄기,Tracking location. Tap to stop,ok
+위치 확인 중…,Locating…,ok
+좌표가 입력된 게이트가 없습니다.,No stands with coordinates.,ok
+약 {d}m,approx. {d} m,ok
+GPS 정확도 ±{a}m — 실제 작업 주기장 번호와 일치하는지 확인 후 선택하세요,GPS accuracy ±{a} m. Confirm the stand number matches your actual work stand before selecting,ok
+위치 확인 실패: 위치 권한을 허용해 주세요.,Location unavailable: please allow location access.,ok
+기수 북향 (R17 기준선),Nose north (R17 reference line),ok
+R17 기준선까지 견인 후 정대,Push back to the R17 reference line and align,ok
+R17 도달 전 분리 금지,Do not disconnect before reaching R17,ok
+역MARS 운영 주기장 — 푸시백 승인 요청,Reverse-MARS stand. Request pushback approval,ok
+E/F급 장거리 토바 사용 확인,Confirm long towbar for code E/F,ok
+윙워커 2명 + 후방감시 1명 배치,Position 2 wing walkers and 1 rear observer,ok
+R17 기준선까지 견인 (표준보다 견인거리 김),Push back to the R17 reference line (longer than standard),ok
+R17 정대 후 정지·토바 분리,Stop aligned on R17 and disconnect the towbar,ok
+E/F급 전용 — 견인거리 증가로 소요시간 여유 확보,Code E/F only. Allow extra time for the longer tow distance,ok
+R17 기준선까지 견인 후 정대·분리,"Push back to the R17 reference line, align and disconnect",ok
+E/F급 전용,Code E/F only,ok
+절차 내용 입력 예정 (핸드북 미수록),Procedure to be added (not in handbook),ok
+M15 항공기 이동 가능하도록 SHORT PUSHBACK 할 것!,Perform a SHORT PUSHBACK to allow the M15 aircraft to move!,ok
+558 출발 전 슬라이딩게이트 개방 확인,Confirm the sliding gate is open before departing 558,ok
+슬라이딩게이트 진입 전 LTE 계류장관제3 교신,Contact Incheon Apron 3 via LTE before entering the sliding gate,ok
+계류장관제 지시에 따라 이동,Proceed as advised by Incheon Apron,ok
+LTE 관제탑 교신,Contact the tower via LTE,ok
+관제탑 지시에 따라 이동,Proceed as cleared by the tower,ok
+홈화면,Home,ok
+후방견인절차,Pushback procedures,ok
+견인 방향,Pushback direction,ok
+정대 기준,Alignment reference,ok
+분리 지점,Disconnect point,ok
+통신,Frequency,ok
+관제 지시별 후방견인 절차,Pushback procedures by phraseology,ok
+표준 절차,Standard procedure,ok
+주의사항,Cautions,ok
+후방견인 도면,Pushback drawing,ok
+기본 시점,Standard view,ok
+작업자 시점,Crew view,ok
+{n}번 주기장 도면,Stand {n} drawing,ok
+{n}번 주기장 도해,Stand {n} diagram,ok
+탭하여 확대,Tap to zoom,ok
+견인 진행방향 ↑,Pushback direction ↑,ok
+항공기를 탭하면 그 절차가 재생됩니다 ▶,Tap an aircraft to play its procedure ▶,ok
+탭하여 견인경로 재생 ▶,Tap to play the pushback path ▶,ok
+경로이탈 감지 시작 (시범),Start route deviation alert (trial),ok
+경로이탈 감지 중지,Stop route deviation alert,ok
+내 위치 표시 (작업자 참고용),Show my location (crew reference only),ok
+위치 표시 중지,Hide my location,ok
+위치 수신 중…,Acquiring location…,ok
+파란 점=내 위치 (정확도 ±{a}m) — 작업자 위치 참고용이며 항공기 위치가 아닙니다,"Blue dot = my location (accuracy ±{a} m). Worker's device position, not the aircraft",ok
+현재 위치가 이 도면 범위 밖입니다,Current location is outside this drawing,ok
+위치 오류 — 권한을 확인하세요,Location error. Check location permission,ok
+절차 {n},Procedure {n},ok
+확인 ✓,OK ✓,ok
+후방견인 도면 확대 보기,"Pushback drawing, zoom view",ok
+후방견인 도면 확대,"Pushback drawing, zoomed",ok
+닫기 ✕,Close ✕,ok
+맞춤,Fit,ok
+두 손가락으로 확대 · 끌어서 이동 · 두 번 탭하면 확대,Pinch to zoom · drag to pan · double-tap to zoom,ok
+소리·진동 켜기,Sound and vibration on,ok
+소리·진동 끄기,Sound and vibration off,ok
+도면에서 현재 위치와 기준경로를 확인하세요,Check your position against the reference path on the drawing,ok
+위치를 받지 못했습니다,No location received,ok
+위치 권한과 GPS 상태를 확인하세요,Check location permission and GPS status,ok
+현재 위치가 이 주기장 도면 범위 밖입니다,Current location is outside this stand's drawing,ok
+{n}번 주기장 부근에서 사용하세요,Use near stand {n},ok
+경로이탈 {d} m — 기준 {th} m 초과,Route deviation {d} m. Exceeds the {th} m threshold,ok
+ (심각), (severe),ok
+기준경로 이내 · 이탈 {d} m,Within reference path · deviation {d} m,ok
+절차 {p} 기준 · 위치정확도 ±{a} m · 최대 {m} m,Based on procedure {p} · accuracy ±{a} m · max {m} m,ok
+ — 작업자 단말 위치이며 항공기 위치가 아닙니다,". Worker's device position, not the aircraft",ok
+도면을 불러오지 못했습니다 — 통신 상태 확인 후 다시 열어 주세요,Could not load the drawing. Check your connection and reopen,ok
+오프라인 상태 — 이 주기장 도면이 아직 저장되지 않았습니다.<br>통신 가능 지역에서 홈의 <b>[전체 도면 저장]</b>을 한 번 실행하면<br>모든 주기장을 오프라인에서 볼 수 있습니다.,Offline. This stand's drawing is not saved yet.<br>Run <b>[Download all drawings]</b> on the home screen once while connected<br>to view every stand offline.,ok
+다시 시도,Retry,ok
+이 브라우저에서는 오프라인 저장을 지원하지 않습니다.,This browser does not support offline storage.,ok
+저장 엔진 준비 중…,Preparing storage…,ok
+저장 기능 준비에 실패했습니다. 잠시 후 다시 눌러 주세요.,Storage setup failed. Please try again shortly.,ok
+통신 가능한 곳에서 실행해 주세요.,Please run this where you have a connection.,ok
+"전 주기장 도면(약 100MB)을 내려받아 저장합니다.
+Wi-Fi 환경을 권장합니다. 계속할까요?","Download and store all stand drawings (about 100 MB).
+Wi-Fi recommended. Continue?",ok
+저장 {done}/{total},Downloading {done}/{total},ok
+{n}개 실패 — 다시 저장,{n} failed. Download again,ok
+저장 완료 ✓ 오프라인 가능,Downloaded ✓ available offline,ok
+개정됨 · 도면 다시 저장,Updated · download drawings again,ok
+저장됨 · 다시 저장,Downloaded · download again,ok
+새 버전이 준비되었습니다,A new version is ready,ok
+지금 적용,Apply now,ok
