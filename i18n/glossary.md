@@ -31,9 +31,10 @@
 - 문장 구조는 AIP 를 따른다: "The aircraft shall be pushed back … to face <방향>." 방향은 north/south/east/west 소문자.
 - 정대 = "until its nosewheel is at spot N" / "with its nosewheel and fuselage on taxilane R1".
 - 유도로 이동 항공기 = "aircraft taxiing on taxiway A4". 후류 = "jet blast". 견인 = "towed forward".
-- 핸드북의 "* 주의 문구" 는 영문에서도 같은 순서로 문장 끝에 둔다. 이 브랜치에는 `*` 를 빨간 주의 문구로 렌더하는 코드가 없으므로 별도 기호 없이 뒤따르는 문장으로 자연스럽게 붙인다. 명령형을 쓰지 않고 수동·사실 서술로 둔다.
-  예: "…푸쉬백한다 * 후류 주의" → "… to face south. Jet blast affects the area behind the aircraft."
-  예: "…푸쉬백한다 * R2 유도선을 개방" → "… to face east or west, leaving taxilane R2 clear."
+- 핸드북의 "* 주의 문구" 는 영문에서도 같은 순서로 유지하되, 앞뒤에 공백을 둔 ` * ` 로 구분한다. 한글 `*` 하나당 영문 ` * ` 구간 하나 (`<기준문> * <주의문 1> * <주의문 2>`). 앱(`index.html` `procDesc`)이 이 구분자를 기준으로 각 구간을 새 줄·빨간색으로 렌더하고, 같은 문구가 도면 재생 안내문(`hbNotes`)으로도 그대로 쓰인다. 개수가 어긋나면 `coverage.mjs` 의 "주의 문구 개수 불일치" 에서 걸린다.
+- 주의 문구는 명령형을 쓰지 않고 수동·사실 서술로 둔다. 구간이 독립된 줄로 보이므로 첫 글자는 대문자로 시작한다.
+  예: "…푸쉬백한다 * 후류 주의" → "… to face south. * Jet blast affects the area behind the aircraft."
+  예: "…푸쉬백한다 * R2 유도선을 개방" → "… to face east or west. * Leaving taxilane R2 clear."
 - 핸드북이 AIP 보다 상세하면 AIP 문장 뒤에 보충문을 붙이고 src 를 `aip+tr` 로 둔다.
 - 지시·통제 뉘앙스 금지: "instruct", "instruction", "control", "must comply", "violation" 을 쓰지 않는다. 절차는 "shall be pushed back" (AIP 원문) 또는 "Push back …" 명령형.
 

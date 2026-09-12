@@ -1,7 +1,7 @@
 // tools/i18n/coverage.mjs — 영문판 커버리지 검사. 종료코드 0 = 통과
 // 1) index.html 의 한글 리터럴 중 t()/tf()/data-t 로 감싸지 않은 것
 // 2) handbook.en.js 항목 중 한글 원문 해시가 맞지 않는 것, HANDBOOK 에 있는데 사전에 없는 것,
-//    한글 본문의 "개방" 조건이 영문에서 빠진 것
+//    한글 본문의 "개방" 조건이 영문에서 빠진 것, 한글 "* 주의 문구" 개수와 영문 " * " 개수가 다른 것
 // 3) status !== "ok" 인 항목
 // 4) img/*.svg 안의 한글 <text>
 import fs from "node:fs";
@@ -149,8 +149,9 @@ const HANDBOOK = loadGlobal(path.join(ROOT, "gates.js"), "HANDBOOK");
 const HB_EN = loadGlobal(path.join(ROOT, "i18n/handbook.en.js"), "HB_EN");
 // AIP 문장만 옮겨 온 항목이 핸드북의 "* …" 보충 문구를 흘리지 않았는지 함께 본다
 //  - noteDropped: 한글에 "*" 가 있는데 src 가 "aip" (AIP 문장 그대로라 보충 문구가 빠져 있다)
-//  - noteMissing: 한글에 "*" 가 있고 src 가 "aip+tr" 인데 en 이 그 주기장 AIP 행의 proc 과 완전히 같다
-//                 (= 보충 문구가 아직 안 붙었다). 한글에 "*" 가 없는 aip+tr 항목(259:3·260:3 처럼
+//  - noteMissing: 한글에 "*" 가 있고 src 가 "aip+tr" 인데 en 에 " * " 구분이 없고 첫 구간이 그 주기장
+//                 AIP 행의 proc 과 완전히 같다 (= AIP 문장만 있고 보충 문구가 아직 안 붙었다).
+//                 "AIP 문장. * 보충문" 형태는 통과한다. 한글에 "*" 가 없는 aip+tr 항목(259:3·260:3 처럼
 //                 phraseology 가 자동 매칭되지 않아 사람이 같은 주기장 AIP 후보를 그대로 고른 경우)은
 //                 보충할 내용 자체가 없으므로 대상이 아니다. src 를 "aip" 로 되돌리면 match.mjs 가
 //                 재생성 대상으로 보고 매칭이 안 될 때 항목을 지워 버리므로 aip+tr 로 둔다
@@ -171,15 +172,21 @@ const isAipProc = (gid, en) => {
 // 영문에 clear / available 이 하나도 없으면 누락으로 본다 (leaving … clear, … remains clear,
 // … remains available 이 현재 쓰는 표현)
 const clearMissing = [];
+// 한글 본문의 "* 주의 문구" 는 영문에서도 " * " 로 같은 개수만큼 구분해 둔다 (index.html procDesc 가
+// 이 구분자를 빨간 주의 문구로 렌더한다). 개수가 어긋나면 도면 안내문(hbNotes)도 함께 어긋난다
+const noteCount = [];
 const stale = [], absent = [], review = [], noteDropped = [], noteMissing = [];
 for (const gid of Object.keys(HANDBOOK)) HANDBOOK[gid].forEach((p, i) => {
   const k = gid + ":" + i, e = HB_EN[k], ko = String(p[1] || "");
   if (!e) { absent.push(k); return; }
+  const en = String(e.en || "");
   if (e.hash !== hbHash(ko)) stale.push(k);
   if (e.status !== "ok") review.push(k);
   if (e.src === "aip" && ko.includes("*")) noteDropped.push(k);
-  if (e.src === "aip+tr" && ko.includes("*") && isAipProc(gid, String(e.en || ""))) noteMissing.push(k);
-  if (ko.includes("개방") && !/clear|available/i.test(String(e.en || ""))) clearMissing.push(k);
+  if (e.src === "aip+tr" && ko.includes("*") && !en.includes(" * ") && isAipProc(gid, en.split(" * ")[0])) noteMissing.push(k);
+  if (ko.includes("개방") && !/clear|available/i.test(en)) clearMissing.push(k);
+  const nKo = (ko.match(/\*/g) || []).length, nEn = (en.match(/ \* /g) || []).length;
+  if (nKo !== nEn) noteCount.push(`${k} 한글 ${nKo} / 영문 ${nEn}`);
 });
 
 // ── 4. SVG 라벨 ─────────────────────────────────────────
@@ -197,9 +204,10 @@ section("절차 사전 없음", absent);
 section("절차 해시 불일치", stale);
 section("주의 문구 누락(src aip)", noteDropped);
 section("주의 문구 보충 안 됨(src aip+tr)", noteMissing);
+section("주의 문구 개수 불일치", noteCount);
 section("개방 조건 누락", clearMissing);
 section("절차 미검수", review);
 section("SVG 한글 라벨", svgKo);
 const fail = unwrapped.length || missing.length || absent.length || stale.length || noteDropped.length || noteMissing.length
-  || clearMissing.length || svgKo.length || (!args.has("--no-status") && review.length);
+  || noteCount.length || clearMissing.length || svgKo.length || (!args.has("--no-status") && review.length);
 process.exit(fail ? 1 : 0);
