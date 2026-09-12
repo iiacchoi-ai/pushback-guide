@@ -750,12 +750,12 @@
     "49"
    ],
    "proc": "The aircraft shall be pushed back along yellow line until its nosewheel is at spot 5.",
-   "phr": "Pushback approved to point 5 50",
+   "phr": "Pushback approved to point 5",
    "page": 32
   },
   {
    "stands": [
-    "49"
+    "50"
    ],
    "proc": "The aircraft shall be pushed back along yellow line until its nosewheel is at spot 5.",
    "phr": "Pushback approved to point 5",
@@ -774,11 +774,22 @@
     "103"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R1 to face south.",
-   "phr": "Pushback approved to face south on R1 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125,",
+   "phr": "Pushback approved to face south on R1",
    "page": 33
   },
   {
    "stands": [
+    "105",
+    "107",
+    "109",
+    "111",
+    "113",
+    "115",
+    "117",
+    "119",
+    "121",
+    "123",
+    "125",
     "127",
     "129"
    ],
@@ -788,6 +799,17 @@
   },
   {
    "stands": [
+    "105",
+    "107",
+    "109",
+    "111",
+    "113",
+    "115",
+    "117",
+    "119",
+    "121",
+    "123",
+    "125",
     "127",
     "129"
    ],
@@ -808,20 +830,20 @@
     "131"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane AS to face west.",
-   "phr": "Pushback approved to face west 132",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "131"
+    "132"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face south.",
-   "phr": "Pushback approved to face south 101",
+   "phr": "Pushback approved to face south",
    "page": 33
   },
   {
    "stands": [
-    "131"
+    "101"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R1 to face north.",
    "phr": "Pushback approved to face north",
@@ -840,11 +862,20 @@
     "102"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R9 to face east.",
-   "phr": "Pushback approved to face east. 104, 106, 108, 110, 112, 114, 118, 122, 124,",
+   "phr": "Pushback approved to face east.",
    "page": 33
   },
   {
    "stands": [
+    "104",
+    "106",
+    "108",
+    "110",
+    "112",
+    "114",
+    "118",
+    "122",
+    "124",
     "126",
     "128"
    ],
@@ -854,6 +885,15 @@
   },
   {
    "stands": [
+    "104",
+    "106",
+    "108",
+    "110",
+    "112",
+    "114",
+    "118",
+    "122",
+    "124",
     "126",
     "128"
    ],
@@ -874,12 +914,12 @@
     "130"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
-   "phr": "Pushback approved to face north on R4 301",
+   "phr": "Pushback approved to face north on R4",
    "page": 33
   },
   {
    "stands": [
-    "130"
+    "301"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R10 to face east.",
    "phr": "Pushback approved to face east",
@@ -887,16 +927,12 @@
   },
   {
    "stands": [
-    "302",
-    "303",
-    "304",
-    "305",
-    "306",
-    "307",
-    "308",
-    "309",
-    "310",
-    "311"
+    "309A",
+    "309B",
+    "310A",
+    "310B",
+    "311A",
+    "311B"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R10 to face east.",
    "phr": "Pushback approved to face east",
@@ -916,38 +952,20 @@
     "311"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R10 to face west.",
-   "phr": "Pushback approved to face west 312",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "302",
-    "303",
-    "304",
-    "305",
-    "306",
-    "307",
-    "308",
-    "309",
-    "310",
-    "311"
+    "312"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R10 to face west.",
-   "phr": "Pushback approved to face west 321",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "302",
-    "303",
-    "304",
-    "305",
-    "306",
-    "307",
-    "308",
-    "309",
-    "310",
-    "311"
+    "321"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face east.",
    "phr": "Pushback approved to face east",
@@ -955,16 +973,12 @@
   },
   {
    "stands": [
-    "322",
-    "323",
-    "324",
-    "325",
-    "326",
-    "327",
-    "328",
-    "329",
-    "330",
-    "331"
+    "329A",
+    "329B",
+    "330A",
+    "330B",
+    "331A",
+    "331B"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face east.",
    "phr": "Pushback approved to face east",
@@ -984,38 +998,22 @@
     "331"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face west.",
-   "phr": "Pushback approved to face west 332",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "322",
-    "323",
-    "324",
-    "325",
-    "326",
-    "327",
-    "328",
-    "329",
-    "330",
-    "331"
+    "332"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face west.",
-   "phr": "Pushback approved to face west 341, 341R/L",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "322",
-    "323",
-    "324",
-    "325",
-    "326",
-    "327",
-    "328",
-    "329",
-    "330",
-    "331"
+    "341",
+    "341R",
+    "341L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face east.",
    "phr": "Pushback approved to face east",
@@ -1023,17 +1021,14 @@
   },
   {
    "stands": [
-    "342",
-    "343",
-    "344",
-    "345",
-    "346",
-    "347",
-    "348",
-    "349",
-    "350",
-    "351",
-    "352"
+    "342R",
+    "342L",
+    "343R",
+    "343L",
+    "345R",
+    "347R",
+    "352R",
+    "352L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face east.",
    "phr": "Pushback approved to face east",
@@ -1054,22 +1049,14 @@
     "352"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face west.",
-   "phr": "Pushback approved to face west 353, 353R/L",
+   "phr": "Pushback approved to face west",
    "page": 33
   },
   {
    "stands": [
-    "342",
-    "343",
-    "344",
-    "345",
-    "346",
-    "347",
-    "348",
-    "349",
-    "350",
-    "351",
-    "352"
+    "353",
+    "353R",
+    "353L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RG to face west.",
    "phr": "Pushback approved to face west",
@@ -1099,13 +1086,12 @@
     "209"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R24 to face south.",
-   "phr": "Pushback approved to face south on R24 208R",
+   "phr": "Pushback approved to face south on R24",
    "page": 33
   },
   {
    "stands": [
-    "208",
-    "209"
+    "208R"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R17 to face east.",
    "phr": "Pushback approved to face east",
@@ -1260,10 +1246,7 @@
   },
   {
    "stands": [
-    "219",
-    "220",
-    "221",
-    "222"
+    "224L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face south.",
    "phr": "Pushback approved to face south",
@@ -1282,7 +1265,7 @@
   },
   {
    "stands": [
-    "224"
+    "224R"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face south.",
    "phr": "Pushback approved to face south",
@@ -1306,18 +1289,10 @@
   },
   {
    "stands": [
-    "225",
-    "226",
-    "227",
-    "228",
-    "229",
-    "230",
-    "231",
-    "232",
-    "233",
-    "234",
-    "235",
-    "236"
+    "231R",
+    "231L",
+    "232R",
+    "232L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face south.",
    "phr": "Pushback approved to face south",
@@ -2086,13 +2061,12 @@
   },
   {
    "stands": [
-    "262",
-    "263",
-    "264",
-    "265",
-    "266",
-    "267",
-    "268"
+    "266R",
+    "266L",
+    "267R",
+    "267L",
+    "268R",
+    "268L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R1 to face south.",
    "phr": "Pushback approved to face south",
@@ -2114,7 +2088,7 @@
   },
   {
    "stands": [
-    "275"
+    "275L"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R1 to face south.",
    "phr": "Pushback approved to face south",
@@ -2138,10 +2112,7 @@
   },
   {
    "stands": [
-    "276",
-    "277",
-    "278",
-    "279"
+    "275R"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R1 to face south.",
    "phr": "Pushback approved to face south",
@@ -2377,13 +2348,12 @@
     "291"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R23 to face south.",
-   "phr": "Pushback approved to face south on R23 290R",
+   "phr": "Pushback approved to face south on R23",
    "page": 37
   },
   {
    "stands": [
-    "290",
-    "291"
+    "290R"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R17 to face west.",
    "phr": "Pushback approved to face west",
@@ -2634,12 +2604,12 @@
     "517"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane RW to face west.",
-   "phr": "Pushback approved to face west 520",
+   "phr": "Pushback approved to face west",
    "page": 38
   },
   {
    "stands": [
-    "517"
+    "520"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face south.",
    "phr": "Pushback approved to face south",
@@ -2664,15 +2634,12 @@
     "524"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face south.",
-   "phr": "Pushback approved to face south 522R",
+   "phr": "Pushback approved to face south",
    "page": 38
   },
   {
    "stands": [
-    "521",
-    "522",
-    "523",
-    "524"
+    "522R"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face south.",
    "phr": "Pushback approved to face south",
@@ -2711,22 +2678,23 @@
     "528"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face north.",
-   "phr": "Pushback approved to face north 528R,",
+   "phr": "Pushback approved to face north",
    "page": 38
   },
   {
    "stands": [
+    "528R",
     "529",
     "530"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face north.",
-   "phr": "Pushback approved to face north 531 to 532",
+   "phr": "Pushback approved to face north",
    "page": 38
   },
   {
    "stands": [
-    "529",
-    "530"
+    "531",
+    "532"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face south.",
    "phr": "Pushback approved to face south",
@@ -2761,12 +2729,13 @@
     "534"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face north.",
-   "phr": "Pushback approved to face north 535 to 536",
+   "phr": "Pushback approved to face north",
    "page": 39
   },
   {
    "stands": [
-    "534"
+    "535",
+    "536"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R26 to face north.",
    "phr": "Pushback approved to face north",
@@ -2809,13 +2778,12 @@
     "547"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
-   "phr": "Pushback approved to face north 546",
+   "phr": "Pushback approved to face north",
    "page": 39
   },
   {
    "stands": [
-    "545",
-    "547"
+    "546"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
    "phr": "Pushback approved to face north",
@@ -2840,7 +2808,7 @@
     "554"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
-   "phr": "Pushback approved to face north Pilot shall taxi on stand when assigned for deicing. -",
+   "phr": "Pushback approved to face north",
    "page": 39
   },
   {
@@ -2856,19 +2824,33 @@
     "557"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
-   "phr": "Pushback approved to face north Pilot shall taxi on stand when assigned for deicing. - 558",
+   "phr": "Pushback approved to face north",
    "page": 39
   },
   {
    "stands": [
-    "557"
+    "558"
    ],
    "proc": "The aircraft shall be pushed back onto taxilane R4 to face north.",
-   "phr": "Pushback approved to face north Cargo Apron 1",
+   "phr": "Pushback approved to face north",
    "page": 39
   },
   {
    "stands": [
+    "601",
+    "602",
+    "603",
+    "604",
+    "605",
+    "606",
+    "607",
+    "608",
+    "609",
+    "610",
+    "611",
+    "612",
+    "613",
+    "614",
     "621",
     "622",
     "623",
@@ -2903,7 +2885,7 @@
     "636"
    ],
    "proc": "The aircraft shall be pushed back to face west and then towed forward until its nosewheel is at spot 11.",
-   "phr": "Pushback approved to point 11 Cargo Apron 2",
+   "phr": "Pushback approved to point 11",
    "page": 39
   },
   {
