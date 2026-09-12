@@ -8,7 +8,7 @@
 |---|---|---|
 | 주기장 | stand (탑승교 주기장은 gate) | AIP "Aircraft Stands". 화면 라벨은 Stand 통일 |
 | 유도선 (R1 등) | taxilane R1 | AIP "onto taxilane R1" |
-| 유도선 | taxilane | 항공기 주기·이동용 유도선. 핸드북이 "R1 유도로" 라 써도 R1·R4·R7·R10·R12·RA·RC·RF·RG·M18·M19·D9 는 **taxilane** |
+| 유도선 | taxilane | 항공기 주기·이동용 유도선. 핸드북이 "R1 유도로" 라 써도 R1·R2·R3·R4·R6·R7·R9·R10·R11·R12·R17·AS·RA·RC·RF·RG·M18·M19·D9 는 **taxilane** (AIP 본문 표기 기준) |
 | 유도로 | taxiway | 유도로 명칭(A4·M5·M6 등). 유도선과 섞어 쓰지 않는다 |
 | 관제탑 | the tower (ATC) | 국토교통부 소관. 계류장관제(Incheon Apron)와 구분 |
 | Blue Line 따라 정대 | along blue line until its nosewheel is at spot N | AIP 원문. 앱 키워드 Point N 은 별칭 처리 |

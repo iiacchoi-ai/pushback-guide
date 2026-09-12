@@ -50,7 +50,7 @@ M15 항공기 이동 가능하도록 SHORT PUSHBACK 할 것!,Perform a SHORT PUS
 슬라이딩게이트 진입 전 LTE 계류장관제3 교신,Contact Incheon Apron 3 via LTE before entering the sliding gate,ok
 계류장관제 지시에 따라 이동,Proceed as advised by Incheon Apron,ok
 LTE 관제탑 교신,Contact the tower via LTE,ok
-관제탑 지시에 따라 이동,Proceed as instructed by the tower,ok
+관제탑 지시에 따라 이동,Proceed as cleared by the tower,ok
 홈화면,Home,ok
 후방견인절차,Pushback procedures,ok
 견인 방향,Pushback direction,ok
@@ -60,6 +60,7 @@ LTE 관제탑 교신,Contact the tower via LTE,ok
 관제 지시별 후방견인 절차,Pushback procedures by phraseology,ok
 표준 절차,Standard procedure,ok
 주의사항,Cautions,ok
+FACE TO NORTH 후방견인 시 R9 유도로 반드시 개방,"When pushing back to face north, taxilane R9 is kept clear",ok
 후방견인 도면,Pushback drawing,ok
 기본 시점,Standard view,ok
 작업자 시점,Crew view,ok

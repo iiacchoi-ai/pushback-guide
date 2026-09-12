@@ -50,13 +50,14 @@ const UI_EN = {
   "R17 기준선까지 견인 후 정대·분리": "Push back to the R17 reference line, align and disconnect",
   "E/F급 전용": "Code E/F only",
   "절차 내용 입력 예정 (핸드북 미수록)": "Procedure to be added (not in handbook)",
-  // 도면 애니메이션 단계 (PATH_ANIM, 558 체크리스트). 관제탑은 ATC 이므로 instructed, 계류장관제는 advised (spec 6절)
+  // 도면 애니메이션 단계 (PATH_ANIM, 558 체크리스트). 관제탑·계류장관제 모두 지시 뉘앙스를 피해
+  // 관제탑은 cleared, 계류장관제는 advised 로 옮긴다 (용어집 "지시 → cleared")
   "M15 항공기 이동 가능하도록 SHORT PUSHBACK 할 것!": "Perform a SHORT PUSHBACK to allow the M15 aircraft to move!",
   "558 출발 전 슬라이딩게이트 개방 확인": "Confirm the sliding gate is open before departing 558",
   "슬라이딩게이트 진입 전 LTE 계류장관제3 교신": "Contact Incheon Apron 3 via LTE before entering the sliding gate",
   "계류장관제 지시에 따라 이동": "Proceed as advised by Incheon Apron",
   "LTE 관제탑 교신": "Contact the tower via LTE",
-  "관제탑 지시에 따라 이동": "Proceed as instructed by the tower",
+  "관제탑 지시에 따라 이동": "Proceed as cleared by the tower",
   // 주기장 상세
   "홈화면": "Home",
   "후방견인절차": "Pushback procedures",
@@ -67,6 +68,9 @@ const UI_EN = {
   "관제 지시별 후방견인 절차": "Pushback procedures by phraseology",
   "표준 절차": "Standard procedure",
   "주의사항": "Cautions",
+  // gates.js CAUTIONS 값. "반드시"는 의무를 만드는 표현이라 옮기지 않고 사실 서술로 둔다.
+  // R9 는 AIP 본문 표기(taxilane R9)를 따른다 — 같은 카드의 절차 문장과 표기를 맞춘다
+  "FACE TO NORTH 후방견인 시 R9 유도로 반드시 개방": "When pushing back to face north, taxilane R9 is kept clear",
   "후방견인 도면": "Pushback drawing",
   "기본 시점": "Standard view",
   "작업자 시점": "Crew view",
