@@ -321,13 +321,16 @@
   @keyframes hitPulse{0%,100%{opacity:.35;}50%{opacity:.9;}}
   /* 2차 수정(P1-02): 절차 단일 선택기 — 절차 카드 상단 48px 세그먼트.
      색점은 지시문 키워드 색과 같은 값(다크에서는 P1-06c 매핑색)이라 도면 항공기와 대응된다 */
-  .procPick{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;}
+  .procPick{display:flex;gap:12px 8px;flex-wrap:wrap;margin:0 0 14px;}
   .procPick button{
-    display:inline-flex;align-items:center;gap:8px;min-height:48px;background:var(--card);
-    border:1px solid var(--line);border-radius:18px;padding:0 16px;
+    position:relative;flex:1 1 96px;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    min-height:36px;text-align:center;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:0 12px;
     font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
   .procPick button .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;background:var(--kwc,var(--ink-mut));}
   html[data-theme="dark"] .procPick button .dot{background:var(--kw-d,var(--kwc,var(--ink-mut)));}
+  /* 보이는 높이 36px, 누르는 영역은 상하 6px 씩 넓혀 48px 유지 (행 간격 12px 라 겹침 없음) */
+  .procPick button::before{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px;}
   .procPick button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);}
   /* 선택한 절차가 단계 목록에서도 보이게 — 해당 지시문 단계의 번호를 채움 */
   .steps li.selProc .stepN{background:var(--accent);color:var(--card);}
@@ -4089,7 +4092,7 @@ async function precacheAll(){
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
          setL("저장 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v196";
+var C_VER="v197";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
