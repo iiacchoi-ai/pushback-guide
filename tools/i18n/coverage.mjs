@@ -138,17 +138,41 @@ const DT = /data-t(?:-alt|-aria)?="([^"]+)"/g;
 while ((m = DT.exec(markup))) if (!(unesc(m[1]) in UI_EN)) missing.push(m[1]);
 // 데이터 구간의 한글 문자열 리터럴(구역명, 예시 절차, 애니메이션 단계 txt 등)도 사전에 있어야 한다
 for (const lit of scanLiterals(dataBlocks)) if (KO.test(lit.text) && !(unesc(lit.text) in UI_EN)) missing.push(lit.text);
+// gates.js 의 주의사항(CAUTIONS)은 index.html 에서 t() 로 감싸 그리므로 값이 모두 UI_EN 키여야 한다
+const CAUTIONS = loadGlobal(path.join(ROOT, "gates.js"), "CAUTIONS");
+for (const v of Object.values(CAUTIONS)) for (const c of [].concat(v)) if (!(String(c) in UI_EN)) missing.push(String(c));
 
 // ── 2·3. 절차 사전 ───────────────────────────────────────
 const { hbHash } = require("../../i18n/i18n.js");
 const HANDBOOK = loadGlobal(path.join(ROOT, "gates.js"), "HANDBOOK");
 const HB_EN = loadGlobal(path.join(ROOT, "i18n/handbook.en.js"), "HB_EN");
-const stale = [], absent = [], review = [];
+// AIP 문장만 옮겨 온 항목이 핸드북의 "* …" 보충 문구를 흘리지 않았는지 함께 본다
+//  - noteDropped: 한글에 "*" 가 있는데 src 가 "aip" (AIP 문장 그대로라 보충 문구가 빠져 있다)
+//  - noteMissing: 한글에 "*" 가 있고 src 가 "aip+tr" 인데 en 이 그 주기장 AIP 행의 proc 과 완전히 같다
+//                 (= 보충 문구가 아직 안 붙었다). 한글에 "*" 가 없는 aip+tr 항목(259:3·260:3 처럼
+//                 phraseology 가 자동 매칭되지 않아 사람이 같은 주기장 AIP 후보를 그대로 고른 경우)은
+//                 보충할 내용 자체가 없으므로 대상이 아니다. src 를 "aip" 로 되돌리면 match.mjs 가
+//                 재생성 대상으로 보고 매칭이 안 될 때 항목을 지워 버리므로 aip+tr 로 둔다
+const aipProcByStand = new Map();
+{
+  const { rows } = JSON.parse(fs.readFileSync(path.join(ROOT, "tools/i18n/aip-rows.json"), "utf8"));
+  for (const r of rows) for (const st of r.stands) {
+    if (!aipProcByStand.has(st)) aipProcByStand.set(st, new Set());
+    aipProcByStand.get(st).add(r.proc);
+  }
+}
+const isAipProc = (gid, en) => {
+  const bare = gid.replace(/[LR]$/, "");
+  return (aipProcByStand.get(gid) || new Set()).has(en) || (aipProcByStand.get(bare) || new Set()).has(en);
+};
+const stale = [], absent = [], review = [], noteDropped = [], noteMissing = [];
 for (const gid of Object.keys(HANDBOOK)) HANDBOOK[gid].forEach((p, i) => {
-  const k = gid + ":" + i, e = HB_EN[k];
+  const k = gid + ":" + i, e = HB_EN[k], ko = String(p[1] || "");
   if (!e) { absent.push(k); return; }
-  if (e.hash !== hbHash(String(p[1] || ""))) stale.push(k);
+  if (e.hash !== hbHash(ko)) stale.push(k);
   if (e.status !== "ok") review.push(k);
+  if (e.src === "aip" && ko.includes("*")) noteDropped.push(k);
+  if (e.src === "aip+tr" && ko.includes("*") && isAipProc(gid, String(e.en || ""))) noteMissing.push(k);
 });
 
 // ── 4. SVG 라벨 ─────────────────────────────────────────
@@ -164,7 +188,10 @@ section("감싸지 않은 한글 문구", unwrapped);
 section("사전 미등록 키", [...new Set(missing)]);
 section("절차 사전 없음", absent);
 section("절차 해시 불일치", stale);
+section("주의 문구 누락(src aip)", noteDropped);
+section("주의 문구 보충 안 됨(src aip+tr)", noteMissing);
 section("절차 미검수", review);
 section("SVG 한글 라벨", svgKo);
-const fail = unwrapped.length || missing.length || absent.length || stale.length || svgKo.length || (!args.has("--no-status") && review.length);
+const fail = unwrapped.length || missing.length || absent.length || stale.length || noteDropped.length || noteMissing.length
+  || svgKo.length || (!args.has("--no-status") && review.length);
 process.exit(fail ? 1 : 0);

@@ -49,7 +49,11 @@ export function applySheet(handbook, prev, sheet) {
 
 if (process.argv[1] && /sheet-import\.mjs$/.test(process.argv[1])) {
   const [file, flag] = process.argv.slice(2);
+  // CLI 오류는 스택 없이 한 줄 안내로만 알린다
+  if (!file) { console.error("사용: node tools/i18n/sheet-import.mjs <in.csv> [--ui]"); process.exit(1); }
+  if (!fs.existsSync(file)) { console.error(`CSV 파일을 찾을 수 없습니다: ${file}`); process.exit(1); }
   const sheet = fromCsv(fs.readFileSync(file, "utf8"));
+  if (!sheet.length || !("key" in sheet[0])) { console.error(`CSV 에 key 열이 없습니다: ${file}`); process.exit(1); }
   if (flag === "--ui") {
     const UI = loadGlobal(path.join(ROOT, "i18n/ui.en.js"), "UI_EN");
     let n = 0; for (const r of sheet) if (r.key in UI && String(r.en || "").trim()) { UI[r.key] = r.en; n++; }
