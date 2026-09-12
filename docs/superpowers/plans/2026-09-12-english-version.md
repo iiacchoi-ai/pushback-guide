@@ -18,7 +18,7 @@
 - 안전 고지 문구("작업자 단말 위치이며 항공기 위치가 아닙니다", "(시범)")는 삭제·완화 없이 영문에서도 같은 의미로 유지한다.
 - 영문 라벨에 instruction / control 표현을 쓰지 않는다. AIP 직접 인용은 예외. "관제 지시별 후방견인 절차" 는 "Pushback procedures by phraseology" (spec 6절).
 - `gates.js`, `주기장별절차/`, `img/` 는 이 작업에서 변경하지 않는다. `git diff --stat` 으로 확인한다.
-- 배포 시 `index.html` 의 `C_VER`(현재 `"v195"`) 과 `sw.js` 의 `C`(현재 `"pushback-v195"`) 를 같은 번호로 함께 올린다.
+- 배포 시 `index.html` 의 `C_VER` 과 `sw.js` 의 `C`(`pushback-vNNN`) 를 같은 번호로 함께 올린다. 번호는 병합 직전 main 에서 읽는다 (`grep -n "C_VER=\|const C=" index.html sw.js`). 이 계획 작성 시점의 main 은 v199.
 - 이용집계(`#stats`, 관리자 전용)와 기준점 측정 모드(관리자 전용) 문구는 번역 대상에서 제외한다. 코드에 `/* i18n-skip-start */` … `/* i18n-skip-end */` 표식을 두어 커버리지 검사에서 뺀다.
 - 한글이 든 데이터 블록(ZONE_GATES, FILLED, PATH_ANIM 등)은 `/* i18n-data-start */` … `/* i18n-data-end */` 로 감싼다. 안의 한글 문자열은 렌더 시점에 `t()` 로 감싸고, 커버리지 검사는 그 문자열이 모두 `UI_EN` 키인지 확인한다.
 - 헤드리스 Edge 경로: `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`. 로컬 서버는 `serve.ps1 -NoBrowser` (포트 8765). Edge 는 반드시 `--user-data-dir` 를 지정한다 (`tools/review/check.ps1` 참고).
@@ -1497,7 +1497,7 @@ Expected: 종료코드 0 (미검수 0건 포함). 미검수가 남으면 목록�
 
 - [ ] **Step 2: 버전 상향**
 
-`index.html` `var C_VER="v195";` → 다음 번호(예: `"v196"`, main 의 현재 값을 확인해 +1). `sw.js` `const C="pushback-v195";` → 같은 번호.
+main 의 현재 값을 읽어 +1 한다 (`git show main:index.html | grep -n "C_VER="`). `index.html` `var C_VER="vNNN";` 과 `sw.js` `const C="pushback-vNNN";` 을 같은 번호로. 병합 커밋 메시지의 `(vNNN)` 도 이 번호.
 
 - [ ] **Step 3: CLAUDE.md 갱신** — "프로젝트 개요" 에 한 줄 추가:
 
@@ -1517,7 +1517,7 @@ Expected: 종료코드 0 (미검수 0건 포함). 미검수가 남으면 목록�
 ```bash
 git add i18n/ index.html sw.js CLAUDE.md docs/superpowers/reviews/raw/
 git commit -m "영문판: 검수 반영·버전 상향"
-git checkout main && git merge --no-ff feature/english -m "영문판: 헤더 KO/ENG 전환·AIP 기반 절차 영문·UI 사전 (v196)"
+git checkout main && git merge --no-ff feature/english -m "영문판: 헤더 KO/ENG 전환·AIP 기반 절차 영문·UI 사전 (vNNN)"
 git push origin main
 ```
 
