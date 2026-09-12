@@ -1,0 +1,1896 @@
+[
+ {
+  "key": "6:1",
+  "gid": "6",
+  "title": "Pushback Approved to Face South abeam Gate No",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인하여 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face south along taxilane R1 until the specific gate position."
+  ]
+ },
+ {
+  "key": "7:0",
+  "gid": "7",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1에 위치하도록 푸쉬백한다. * 주기장 7번에서 기수가 북쪽으로 후방견인시 A4 유도로 이동항공기에 지장이 없도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face south along taxilane R1 until the specific gate position.",
+   "The aircraft shall be pushed back onto the stand 825 on taxilane R5 to face south."
+  ]
+ },
+ {
+  "key": "7:1",
+  "gid": "7",
+  "title": "Pushback Approved to Face South/North abeam Gate No",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face south along taxilane R1 until the specific gate position.",
+   "The aircraft shall be pushed back onto the stand 825 on taxilane R5 to face south."
+  ]
+ },
+ {
+  "key": "8:0",
+  "gid": "8",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south.",
+   "The aircraft shall be pushed back to face north along taxilane R1 until the specific gate position.",
+   "The aircraft shall be pushed back onto the stand 825 on taxilane R5 to face south."
+  ]
+ },
+ {
+  "key": "8:1",
+  "gid": "8",
+  "title": "Pushback Approved to Face South/North abeam Gate No",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다. * 주기장 8번에서 abeam Gate 7 지시받은 경우 A4 유도로 개방",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south.",
+   "The aircraft shall be pushed back to face north along taxilane R1 until the specific gate position.",
+   "The aircraft shall be pushed back onto the stand 825 on taxilane R5 to face south."
+  ]
+ },
+ {
+  "key": "18:2",
+  "gid": "18",
+  "title": "Pushback Approved to Face North on R1 abeam Gate No",
+  "ko": "항공기 기수방향이 북쪽을 향하게 지시 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west.",
+   "The aircraft shall be pushed back to face north along taxilane R1 until the specific gate position."
+  ]
+ },
+ {
+  "key": "19:2",
+  "gid": "19",
+  "title": "Pushback Approved to Face North on R1 abeam Gate No",
+  "ko": "항공기 기수방향이 북쪽을 향하게 지시 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west.",
+   "The aircraft shall be pushed back to face north along taxilane R1 until the specific gate position.",
+   "The aircraft shall be pushed back to face north along taxilane R2 until its nosewheel is at spot 2."
+  ]
+ },
+ {
+  "key": "21:2",
+  "gid": "21",
+  "title": "Pushback Approved to Face East/West on R7",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R7 유도선에 위치하도록 푸쉬백한다. *R2 유도선을 개방",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R2.",
+   "The aircraft shall be pushed back to face north until its body is on taxilane R2.",
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west."
+  ]
+ },
+ {
+  "key": "23:2",
+  "gid": "23",
+  "title": "Pushback Approved to Face South on R2 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R2 유도선에 위치하도록 푸쉬백한다. * Point 3 푸쉬백 항공기와 주변 항공기를 고려하여, 관제사의 지시에 따라 길게 또는 짧게 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 2.",
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face south along taxilane R2 until the specific gate number."
+  ]
+ },
+ {
+  "key": "24:2",
+  "gid": "24",
+  "title": "Pushback Approved to Face South on R2 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R2 유도선에 위치하도록 푸쉬백한다. * Point 3 푸쉬백 항공기와 주변 항공기를 고려하여, 관제사의 지시에 따라 길게 또는 짧게 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 2.",
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face south along taxilane R2 until the specific gate number."
+  ]
+ },
+ {
+  "key": "26:2",
+  "gid": "26",
+  "title": "Pushback Approved to Face South on R2 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R2 유도선에 위치하도록 푸쉬백한다. * Point 3 푸쉬백 항공기와 주변 항공기를 고려하여, 관제사의 지시에 따라 길게 또는 짧게 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 2.",
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face south along taxilane R2 until the specific gate number."
+  ]
+ },
+ {
+  "key": "27:3",
+  "gid": "27",
+  "title": "Pushback Approved to Face South on R2/R3 abeam Gate No",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R2/R3 유도선에 위치하도록 푸쉬백한다. * Point3 푸쉬백 항공기와 주변 항공기를 고려하여, 관제사의 지시에 따라 길게 또는 짧게 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 2.",
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 4.",
+   "The aircraft shall be pushed back to face south along taxilane R2 until the specific gate number.",
+   "The aircraft shall be pushed back to face south along taxilane R3 until the specific gate number."
+  ]
+ },
+ {
+  "key": "28:2",
+  "gid": "28",
+  "title": "Pushback Approved to Face South on R3 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R3 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 4.",
+   "The aircraft shall be pushed back to face south along taxilane R3 until the specific gate number."
+  ]
+ },
+ {
+  "key": "30:2",
+  "gid": "30",
+  "title": "Pushback Approved to Face South on R3 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R3 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 4.",
+   "The aircraft shall be pushed back to face south along taxilane R3 until the specific gate number."
+  ]
+ },
+ {
+  "key": "31:2",
+  "gid": "31",
+  "title": "Pushback Approved to Face South on R3 (abeam Gate No.)",
+  "ko": "항공기를 후방견인한 후 기수방향을 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R3 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at spot 3.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 4.",
+   "The aircraft shall be pushed back to face south along taxilane R3 until the specific gate number."
+  ]
+ },
+ {
+  "key": "33:2",
+  "gid": "33",
+  "title": "Pushback Approved to Face East / West on R7",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R7 유도선에 위치하도록 푸쉬백한다. * R3 유도선 개방",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R3.",
+   "The aircraft shall be pushed back to face north until its body is on taxilane R3.",
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west."
+  ]
+ },
+ {
+  "key": "35:3",
+  "gid": "35",
+  "title": "Pushback Approved to Face North on R4 abeam Gate No",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west.",
+   "The aircraft shall be pushed back to face north along taxilane R3 until its nosewheel is at spot 4.",
+   "The aircraft shall be pushed back to face north along taxilane R4 until the specific gate position."
+  ]
+ },
+ {
+  "key": "36:2",
+  "gid": "36",
+  "title": "Pushback Approved to Face North on R4 abeam Gate No",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R7 to face east.",
+   "The aircraft shall be pushed back onto taxilane R7 to face west.",
+   "The aircraft shall be pushed back to face north along taxilane R4 until the specific gate position."
+  ]
+ },
+ {
+  "key": "43:0",
+  "gid": "43",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다. * 주기장 42,43은 항공기 후면 후류 영향이 없도록 Nose Gear가 40번 주기장 뒤에 위치하도록 푸쉬백",
+  "candidates": []
+ },
+ {
+  "key": "43:1",
+  "gid": "43",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": []
+ },
+ {
+  "key": "45:0",
+  "gid": "45",
+  "title": "Pushback Approved to Face South/North (abeam Gate No.)",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다. * 주기장 45번은 항공기 후면 후류 영향이 없도록 Blue Line을 따라 푸쉬백 * “Abeam Gate 47”라는 지시를 추가로 받을 경우, M5 유도로 사용이 가능하도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back to face south along blue line until its nosewheel is at R4.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back onto taxilane R6 to face south."
+  ]
+ },
+ {
+  "key": "46:0",
+  "gid": "46",
+  "title": "Pushback Approved to Face South/North (abeam Gate No.)",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다. * “Abeam Gate 47”라는 지시를 추가로 받을 경우, M5 유도로 사용이 가능하도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back onto taxilane R6 to face south."
+  ]
+ },
+ {
+  "key": "47:2",
+  "gid": "47",
+  "title": "Pushback Approved to Face South abeam Gate No",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face south along taxilane R4 until the specific gate position.",
+   "The aircraft shall be pushed back to face south along taxilane R6."
+  ]
+ },
+ {
+  "key": "48:2",
+  "gid": "48",
+  "title": "Pushback Approved to Face South abeam Gate No",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 지시된 주기장의 진입중심선까지 후방견인 하여 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face south along taxilane R4 until the specific gate position.",
+   "The aircraft shall be pushed back to face south along taxilane R6."
+  ]
+ },
+ {
+  "key": "101:1",
+  "gid": "101",
+  "title": "Pushback",
+  "ko": "하는 절차가 사용 될 수 있다. 이때 R1유도로가 개방될 수 있도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "219:0",
+  "gid": "219",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "220:0",
+  "gid": "220",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "221:0",
+  "gid": "221",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "222:0",
+  "gid": "222",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "224:0",
+  "gid": "224",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 51."
+  ]
+ },
+ {
+  "key": "225:0",
+  "gid": "225",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "231:0",
+  "gid": "231",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "232:0",
+  "gid": "232",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "233:0",
+  "gid": "233",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다. * 233, 234 주기장 후방견인시 R4 횡단 GSE도로를 개방하여 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "234:0",
+  "gid": "234",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다. * 233, 234 주기장 후방견인시 R4 횡단 GSE도로를 개방하여 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "235:0",
+  "gid": "235",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "236:0",
+  "gid": "236",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "238:1",
+  "gid": "238",
+  "title": "Pushback Approved to Face East/West/South",
+  "ko": "항공기 기수방향이 동쪽/서쪽/남쪽을 향하게 후방견인하여 Nose Gear 및 동체가 R12/R4 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "238:2",
+  "gid": "238",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "239:1",
+  "gid": "239",
+  "title": "Pushback Approved to Face East/West/South",
+  "ko": "항공기 기수방향이 동쪽/서쪽/남쪽을 향하게 후방견인하여 Nose Gear 및 동체가 R12/R4 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "239:2",
+  "gid": "239",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "240:1",
+  "gid": "240",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 31(32)에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32).",
+   "The aircraft shall be pushed back onto taxilane R12 to face east."
+  ]
+ },
+ {
+  "key": "241:3",
+  "gid": "241",
+  "title": "Pushback Approved to Stand 816, Stand 817",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 주기장 816 또는 817 까지 후방견인하여 Nose Gear 및 동체가 해당 주기장의 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 32.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 31.",
+   "The aircraft shall be pushed back to face south until its body is on taxilane RC.",
+   "The aircraft shall be pushed back onto the stand 816 (or 817) to face west.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west."
+  ]
+ },
+ {
+  "key": "241:4",
+  "gid": "241",
+  "title": "Pushback Approved to Face East/West on R12",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R12 유도선에 위치 및 RC유도선을 개방하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 32.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 31.",
+   "The aircraft shall be pushed back to face south until its body is on taxilane RC.",
+   "The aircraft shall be pushed back onto the stand 816 (or 817) to face west.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west."
+  ]
+ },
+ {
+  "key": "242:0",
+  "gid": "242",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인 한 후, RC 유도선을 따라 견인하여 Nose Gear를 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 31 (or 32).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33.",
+   "The aircraft shall be pushed back onto the stand 817 (or 816) to face west.",
+   "The aircraft shall be pushed back onto taxilane RC to face north."
+  ]
+ },
+ {
+  "key": "242:3",
+  "gid": "242",
+  "title": "Pushback Approved to Stand 816, Stand 817",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 주기장 816 또는 817 까지 후방견인하여 Nose Gear 및 동체가 해당 주기장의 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 31 (or 32).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33.",
+   "The aircraft shall be pushed back onto the stand 817 (or 816) to face west.",
+   "The aircraft shall be pushed back onto taxilane RC to face north."
+  ]
+ },
+ {
+  "key": "243:0",
+  "gid": "243",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 후방견인 한 후, RC 유도선을 따라 견인하여 Nose Gear를 RC 유도선 상의 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north.",
+   "The aircraft shall be pushed back onto the stand 817 to face west."
+  ]
+ },
+ {
+  "key": "243:1",
+  "gid": "243",
+  "title": "Pushback Approved to Stand 817, Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 후방견인하여 Nose Gear를 주기장 817번 유도선, Point 33 또는 34에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north.",
+   "The aircraft shall be pushed back onto the stand 817 to face west."
+  ]
+ },
+ {
+  "key": "245:0",
+  "gid": "245",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 후방견인 한 후, RC 유도선을 따라 견인하여 Nose Gear를 RC 유도선 상의 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north.",
+   "The aircraft shall be pushed back onto the stand 817 to face west."
+  ]
+ },
+ {
+  "key": "245:1",
+  "gid": "245",
+  "title": "Pushback Approved to Stand 817, Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 후방견인하여 Nose Gear를 주기장 817번 유도선, Point 33 또는 34에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north.",
+   "The aircraft shall be pushed back onto the stand 817 to face west."
+  ]
+ },
+ {
+  "key": "246:0",
+  "gid": "246",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 후방견인 한 후, RC 유도선을 따라 견인하여 Nose Gear를 RC 유도선 상의 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north."
+  ]
+ },
+ {
+  "key": "246:1",
+  "gid": "246",
+  "title": "Pushback Approved to Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 후방견인하여 Nose Gear를 Point 33 또는 34에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC to face north."
+  ]
+ },
+ {
+  "key": "247:0",
+  "gid": "247",
+  "title": "Pushback Approved to Face West (on RF)",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 RC(지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "247:1",
+  "gid": "247",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 후방견인 한 후, RC 유도선을 따라 견인하여 Nose Gear를 RC 유도선 상의 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "247:2",
+  "gid": "247",
+  "title": "Pushback Approved to Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 후방견인하여 Nose Gear를 Point 33 또는 34에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "247:3",
+  "gid": "247",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RC 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 32 (or 31).",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "248:0",
+  "gid": "248",
+  "title": "Pushback Approved to Face West (on RF)",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 RC (지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "248:1",
+  "gid": "248",
+  "title": "Pushback Approved to Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 RC 또는 RF 유도선으로 후방견인 후 Nose Gear를 Point 33 또는 34에 정대시킨다",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "248:2",
+  "gid": "248",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RC 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "249:0",
+  "gid": "249",
+  "title": "Pushback Approved to Face West (on RF)",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 RC (지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "249:1",
+  "gid": "249",
+  "title": "Pushback Approved to Point 33, Point 34",
+  "ko": "항공기 기수방향이 서쪽을 향하도록 RC 또는 RF 유도선으로 후방견인 후 Nose Gear를 Point 33 또는 34에 정대시킨다",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "249:2",
+  "gid": "249",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RC 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face west.",
+   "The aircraft shall be pushed back to face west until its nosewheel is at spot 33 (or 34).",
+   "The aircraft shall be pushed back onto taxilane RC (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "250:0",
+  "gid": "250",
+  "title": "Pushback Approved to Face East/West (on RF)",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 RC/RA (지시 받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RC (or RF) to face east.",
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face west.",
+   "The aircraft shall be pushed back to face west and then towed forward until its nosewheel is at spot 34.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35.",
+   "The aircraft shall be pushed back onto taxilane RB to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "251:0",
+  "gid": "251",
+  "title": "Pushback Approved to Face East (on RF)",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RA(지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "251:1",
+  "gid": "251",
+  "title": "Pushback Approved to Point 35",
+  "ko": "항공기 기수방향이 동쪽을 향하도록 후방견인 한 후, RA 유도선을 따라 Nose Gear를 Point 35에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "251:2",
+  "gid": "251",
+  "title": "Pushback Approved to Point 36",
+  "ko": "RA를 직후방으로 통과하여 항공기 기수방향이 동쪽을 향하도록 RF 유도선으로 후방견인 한 후, RF 유도선을 따라 견인하여 Nose Gear를 Point 36에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "251:3",
+  "gid": "251",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RA 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "252:0",
+  "gid": "252",
+  "title": "Pushback Approved to Face East (on RF)",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RA(지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "252:1",
+  "gid": "252",
+  "title": "Pushback Approved to Point 35",
+  "ko": "항공기 기수방향이 동쪽을 향하도록 후방견인 한 후, RA 유도선을 따라 Nose Gear를 Point 35에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "252:2",
+  "gid": "252",
+  "title": "Pushback Approved to Point 36",
+  "ko": "RA를 직후방으로 통과하여 항공기 기수방향이 동쪽을 향하도록 RF 유도선으로 후방견인 한 후, RF 유도선을 따라 견인하여 Nose Gear를 Point 36에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "252:3",
+  "gid": "252",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RA 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east and then towed forward until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "253:0",
+  "gid": "253",
+  "title": "Pushback Approved to Face East (on RF)",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RA(지시받는 경우 RF) 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "253:1",
+  "gid": "253",
+  "title": "Pushback Approved to Point 35, Point 36",
+  "ko": "항공기 기수방향이 동쪽을 향하도록 후방견인하여 Nose Gear를 Point 35 또는 36에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "253:2",
+  "gid": "253",
+  "title": "Pushback Approved to Point 37, Point 38",
+  "ko": "항공기를 후방견인 한 후, RA 유도선을 따라 견인하여 Nose Gear를 RA 유도선 상의 Point 37 또는 38에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "253:3",
+  "gid": "253",
+  "title": "Pushback Approved to Face North",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 RA 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RA (or RF) to face east.",
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto taxilane RA (or RB) to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 39."
+  ]
+ },
+ {
+  "key": "254:0",
+  "gid": "254",
+  "title": "Pushback Approved to Point 35, Point 36",
+  "ko": "항공기 기수방향이 동쪽을 향하도록 후방견인하여 Nose Gear를 Point 35 또는 36에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37(or 38).",
+   "The aircraft shall be pushed back onto taxilane RA to face north."
+  ]
+ },
+ {
+  "key": "254:1",
+  "gid": "254",
+  "title": "Pushback Approved to Point 37, Point 38",
+  "ko": "항공기를 후방견인 한 후, RA 유도선을 따라 견인하여 Nose Gear를 RA 유도선 상의 Point 37 또는 38에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37(or 38).",
+   "The aircraft shall be pushed back onto taxilane RA to face north."
+  ]
+ },
+ {
+  "key": "255:0",
+  "gid": "255",
+  "title": "Pushback Approved to Point 35, Point 36",
+  "ko": "항공기 기수방향이 동쪽을 향하도록 후방견인하여 Nose Gear를 Point 35 또는 36에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37(or 38).",
+   "The aircraft shall be pushed back onto taxilane RA to face north.",
+   "The aircraft shall be pushed back onto the stand 815 to face east."
+  ]
+ },
+ {
+  "key": "255:1",
+  "gid": "255",
+  "title": "Pushback Approved to Point 37, Point 38",
+  "ko": "항공기를 후방견인 한 후, RA 유도선을 따라 견인하여 Nose Gear를 RA 유도선 상의 Point 37 또는 38에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 35 (or 36).",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37(or 38).",
+   "The aircraft shall be pushed back onto taxilane RA to face north.",
+   "The aircraft shall be pushed back onto the stand 815 to face east."
+  ]
+ },
+ {
+  "key": "256:1",
+  "gid": "256",
+  "title": "Pushback Approved to Point 37, Point 38",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인 한 후, RA 유도선을 따라 견인하여 Nose Gear를 Point 37 또는 38에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 36.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto the stand 815 (or 814) to face east.",
+   "The aircraft shall be pushed back onto taxilane RA to face north."
+  ]
+ },
+ {
+  "key": "256:2",
+  "gid": "256",
+  "title": "Pushback Approved to Stand 814, Stand 815",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 주기장 814 또는 815 까지 후방견인하여 Nose Gear 및 동체가 해당 주기장의 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face east until its nosewheel is at spot 36.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 37 (or 38).",
+   "The aircraft shall be pushed back onto the stand 815 (or 814) to face east.",
+   "The aircraft shall be pushed back onto taxilane RA to face north."
+  ]
+ },
+ {
+  "key": "257:3",
+  "gid": "257",
+  "title": "Pushback Approved to Stand 814, Stand 815",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 주기장 814 또는 815 까지 후방견인하여 Nose Gear 및 동체가 해당 주기장의 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 37.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 38.",
+   "The aircraft shall be pushed back to face south until its body is on taxilane RA.",
+   "The aircraft shall be pushed back onto the stand 814 (or 815) to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west."
+  ]
+ },
+ {
+  "key": "257:4",
+  "gid": "257",
+  "title": "Pushback Approved to Face East/West on R12",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R12 유도선에 위치 및 RA유도선을 개방하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 37.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 38.",
+   "The aircraft shall be pushed back to face south until its body is on taxilane RA.",
+   "The aircraft shall be pushed back onto the stand 814 (or 815) to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west."
+  ]
+ },
+ {
+  "key": "258:1",
+  "gid": "258",
+  "title": "Pushback Approved to Point 38, Point 37",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 38(37)에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R12 to face west."
+  ]
+ },
+ {
+  "key": "259:1",
+  "gid": "259",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 후방견인하여 Nose Gear 및 동체가 R12 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "259:2",
+  "gid": "259",
+  "title": "Pushback Approved to Point 38, Point 37",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 38 또는 37에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "259:3",
+  "gid": "259",
+  "title": "Pushback Approved to Face South on R1",
+  "ko": "항공기 기수방향이 남쪽을 향하게 후방견인하여, Nose Gear 및 동체가 R1 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "260:1",
+  "gid": "260",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 후방견인하여 Nose Gear 및 동체가 R12 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "260:2",
+  "gid": "260",
+  "title": "Pushback Approved to Point 38, Point 37",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 38 또는 37에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "260:3",
+  "gid": "260",
+  "title": "Pushback Approved to Face South on R1",
+  "ko": "항공기 기수방향이 남쪽을 향하게 후방견인하여, Nose Gear 및 동체가 R1 유도선에 위치하도록 한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face north along blue line until its nosewheel is at R12.",
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37).",
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "262:0",
+  "gid": "262",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "263:0",
+  "gid": "263",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "264:0",
+  "gid": "264",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다. * 264, 265 주기장 후방견인시 R1 횡단GSE도로를 개방하여 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "265:0",
+  "gid": "265",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다. * 264, 265 주기장 후방견인시 R1 횡단GSE도로를 개방하여 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "266:0",
+  "gid": "266",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "267:0",
+  "gid": "267",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "268:0",
+  "gid": "268",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "275:0",
+  "gid": "275",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 58."
+  ]
+ },
+ {
+  "key": "276:0",
+  "gid": "276",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "277:0",
+  "gid": "277",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "278:0",
+  "gid": "278",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "279:0",
+  "gid": "279",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north."
+  ]
+ },
+ {
+  "key": "302:0",
+  "gid": "302",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "303:0",
+  "gid": "303",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "304:0",
+  "gid": "304",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "305:0",
+  "gid": "305",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "306:0",
+  "gid": "306",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "307:0",
+  "gid": "307",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "308:0",
+  "gid": "308",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "309:0",
+  "gid": "309",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "310:0",
+  "gid": "310",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "311:0",
+  "gid": "311",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 R10 유도선에 위치하도록 푸쉬백한다. * 311번 주기장에서 푸쉬백 시 R4가 개방되도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R10 to face west."
+  ]
+ },
+ {
+  "key": "322:0",
+  "gid": "322",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "323:0",
+  "gid": "323",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "324:0",
+  "gid": "324",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "325:0",
+  "gid": "325",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "326:0",
+  "gid": "326",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "327:0",
+  "gid": "327",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "328:0",
+  "gid": "328",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "329:0",
+  "gid": "329",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "330:0",
+  "gid": "330",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "331:0",
+  "gid": "331",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다. * 331번 주기장에서 푸쉬백 시 R4가 개방되도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "342:0",
+  "gid": "342",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "343:0",
+  "gid": "343",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "344:0",
+  "gid": "344",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "345:0",
+  "gid": "345",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "346:0",
+  "gid": "346",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "347:0",
+  "gid": "347",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "348:0",
+  "gid": "348",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "349:0",
+  "gid": "349",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "350:0",
+  "gid": "350",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "351:0",
+  "gid": "351",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "352:0",
+  "gid": "352",
+  "title": "Pushback Approved to Face East",
+  "ko": "항공기 기수방향이 동쪽을 향하게 하고 Nose Gear 및 동체가 RG 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane RG to face west."
+  ]
+ },
+ {
+  "key": "501:0",
+  "gid": "501",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 58."
+  ]
+ },
+ {
+  "key": "501:2",
+  "gid": "501",
+  "title": "Pushback Approved to Face Point 58",
+  "ko": "항공기를 후방견인한후 기수방향을 북쪽으로 향하게 하고 R1유도선을 따라 견인하여 Nose Gear를 Point 58에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 58."
+  ]
+ },
+ {
+  "key": "506:2",
+  "gid": "506",
+  "title": "Pushback Approved to Face Point 56",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 R1유도선을 따라 견인하여 Nose Gear를 Point 56에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south.",
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 56."
+  ]
+ },
+ {
+  "key": "507:1",
+  "gid": "507",
+  "title": "Pushback Approved to Face Point 57",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R1유도선을 따라 견인하여 Nose Gear를 Point 57에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face north.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 57.",
+   "The aircraft shall be pushed back onto taxilane RE to face east."
+  ]
+ },
+ {
+  "key": "511:0",
+  "gid": "511",
+  "title": "Pushback Approved to Face South",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 51."
+  ]
+ },
+ {
+  "key": "511:2",
+  "gid": "511",
+  "title": "Pushback Approved to Face Point 51",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 R4유도선을 따라 견인하여 Nose Gear를 Point 51에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 51."
+  ]
+ },
+ {
+  "key": "516:2",
+  "gid": "516",
+  "title": "Pushback Approved to Face Point 53",
+  "ko": "항공기 기수방향이 북쪽을 향하게 하고 Nose Gear 및 동체가 R4유도선을 따라 견인하여 Nose Gear를 Point 53에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face north and then towed forward until its nosewheel is at spot 53."
+  ]
+ },
+ {
+  "key": "517:1",
+  "gid": "517",
+  "title": "Pushback Approved to Face Point 52",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선을 따라 견인하여 Nose Gear를 Point 52에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north.",
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 52.",
+   "The aircraft shall be pushed back onto taxilane RW to face west."
+  ]
+ },
+ {
+  "key": "541:0",
+  "gid": "541",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "542:0",
+  "gid": "542",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "543:0",
+  "gid": "543",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "544:0",
+  "gid": "544",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "544:1",
+  "gid": "544",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M18 유도선에 위치하도록 푸쉬백한다. * A380 WEST 불가",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "545:1",
+  "gid": "545",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M19 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 43.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "546:1",
+  "gid": "546",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M19 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "547:1",
+  "gid": "547",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M19 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 43.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "551:0",
+  "gid": "551",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "552:0",
+  "gid": "552",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "553:0",
+  "gid": "553",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "554:0",
+  "gid": "554",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "554:1",
+  "gid": "554",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M18 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "557:1",
+  "gid": "557",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M19 유도선에 위치하도록 푸쉬백한다. * A380 WEST 불가",
+  "candidates": [
+   "The aircraft shall be pushed back to face south and then towed forward until its nosewheel is at spot 43.",
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "558:1",
+  "gid": "558",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 M19 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "558:2",
+  "gid": "558",
+  "title": "MRO 이동절차",
+  "ko": "항공기를 MRO 지역으로 이동시키는 견인 절차로, 관제 지시에 따라 견인한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face north."
+  ]
+ },
+ {
+  "key": "641:0",
+  "gid": "641",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "642:0",
+  "gid": "642",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "643:0",
+  "gid": "643",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "644:0",
+  "gid": "644",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "645:0",
+  "gid": "645",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "646:0",
+  "gid": "646",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "647:0",
+  "gid": "647",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "648:0",
+  "gid": "648",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "649:0",
+  "gid": "649",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "650:0",
+  "gid": "650",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "651:0",
+  "gid": "651",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "652:0",
+  "gid": "652",
+  "title": "Pushback Approved",
+  "ko": "항공기 기수방향이 서쪽을 향하게 하고 Nose Gear 및 동체가 D9 유도선에 위치하도록 푸쉬백 한다.",
+  "candidates": []
+ },
+ {
+  "key": "214R:1",
+  "gid": "214R",
+  "title": "Pushback Approved to Point 52",
+  "ko": "항공기 기수방향이 남쪽을 향하게 하고 R4유도선을 따라 견인하여 Nose Gear를 Point 52에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R17 to face west.",
+   "The aircraft shall be pushed back onto taxilane R4 until clear of R17 to face south."
+  ]
+ },
+ {
+  "key": "231R:0",
+  "gid": "231R",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south."
+  ]
+ },
+ {
+  "key": "232R:0",
+  "gid": "232R",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south."
+  ]
+ },
+ {
+  "key": "239R:0",
+  "gid": "239R",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R12 유도선에 위치하도록 푸쉬백한다. * Face West 후방견인 시 RC 유도선을 개방하여 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "239R:1",
+  "gid": "239R",
+  "title": "Pushback Approved to Point 31, Point 32",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 31 또는 32에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 31 (or 32)."
+  ]
+ },
+ {
+  "key": "258R:0",
+  "gid": "258R",
+  "title": "Pushback Approved to Face East/West",
+  "ko": "항공기 기수방향이 동쪽/서쪽을 향하게 하고 Nose Gear 및 동체가 R12 유도선에 위치하도록 푸쉬백한다. * Face East 후방견인 시 RA 유도선을 개방하도록 푸쉬백",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37)."
+  ]
+ },
+ {
+  "key": "258R:1",
+  "gid": "258R",
+  "title": "Pushback Approved to Point 38, Point 37",
+  "ko": "항공기 기수방향이 남쪽을 향하도록 후방견인하여 Nose Gear를 Point 38 또는 37에 정대시킨다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R12 to face east.",
+   "The aircraft shall be pushed back onto taxilane R12 to face west.",
+   "The aircraft shall be pushed back to face south until its nosewheel is at spot 38 (or 37)."
+  ]
+ },
+ {
+  "key": "231L:0",
+  "gid": "231L",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south."
+  ]
+ },
+ {
+  "key": "232L:0",
+  "gid": "232L",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R4 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R4 to face south."
+  ]
+ },
+ {
+  "key": "266L:0",
+  "gid": "266L",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "266R:0",
+  "gid": "266R",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "267L:0",
+  "gid": "267L",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "267R:0",
+  "gid": "267R",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "268L:0",
+  "gid": "268L",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ },
+ {
+  "key": "268R:0",
+  "gid": "268R",
+  "title": "Pushback Approved to Face South/North",
+  "ko": "항공기 기수방향이 남쪽/북쪽을 향하게 하고 Nose Gear 및 동체가 R1 유도선에 위치하도록 푸쉬백한다.",
+  "candidates": [
+   "The aircraft shall be pushed back onto taxilane R1 to face south."
+  ]
+ }
+]
