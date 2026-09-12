@@ -20,6 +20,7 @@
     --badge:#17191d; --badge-text:#ffffff;
     --amber-t:#8a5a00; --amber-bg:#fbf3e2; --amber-bd:#ecd9a8;
     --red-t:#b42318; --red-bg:#fdf0ef; --red-bd:#f3d2ce; --red-body:#7a2620;
+    --red-glow:rgba(180,35,24,.34);   /* 2차 수정(P0-01): 경보 배너 외곽 글로우 — red 계열 파생 */
     --shadow:0 1px 2px rgba(20,24,32,.05), 0 4px 14px rgba(20,24,32,.05);
     --radius:18px;
     --safe-top:env(safe-area-inset-top,0px);
@@ -32,7 +33,8 @@
     --btn-bg:#e9ecef; --btn-text:#16181c;
     --badge:#2a2e35; --badge-text:#e9ecef;
     --amber-t:#e2b25c; --amber-bg:#2a2418; --amber-bd:#54462a;
-    --red-t:#f08a80; --red-bg:#2c1a18; --red-bd:#553029; --red-body:#e0a9a2;
+    --red-t:#f08a80; --red-bg:#281614; --red-bd:#553029; --red-body:#e0a9a2;   /* 2차 검토 반영: 경보 배너 대비 6.82:1 -> 7.12:1 */
+    --red-glow:rgba(240,138,128,.42);
     --shadow:none;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -85,7 +87,8 @@
   .gpsBtn.on{background:#0a7d4f;color:#fff;box-shadow:0 0 0 3px rgba(10,125,79,.18);}
   .gpsBtn.on svg{animation:gpsPulse 1.6s ease-in-out infinite;}
   @keyframes gpsPulse{0%,100%{opacity:1}50%{opacity:.35}}
-  #gpsStatus{font-size:12px;color:var(--ink-mut);text-align:center;margin-top:8px;line-height:1.5;}
+  /* 2차 수정(P1-01): 상태·빈 상태·라벨 문구를 --ink-sub 로 승격 (--ink-mut 은 장식 전용) */
+  #gpsStatus{font-size:12px;color:var(--ink-sub);text-align:center;margin-top:8px;line-height:1.5;}
   #gpsBanner{
     display:none;background:var(--accent-soft);border:1px solid var(--accent-border);
     border-radius:var(--radius);padding:14px 16px;margin-top:10px;
@@ -107,7 +110,7 @@
     padding:14px;text-align:center;font-size:28px;font-weight:800;letter-spacing:.14em;
     color:var(--ink);margin-top:14px;min-height:62px;display:flex;align-items:center;justify-content:center;
   }
-  .numDisp.empty{color:var(--ink-mut);font-size:15px;font-weight:500;letter-spacing:0;}
+  .numDisp.empty{color:var(--ink-sub);font-size:15px;font-weight:500;letter-spacing:0;}
   .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px;}
   .key{
     background:var(--card);border:none;border-radius:16px;box-shadow:var(--shadow);
@@ -117,7 +120,7 @@
   .key:active{transform:scale(.95);}
   .key.alt{color:var(--amber-t);}
   .key.del{color:var(--ink-mut);font-size:18px;}
-  .subT{font-size:12px;font-weight:600;color:var(--ink-mut);margin:16px 2px 8px;}
+  .subT{font-size:12px;font-weight:600;color:var(--ink-sub);margin:16px 2px 8px;}
   .matchRow{display:flex;flex-wrap:wrap;gap:8px;}
   .mchip{
     background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);
@@ -148,7 +151,21 @@
   }
   .chip:active{transform:scale(.95);}
   .chip.special{background:var(--amber-bg);color:var(--amber-t);}
-  .noresult{text-align:center;color:var(--ink-mut);font-size:14px;padding:36px 0;}
+  .noresult{text-align:center;color:var(--ink-sub);font-size:14px;padding:36px 0;}
+  /* 2차 수정(P1-01): 실패 문구는 회색 캡션에서 분리해 amber 배너로 — 기존 surveyBar 계열과 같은 토큰 */
+  .failBox{
+    background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:12px;
+    padding:16px;color:var(--amber-t);font-size:13.5px;font-weight:600;line-height:1.7;text-align:center;
+  }
+  .failBox b{font-weight:800;}
+  /* 2차 수정(P0-01·P1-03): 배너 안 동작 버튼 공통형 — 경보 배너의 [소리·진동 끄기] 와
+     도면 실패 배너의 [다시 시도] 가 같은 역할이라 한 스타일로 통일. 색은 배너색을 물려받는다 */
+  .barBtn{
+    min-height:48px;padding:0 16px;background:var(--card);border:1px solid currentColor;
+    border-radius:12px;color:inherit;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .barBtn:active{transform:scale(.97);}
+  .failBox .barBtn{margin-top:12px;}
   #detail{display:none;animation:slidein .18s ease-out;}
   @keyframes slidein{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:none;}}
   .navBar{
@@ -160,19 +177,23 @@
   .navBar.stuck{border-bottom-color:var(--line);box-shadow:0 4px 12px rgba(20,24,32,.06);}
   html[data-theme="dark"] .navBar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.35);}
   .back{
-    display:inline-flex;align-items:center;gap:7px;
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;
     background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;
     color:var(--ink);font-size:16px;font-weight:700;font-family:inherit;
     padding:12px 18px;cursor:pointer;transition:transform .1s;
   }
   .back:active{transform:scale(.95);}
   .back svg{width:19px;height:19px;}
-  .navArrows{display:flex;gap:9px;}
+  /* 2차 수정(P1-04b): 이전/다음 간격 9px -> 12px, 버튼 높이 48px */
+  .navArrows{display:flex;gap:12px;}
   .navBtn{
-    background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;
+    background:var(--card);border:none;box-shadow:var(--shadow);border-radius:14px;min-height:48px;
     padding:12px 18px;font-size:16px;font-weight:800;color:var(--ink);
     font-family:inherit;cursor:pointer;transition:transform .1s;
   }
+  /* 방향 쪽 모서리와 테두리로 형태를 다르게 — 글자 화살표(‹ ›)와 같은 쪽이라 방향이 두 번 읽힌다 */
+  .navBtn.prev{border-left:3px solid var(--accent);border-radius:6px 14px 14px 6px;}
+  .navBtn.next{border-right:3px solid var(--accent);border-radius:14px 6px 6px 14px;}
   .navBtn:active{transform:scale(.95);}
   .card{
     background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
@@ -189,7 +210,7 @@
   .gateHead .nm{font-size:17px;font-weight:800;margin-top:2px;letter-spacing:-0.02em;}
   .row{display:flex;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:15px;}
   .row:last-child{border-bottom:none;padding-bottom:2px;}
-  .row .k{width:92px;flex-shrink:0;color:var(--ink-mut);font-size:13px;font-weight:500;}
+  .row .k{width:92px;flex-shrink:0;color:var(--ink-sub);font-size:13px;font-weight:500;}
   .row .v{font-weight:600;line-height:1.45;}
   .row .v.freq{color:var(--accent);font-weight:700;}
   .secT{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:14px;letter-spacing:-0.01em;}
@@ -209,7 +230,11 @@
     display:flex;align-items:center;justify-content:center;z-index:1;
   }
   .stepT{font-size:14.5px;line-height:1.55;padding-top:3px;}
-  .kw{font-weight:800;}
+  .kw{font-weight:800;color:var(--kwc,inherit);}
+  /* 2차 수정(P1-06c): 다크에서는 키워드를 도면 원색 그대로가 아니라 명도만 올린 대응 색으로 —
+     색상(도면 항공기 색과의 대조)은 그대로 두고 어두운 카드 위 가독성만 올린다.
+     --kw-d 는 colorize() 가 키워드마다 인라인으로 넣는 다크 전용 대응 색 */
+  html[data-theme="dark"] .kw{color:var(--kw-d,var(--kwc,inherit));}
   /* 도면에 해당 절차가 있는 키워드 — 누르면 그 절차만 재생 */
   .kw-go{cursor:pointer;border-bottom:1.5px dotted currentColor;padding-bottom:1px;
          -webkit-tap-highlight-color:transparent;}
@@ -231,7 +256,7 @@
   }
   .caution li:last-child{margin-bottom:0;}
   .caution li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--red-t);}
-  .meta{font-size:11.5px;color:var(--ink-mut);text-align:center;margin-top:16px;line-height:1.6;}
+  .meta{font-size:11.5px;color:var(--ink-sub);text-align:center;margin-top:16px;line-height:1.6;}
   #mapBox svg{border-radius:12px;}
   .dwgBox{
     position:relative;width:100%;background:#161a21;border-radius:12px;overflow:hidden;
@@ -246,6 +271,10 @@
     position:fixed;inset:0;z-index:100;background:rgba(8,10,14,.95);
     display:flex;align-items:center;justify-content:center;
   }
+  /* 2차 수정(P0-02): 다크에서는 오버레이를 불투명하게 — 알파 .95 로는 뒤쪽 화면의
+     `251 ›` 버튼·단계 번호가 확대 도면과 같은 층으로 비쳐 판독을 방해한다.
+     라이트 테마는 흰 화면이 균일하게 눌려 문제가 없어 기존 값 유지 */
+  html[data-theme="dark"] .lightbox{background:#080a0e;}
   .lightbox .lbStage{
     position:absolute;inset:0;overflow:hidden;touch-action:none;cursor:grab;
     display:flex;align-items:center;justify-content:center;
@@ -257,12 +286,15 @@
     display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.14);
     border-radius:22px;padding:4px;backdrop-filter:blur(6px);
   }
+  /* 2차 수정(P1-05b): 하단 배율 바 버튼을 48px 로 — 왼쪽 끝에 닫기를 함께 둔다(상단 닫기 병존) */
   .lightbox .lbZoom button{
     background:none;border:none;color:#fff;font-family:inherit;font-size:15px;font-weight:800;
-    padding:7px 15px;border-radius:18px;cursor:pointer;
+    min-height:48px;padding:7px 15px;border-radius:18px;cursor:pointer;
+    flex:none;white-space:nowrap;   /* 좁은 화면(360px)에서 바가 줄어들며 글자가 접히지 않게 */
   }
+  .lightbox .lbZoom .lbCloseB{background:rgba(255,255,255,.16);font-size:14px;font-weight:700;}
   .lightbox .lbZoom button:active{background:rgba(255,255,255,.18);}
-  .lightbox .lbZoom .pct{color:#cfd8e3;font-size:12.5px;font-weight:700;min-width:46px;text-align:center;}
+  .lightbox .lbZoom .pct{color:#cfd8e3;font-size:12.5px;font-weight:700;min-width:46px;text-align:center;flex:none;}
   .lightbox .lbClose{
     position:absolute;top:calc(12px + var(--safe-top));right:14px;
     background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:20px;
@@ -287,13 +319,18 @@
   .animWrap.playing .hitG{pointer-events:none;}
   .animWrap .hitG:active .ring{opacity:1;}
   @keyframes hitPulse{0%,100%{opacity:.35;}50%{opacity:.9;}}
-  .procPick{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 2px;}
+  /* 2차 수정(P1-02): 절차 단일 선택기 — 절차 카드 상단 48px 세그먼트.
+     색점은 지시문 키워드 색과 같은 값(다크에서는 P1-06c 매핑색)이라 도면 항공기와 대응된다 */
+  .procPick{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;}
   .procPick button{
-    display:inline-flex;align-items:center;gap:6px;background:var(--card);
-    border:1px solid var(--line);border-radius:18px;padding:8px 14px;
-    font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;}
-  .procPick button .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+    display:inline-flex;align-items:center;gap:8px;min-height:48px;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;padding:0 16px;
+    font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
+  .procPick button .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;background:var(--kwc,var(--ink-mut));}
+  html[data-theme="dark"] .procPick button .dot{background:var(--kw-d,var(--kwc,var(--ink-mut)));}
   .procPick button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);}
+  /* 선택한 절차가 단계 목록에서도 보이게 — 해당 지시문 단계의 번호를 채움 */
+  .steps li.selProc .stepN{background:var(--accent);color:var(--card);}
   /* 재생 중 단계 안내문 (현재 558 MRO 이동절차 전용) */
   .animMsg{
     position:absolute;left:10px;right:10px;bottom:10px;display:none;
@@ -314,7 +351,7 @@
   .stT{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;}
   .stT td{padding:7px 4px;border-bottom:1px solid var(--line-soft);}
   .stT td.rt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-  .stT td.dim{text-align:right;color:var(--ink-mut);font-size:11px;white-space:nowrap;}
+  .stT td.dim{text-align:right;color:var(--ink-sub);font-size:11px;white-space:nowrap;}
   .stNote{font-size:12px;color:var(--ink-sub);margin-top:4px;}
   .stAct{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
   .stAct button{flex:1;min-width:96px;padding:9px 10px;font-size:13px;font-family:inherit;
@@ -328,12 +365,19 @@
   }
   .animWrap.hintOff .animHint{opacity:0;}
   /* 작업자 시점 (시험 적용) — 좌우 고정 선택 */
+  /* 2차 수정(P1-06b): 카드 헤더용(기본)과 도면 위 오버레이용(.ovl)을 분리.
+     카드 헤더에 놓이는 기본형은 테마 토큰만 쓰고 팔레트 밖 색(#7FC4FF)을 쓰지 않는다 —
+     선택 상태는 같은 역할의 기존 세그먼트(.tab.on)와 동일한 --btn-bg/--btn-text */
   .wvSeg{margin-left:auto;display:flex;
-    background:rgba(15,20,28,.82);border-radius:18px;padding:3px;gap:2px;}
+    background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:3px;gap:2px;}
   .wvSeg button{border:none;cursor:pointer;font-family:inherit;
     font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:15px;
-    background:transparent;color:#9fb3c8;}
-  .wvSeg button.on{background:#7FC4FF;color:#0B2E59;}
+    background:transparent;color:var(--ink-sub);}
+  .wvSeg button.on{background:var(--btn-bg);color:var(--btn-text);}
+  /* 도면 위에 얹는 경우에만 쓰는 고정 다크 오버레이형 (항상 어두운 도면 위라 테마 비의존) */
+  .wvSeg.ovl{background:rgba(15,20,28,.82);border-color:transparent;}
+  .wvSeg.ovl button{color:#9fb3c8;}
+  .wvSeg.ovl button.on{background:#7FC4FF;color:#0B2E59;}
   .wvBadge{position:absolute;top:10px;left:10px;z-index:6;pointer-events:none;
     background:rgba(0,224,138,.16);color:#00e08a;
     font-size:11px;font-weight:700;padding:6px 10px;border-radius:14px;}
@@ -354,8 +398,17 @@
   }
   .devBar.hit.sev2{animation-duration:.6s;}
   .devBar.hit.sev3{animation-duration:.38s;border-width:2px;}
-  @keyframes devPulse{0%,100%{opacity:1}50%{opacity:.5}}
+  /* 2차 수정(P0-01): 깜박임 대상을 배너 전체(opacity)에서 테두리·외곽 글로우로 이전 —
+     이탈 수치·기준 절차는 항상 불투명(opacity 1) 유지 */
+  @keyframes devPulse{
+    0%,100%{border-color:var(--red-bd);box-shadow:0 0 0 0 var(--red-glow);}
+    50%    {border-color:var(--red-t); box-shadow:0 0 0 4px var(--red-glow);}
+  }
   .devBar small{display:block;font-weight:600;font-size:11.5px;color:var(--ink-sub);margin-top:3px;}
+  /* 2차 수정(P0-01): 배너 안 확인 안내 한 줄 + 소리·진동 끄기 버튼(48px) */
+  .devBar .devAct{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .devBar .devGuide{flex:1 1 140px;min-width:0;font-size:12.5px;font-weight:700;color:var(--red-t);line-height:1.45;}
+  .devBar .devAct .barBtn{flex:none;}
   .mapLocBtn.on{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-t);}
   .surveyBar{
     background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--radius);
@@ -433,7 +486,7 @@
         </div>
         <button class="dlBtn" id="preBtn" onclick="precacheAll()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
-          <span id="preLbl">전체 도면 다운로드</span>
+          <span id="preLbl">전체 도면 저장</span>
         </button>
       </div>
     </div>
@@ -551,7 +604,7 @@ function terminalShape(){
   const cy = ring.reduce((a,p)=>a+p[1],0)/ring.length;
   const pts = ring.map(([x,y])=>[(x+(cx-x)*0.38).toFixed(1), (y+(cy-y)*0.38).toFixed(1)]);
   return `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="var(--card)" stroke="var(--line)" stroke-linejoin="round"/>`
-    + `<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="10" font-weight="700" fill="var(--ink-mut)" text-anchor="middle">T2</text>`;
+    + `<text x="${cx.toFixed(0)}" y="${cy.toFixed(0)}" font-size="10" font-weight="700" fill="var(--ink-sub)" text-anchor="middle">T2</text>`;
 }
 function mapSvg(sel, user){
   let dots="";
@@ -559,8 +612,8 @@ function mapSvg(sel, user){
     if(id===sel.id) return;
     const isR = id.includes("R");
     const lab = (isR || id==="224" || id==="275" || parseInt(id)%5===0)
-      ? `<text x="${x}" y="${y-5}" font-size="7" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" text-anchor="middle" font-weight="${isR?700:400}">${id}</text>` : "";
-    dots += `<circle cx="${x}" cy="${y}" r="2.6" fill="${isR?'var(--amber-t)':'var(--ink-mut)'}" opacity=".75"/>` + lab;
+      ? `<text x="${x}" y="${y-5}" font-size="7" fill="${isR?'var(--amber-t)':'var(--ink-sub)'}" text-anchor="middle" font-weight="${isR?700:400}">${id}</text>` : "";
+    dots += `<circle cx="${x}" cy="${y}" r="2.6" fill="${isR?'var(--amber-t)':'var(--ink-sub)'}" opacity=".75"/>` + lab;
   });
   let userDot="";
   if(user){
@@ -592,7 +645,8 @@ function showMeOnMap(id){
       mapNoted=true;
       box.insertAdjacentHTML("afterend", '<div class="subT">현재 위치가 지도 범위(T2 구역) 밖입니다</div>');
     }
-  }, ()=>{ box.insertAdjacentHTML("afterend", '<div class="subT">위치 확인 실패 — 위치 권한을 허용해 주세요</div>'); }, {enableHighAccuracy:true, timeout:8000});
+  // 2차 수정(P1-01): 실패 문구는 amber 배너로 (회색 캡션에서 분리)
+  }, ()=>{ box.insertAdjacentHTML("afterend", '<div class="failBox" style="margin-top:8px">위치 확인 실패 — 위치 권한을 허용해 주세요</div>'); }, {enableHighAccuracy:true, timeout:8000});
 }
 
 const ZONES = [...new Set(GATES.map(g=>g.zone))];
@@ -678,8 +732,19 @@ function renderZones(){
 // ───────── 상세 화면 ─────────
 function row(k,v,cls){ return v ? `<div class="row"><span class="k">${k}</span><span class="v${cls?' '+cls:''}">${v}</span></div>` : ""; }
 const KWC = (typeof KWCOLOR !== "undefined") ? KWCOLOR : {};
-// 도면 항공기 색과 정확히 일치시킴 (밝기 보정 없음, 라이트/다크 동일)
+// 도면 항공기 색과 정확히 일치시킴 (라이트 테마 값)
 function kwHex(hex){ return "#"+hex; }
+// 2차 수정(P1-06c): 다크 전용 명도 상향 매핑. 지시문 색(핸드북 PPT 원본) 13종 전부에 대해
+// HSL 색상·채도는 그대로 두고 명도만 올려 다크 카드(#1b1e23) 위 대비를 5.6:1 이상으로 맞춘 값.
+// 색상값이 바뀌지 않으므로 KW2AC 를 통한 색↔도면 항공기 대응은 그대로 유지된다.
+// 이미 5.6:1 을 넘는 색(00B050·00B0F0·FF9933·FFC000·92D050·D9D9D9)은 원색 그대로 둔다.
+const KW_DARK = {
+  "#ff0000":"#ff5f5f", "#c00000":"#ff5f5f", "#ff00ff":"#ff2bff", "#cc66ff":"#cd69ff",
+  "#9933ff":"#ba75ff", "#7030a0":"#b381d9", "#0070c0":"#0b9aff",
+  "#00b050":"#00b050", "#00b0f0":"#00b0f0", "#ff9933":"#ff9933",
+  "#ffc000":"#ffc000", "#92d050":"#92d050", "#d9d9d9":"#d9d9d9"
+};
+function kwDark(c){ return KW_DARK[String(c).toLowerCase()] || c; }
 // 지시문 색(핸드북 PPT 원본) → 도면 항공기 색(화면용) 대응
 // 두 값이 서로 달라 직접 비교가 안 되므로 표로 잇는다. 앞 후보부터 찾고 그 주기장에 없으면 다음 후보.
 const KW2AC = {
@@ -717,10 +782,65 @@ function colorize(text, gid){
   return text.replace(re, (m,pre,kw)=>{
     const pi = kwPathIdx(gid, map[kw]);
     const att = (pi >= 0) ? ` kw-go" data-g="${gid}" data-p="i${pi}"` : `"`;
-    return pre+`<span class="kw${att} style="color:${kwHex(map[kw])}">${kw}</span>`;
+    const c = kwHex(map[kw]);
+    return pre+`<span class="kw${att} style="--kwc:${c};--kw-d:${kwDark(c)}">${kw}</span>`;
   });
 }
 function legendHtml(){ return ""; }
+/* ── 2차 수정(P1-02): 절차 단일 선택기 ──────────────────────────────────────────
+   같은 결정(어느 절차인지)을 인라인 키워드·도면 히트영역 세 곳에서 하던 것을
+   절차 카드 상단 세그먼트 하나로 모은다. 세그먼트 선택이 ANIM_SEL 을 정하고,
+   ANIM_SEL 이 도면 재생·단계 목록 표시·경로이탈 감지 기준 절차를 함께 결정한다.
+   반대로 키워드·도면 항공기를 눌러 선택이 바뀌어도 playAnimHdg → syncProc 로 세그먼트가 따라온다. */
+function procSegItems(gid){
+  const cfg=(typeof PATH_ANIM!=="undefined")?PATH_ANIM[gid]:null;
+  if(!cfg || !cfg.paths || cfg.paths.length<2) return null;
+  if(typeof SLIDE_IMG==="undefined" || !SLIDE_IMG[gid]) return null;
+  const kw=KWC[gid]||{}, byIdx={};
+  Object.keys(kw).forEach(k=>{
+    const i=kwPathIdx(gid, kw[k]);
+    // 2차 검토 반영: 약어 규칙(Point NN -> PNN)은 데이터의 소문자 표기(point 54 등)를 놓쳐 폐기.
+    // 핸드북 원문 표기를 그대로 쓰고 대조는 색점이 맡는다
+    if(i>=0 && !byIdx[i]) byIdx[i]={label:k, raw:k, color:kwHex(kw[k])};
+  });
+  const items=cfg.paths.map((p,i)=>
+    Object.assign({i}, byIdx[i] || {label:"절차 "+(p.label||(i+1)), raw:"", color:p.color||"#9aa1ab"}));
+  // 배열 순서(도면 경로 순서)가 아니라 단계 목록에 나오는 순서대로 — 문장과 세그먼트를 같은 순서로 읽게
+  const hb=(typeof HB!=="undefined" && HB[gid]) ? HB[gid] : null;
+  const ord=it=>{
+    if(!hb || !it.raw) return 9e5;
+    const k=hb.findIndex(p=>String(p[0]).indexOf(it.raw)>=0);
+    return k<0 ? 9e5 : k*1000 + String(hb[k][0]).indexOf(it.raw);   // 같은 단계 안에서는 문장에 나온 순서
+  };
+  return items.sort((a,b)=> (ord(a)-ord(b)) || (a.i-b.i));
+}
+function procPickHtml(gid){
+  const items=procSegItems(gid);
+  if(!items) return "";
+  const sel=ANIM_SEL[gid]||0;
+  return `<div class="procPick" id="procPick">`
+    + items.map(it=>`<button type="button" class="procSeg${it.i===sel?" on":""}" data-i="${it.i}" onclick="pickSeg('${gid}',${it.i})">`
+      + `<span class="dot" style="--kwc:${it.color};--kw-d:${kwDark(it.color)}"></span>${it.label}</button>`).join("")
+    + `</div>`;
+}
+function pickSeg(gid, i){
+  ANIM_SEL[gid]=i;                       // 도면이 없어도 선택은 확정 (감지 기준 절차)
+  syncProc(gid, i);
+  // 2차 검토 반영: 세그먼트는 지시문 바로 위에 있어 화면을 움직이지 않는다
+  // (문장 안 키워드를 눌렀을 때만 도면을 끌어온다)
+  playAnim(gid, i);
+}
+// 선택 상태를 세그먼트·인라인 키워드·단계 목록에 한 번에 반영
+function syncProc(gid, idx){
+  const d=document.getElementById("detail"); if(!d) return;
+  d.querySelectorAll(".procPick .procSeg").forEach(b=>b.classList.toggle("on", +b.dataset.i===idx));
+  d.querySelectorAll(".kw-go.on").forEach(x=>x.classList.remove("on"));
+  d.querySelectorAll(".steps li.selProc").forEach(li=>li.classList.remove("selProc"));
+  d.querySelectorAll('.kw-go[data-p="i'+idx+'"]').forEach(x=>{
+    x.classList.add("on");
+    const li=x.closest("li"); if(li) li.classList.add("selProc");
+  });
+}
 function stepsHtml(g){
   if(g.procs) return g.procs.map((p,i)=>
     `<li><span class="stepN">${i+1}</span><span class="stepT"><b>${colorize(p[0],g.id)}</b><br>${p[1]||""}</span></li>`).join("");
@@ -752,8 +872,8 @@ function openGate(id){
     <div class="navBar">
       <button class="back" onclick="goList()">${ico.back} 홈화면</button>
       <div class="navArrows">
-        ${prev ? `<button class="navBtn" onclick="openGate('${prev.id}')">‹ ${prev.id}</button>` : ``}
-        ${next ? `<button class="navBtn" onclick="openGate('${next.id}')">${next.id} ›</button>` : ``}
+        ${prev ? `<button class="navBtn prev" onclick="openGate('${prev.id}')">‹ ${prev.id}</button>` : ``}
+        ${next ? `<button class="navBtn next" onclick="openGate('${next.id}')">${next.id} ›</button>` : ``}
       </div>
     </div>
     <div class="card">
@@ -765,6 +885,7 @@ function openGate(id){
     </div>
     <div class="card">
       <div class="secT">${ico.doc} ${g.procs ? "관제 지시별 후방견인 절차" : "표준 절차"}</div>
+      ${procPickHtml(g.id)}
       <ol class="steps">${stepsHtml(g)}</ol>
     </div>
     ${g.cautions && g.cautions.length ? `
@@ -845,6 +966,7 @@ function openGate(id){
     </div>` : ``}
     `;
   if(typeof devRestore==="function") devRestore(id);
+  try{ syncProc(id, ANIM_SEL[id]||0); }catch(e){}     // 2차 수정(P1-02): 화면 진입 시 선택 상태 표시
   window.scrollTo(0,0);
 }
 function goList(){
@@ -2888,8 +3010,9 @@ document.addEventListener("click", e=>{
   const gid = el.getAttribute("data-g");
   const idx = parseInt((el.getAttribute("data-p")||"").slice(1), 10);
   if(!gid || isNaN(idx)) return;
-  document.querySelectorAll(".kw-go.on").forEach(x=>x.classList.remove("on"));
-  el.classList.add("on");
+  // 2차 수정(P1-02): 선택 표시는 syncProc(playAnimHdg 안)에서 세그먼트·단계와 함께 한 번에
+  ANIM_SEL[gid]=idx;
+  syncProc(gid, idx);
   const wrap = document.querySelector(".animWrap");
   if(wrap) wrap.scrollIntoView({behavior:"smooth", block:"center"});   // 도면이 화면 밖이면 끌어옴
   playAnim(gid, idx);
@@ -3121,6 +3244,7 @@ function playAnimHdg(gid, idx, btn){
   const bg=document.getElementById("animBg");
   if(cfg.clean) bg.src=cfg.clean;      // 절차별 clean 이 있으면 그 절차만 표시
   ANIM_SEL[gid]=idx||0;
+  try{ syncProc(gid, ANIM_SEL[gid]); }catch(e){}      // 2차 수정(P1-02): 도면 탭·키워드 탭도 세그먼트에 반영
   try{ stProc(gid, (HB[gid] && HB[gid][idx||0] && HB[gid][idx||0][0]) || ("절차 "+((idx||0)+1))); }catch(e){}
   const rings=svg.querySelectorAll(".hitG .ring");
   const wrap=svg.closest(".animWrap");
@@ -3426,6 +3550,7 @@ function openDwg(src){
   lb.innerHTML=`<div class="lbStage"><img src="${src}" alt="후방견인 도면 확대"></div>
     <button class="lbClose" onclick="closeLb(this.closest('.lightbox'))">닫기 ✕</button>
     <div class="lbZoom">
+      <button class="lbCloseB" data-z="close">닫기 ✕</button>
       <button data-z="out">−</button><span class="pct">100%</span>
       <button data-z="in">＋</button><button data-z="fit">맞춤</button>
     </div>
@@ -3475,18 +3600,27 @@ function bindZoom(lb){
     tx=ox-(ox-tx)*k; ty=oy-(oy-ty)*k; z=nz; apply();
   };
   st.addEventListener("wheel",e=>{ e.preventDefault(); zoomAt(e.clientX,e.clientY, e.deltaY<0?1.18:1/1.18); },{passive:false});
-  st.addEventListener("dblclick",e=>{ e.preventDefault(); z>1.2 ? (z=1,tx=0,ty=0,apply()) : zoomAt(e.clientX,e.clientY,2.5); });
+  // 2차 검토 반영: 확대 상태에서 배경을 두 번 탭하면 '배율 복귀'가 의도인데 첫 탭의 종료가 먼저 먹힌다.
+  // 배경 탭 종료를 300ms 미뤘다가 두 번째 입력(pointerdown·dblclick)이 오면 취소한다.
+  let closeT=null;
+  const cancelClose=()=>{ if(closeT){ clearTimeout(closeT); closeT=null; } };
+  st.addEventListener("dblclick",e=>{ e.preventDefault(); cancelClose();
+    z>1.2 ? (z=1,tx=0,ty=0,apply()) : zoomAt(e.clientX,e.clientY,2.5); });
 
-  const pts=new Map(); let last=null, pinch=null;
+  const pts=new Map(); let last=null, pinch=null, moved=false, downAt=null;
   st.addEventListener("pointerdown",e=>{
+    cancelClose();
     st.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]);
-    if(pts.size===1){ last=[e.clientX,e.clientY]; st.classList.add("grabbing"); }
+    if(pts.size===1){ last=[e.clientX,e.clientY]; moved=false; downAt=[e.clientX,e.clientY]; st.classList.add("grabbing"); }
     if(pts.size===2){ const v=[...pts.values()];
       pinch={d:Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]), c:[(v[0][0]+v[1][0])/2,(v[0][1]+v[1][1])/2]}; }
   });
   st.addEventListener("pointermove",e=>{
     if(!pts.has(e.pointerId)) return;
     pts.set(e.pointerId,[e.clientX,e.clientY]);
+    // 2차 수정(P1-05b): 끌기(이동·핀치)와 단순 탭을 구분 — 끌었으면 배경 탭 종료로 보지 않는다
+    if(downAt && Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1])>8) moved=true;
+    if(pts.size===2){ moved=true; }
     if(pts.size===2 && pinch){
       const v=[...pts.values()], d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);
       const c=[(v[0][0]+v[1][0])/2,(v[0][1]+v[1][1])/2];
@@ -3502,11 +3636,18 @@ function bindZoom(lb){
   lb.querySelectorAll(".lbZoom button").forEach(b=>b.onclick=()=>{
     const r=st.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
     const m=b.dataset.z;
+    if(m==="close"){ closeLb(lb); return; }        // 2차 수정(P1-05b)
     if(m==="in") zoomAt(cx,cy,1.5);
     else if(m==="out") zoomAt(cx,cy,1/1.5);
     else { z=1; tx=0; ty=0; apply(); }
   });
-  st.addEventListener("click",e=>{ if(e.target===st && z<=1.02) closeLb(lb); });
+  // 2차 수정(P1-05b): 확대 상태에서도 도면 바깥(배경)을 탭하면 닫힌다.
+  // 끌어서 이동한 직후에는 닫지 않도록 moved 로 구분한다.
+  st.addEventListener("click",e=>{
+    if(e.target!==st || moved) return;
+    cancelClose();
+    closeT=setTimeout(()=>{ closeT=null; if(lb.isConnected) closeLb(lb); }, 300);
+  });
   apply();
 }
 
@@ -3672,7 +3813,37 @@ function devAudio(){                      // 사용자가 버튼을 누른 시�
     return A;
   }catch(e){ return null; }
 }
+// 2차 수정(P0-01): 경보 배너 안에서 소리·진동만 끄고 켤 수 있게 한다 (표시·색은 그대로 유지)
+// 2차 검토 반영: 저장하지 않는 '이번 경보 한정' 무음 — 감지 시작·중지·새 경보 구간마다 다시 켜진다
+let devMute=false;
+function devMuteLabel(){ return devMute ? "소리·진동 켜기" : "소리·진동 끄기"; }
+// 2차 검토 반영: 배너를 텍스트 영역(.devTxt)과 동작 영역(.devAct)으로 나눈다.
+// 위치 갱신(약 1초 주기)마다 .devTxt 만 다시 쓰고 .devAct 는 경보 구간 내내 같은 노드를 유지해
+// 누르는 도중 노드가 교체돼 탭이 사라지는 일이 없게 한다.
+function devTxtEl(bar){
+  let t=bar.querySelector(".devTxt");
+  if(!t){ bar.textContent=""; t=document.createElement("div"); t.className="devTxt"; bar.appendChild(t); }
+  return t;
+}
+function devSetTxt(bar, html){ devTxtEl(bar).innerHTML=html; }
+function devSetAct(bar, on){
+  const cur=bar.querySelector(".devAct");
+  if(on && !cur){
+    devMute=false;                       // 새 경보 구간은 소리·진동이 켜진 상태로 시작
+    const d=document.createElement("div");
+    d.className="devAct";
+    d.innerHTML=`<span class="devGuide">도면에서 현재 위치와 기준경로를 확인하세요</span>`
+      + `<button type="button" class="barBtn" id="devMuteBtn" onclick="devMuteToggle()">${devMuteLabel()}</button>`;
+    bar.appendChild(d);
+  } else if(!on && cur){ cur.remove(); }
+}
+function devMuteToggle(){
+  devMute=!devMute;
+  if(devMute){ try{ if(navigator.vibrate) navigator.vibrate(0); }catch(e){} }
+  const b=document.getElementById("devMuteBtn"); if(b) b.textContent=devMuteLabel();
+}
 function devBeep(L){
+  if(devMute) return;                     // 소리·진동만 중지 — 배너 표시는 계속
   const A=devAudio();
   if(A) try{
     for(let i=0;i<L.n;i++){
@@ -3691,7 +3862,7 @@ function devBeep(L){
 }
 function devStop(){
   if(devWatch!==null){ try{ navigator.geolocation.clearWatch(devWatch); }catch(e){} devWatch=null; }
-  devGid=null; devLast=null;
+  devGid=null; devLast=null; devMute=false;      // 2차 검토 반영: 무음은 이번 감지에 한정
   const b=document.getElementById("devBtn");
   if(b){ b.textContent="경로이탈 감지 시작 (시범)"; b.classList.remove("on"); }
   const g=document.getElementById("devG"); if(g) g.style.display="none";
@@ -3705,7 +3876,8 @@ function devRestore(id){
   if(b){ b.textContent="경로이탈 감지 중지"; b.classList.add("on"); }
   if(!bar) return;
   bar.style.display="block";
-  if(devLast){ bar.className=devLast.cls; bar.innerHTML=devLast.html; }
+  if(devLast){ bar.className=devLast.cls; bar.innerHTML=devLast.html;
+                const b2=bar.querySelector("#devMuteBtn"); if(b2) b2.textContent=devMuteLabel(); }
   else { bar.className="devBar"; bar.textContent="위치 수신 중…"; }
 }
 function devToggle(gid){
@@ -3714,7 +3886,7 @@ function devToggle(gid){
   if(devWatch!==null){ devStop(); return; }
   if(!navigator.geolocation){ bar.style.display="block"; bar.textContent="이 기기는 위치 서비스를 지원하지 않습니다."; return; }
   devAudio();                       // 버튼 탭(사용자 동작) 시점에 오디오 준비
-  devMax=0; devBeepT=0; devGid=gid; devLast=null;
+  devMax=0; devBeepT=0; devGid=gid; devLast=null; devMute=false;   // 2차 검토 반영: 시작 시 소리·진동 켬
   btn.textContent="경로이탈 감지 중지"; btn.classList.add("on");
   bar.style.display="block"; bar.className="devBar"; bar.textContent="위치 수신 중…";
   devWatch=navigator.geolocation.watchPosition(
@@ -3737,7 +3909,8 @@ function devDraw(gid, p){
   bar.style.display="block";
   if(!inb){
     bar.className="devBar";
-    bar.innerHTML="현재 위치가 이 주기장 도면 범위 밖입니다<small>"+gid+"번 주기장 부근에서 사용하세요</small>";
+    devSetAct(bar,false);
+    devSetTxt(bar,"현재 위치가 이 주기장 도면 범위 밖입니다<small>"+gid+"번 주기장 부근에서 사용하세요</small>");
     devLast={cls:bar.className, html:bar.innerHTML};
     return;
   }
@@ -3757,12 +3930,14 @@ function devDraw(gid, p){
 
   const L = hit ? devLevel(dev) : null;
   bar.className = "devBar" + (hit ? " hit sev"+L.lv : "");
-  bar.innerHTML = (hit
+  // 2차 검토 반영: 매 갱신마다 다시 쓰는 것은 텍스트 영역뿐. 동작 영역(.devAct)은 경보 구간 동안 그대로 둔다
+  devSetTxt(bar, (hit
       ? `\u26A0 경로이탈 ${Math.round(dev)} m — 기준 ${DEV_TH} m 초과${L.lv===3 ? " (심각)" : ""}`
       : `기준경로 이내 · 이탈 ${Math.round(dev)} m`)
     + `<small>절차 ${pr.label||"1"} 기준 · 위치정확도 \u00B1${Math.round(acc)} m · 최대 ${Math.round(devMax)} m`
     + ` — 작업자 단말 위치이며 항공기 위치가 아닙니다`
-    + `</small>`;
+    + `</small>`);
+  devSetAct(bar, hit);              // 2차 수정(P0-01): 경보 시 확인 안내 한 줄 + 소리·진동 끄기
   devLast={cls:bar.className, html:bar.innerHTML};
   if(hit && Date.now()-devBeepT>L.gap){ devBeepT=Date.now(); devBeep(L); }
 }
@@ -3857,10 +4032,17 @@ function imgFail(el){
   const msg = navigator.onLine
     ? "도면을 불러오지 못했습니다 — 통신 상태 확인 후 다시 열어 주세요"
     : "오프라인 상태 — 이 주기장 도면이 아직 저장되지 않았습니다.<br>통신 가능 지역에서 홈의 <b>[전체 도면 저장]</b>을 한 번 실행하면<br>모든 주기장을 오프라인에서 볼 수 있습니다.";
-  const html = `<div style="padding:46px 20px;text-align:center;font-size:13.5px;line-height:1.7;
-    color:var(--ink-mut);border:1.5px dashed var(--line);border-radius:12px">${msg}</div>`;
+  // 2차 수정(P1-01): 회색 점선 캡션 → amber 배너(.failBox)
+  // 2차 수정(P1-03): 같은 배너 안에서 도면을 다시 요청할 수 있게 [다시 시도] 제공
+  const html = `<div class="failBox">${msg}`
+    + `<br><button type="button" class="barBtn" onclick="imgRetry()">다시 시도</button></div>`;
   if(box){ box.style.paddingTop="0"; box.style.cursor="default"; box.onclick=null; box.innerHTML=html; }
   else { el.outerHTML=html; }
+}
+// 2차 수정(P1-03): 상세 화면을 다시 그려 도면을 새로 요청한다 (도해·히트영역까지 원래대로 복구)
+function imgRetry(){
+  const m=/#gate=([^&]+)/.exec(location.hash||"");
+  if(m) openGate(decodeURIComponent(m[1]));
 }
 // 전체 도면을 한 번에 받아 서비스워커 캐시에 저장 → 이후 전 주기장 오프라인 조회
 async function precacheAll(){
@@ -3878,7 +4060,7 @@ async function precacheAll(){
       try{
         if(sessionStorage.getItem("pbPreReload")==="1"){
           sessionStorage.removeItem("pbPreReload");
-          setL("전체 도면 다운로드");
+          setL("전체 도면 저장");
           alert("저장 기능 준비에 실패했습니다. 잠시 후 다시 눌러 주세요."); return;
         }
         sessionStorage.setItem("pbPreReload","1");
@@ -3886,7 +4068,7 @@ async function precacheAll(){
       }catch(e){}
       location.reload(); return;
     }
-    setL("전체 도면 다운로드");
+    setL("전체 도면 저장");
   }
   if(!navigator.onLine){ alert("통신 가능한 곳에서 실행해 주세요."); return; }
   if(!confirm("전 주기장 도면(약 100MB)을 내려받아 저장합니다.\nWi-Fi 환경을 권장합니다. 계속할까요?")) return;
@@ -3899,22 +4081,22 @@ async function precacheAll(){
   const worker=async ()=>{ let u;
     while((u=list.shift())!==undefined){
       try{ const r=await fetch(u,{cache:"reload"}); if(!r.ok) fail++; }catch(e){ fail++; }
-      done++; if(done%20===0||list.length===0) setL(`다운로드 ${done}/${done+list.length}`);
+      done++; if(done%20===0||list.length===0) setL(`저장 ${done}/${done+list.length}`);
     } };
   await Promise.all([worker(),worker(),worker(),worker(),worker(),worker()]);
   btn.disabled=false;
-  if(fail){ setL(`${fail}개 실패 — 다시 받기`); }
+  if(fail){ setL(`${fail}개 실패 — 다시 저장`); }
   else { try{ localStorage.setItem("pbPreAll", C_VER||"1"); }catch(e){}
-         setL("다운로드 완료 ✓ 오프라인 가능"); }
+         setL("저장 완료 ✓ 오프라인 가능"); }
 }
-var C_VER="v195";
+var C_VER="v196";
 try{
   const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
   if(b && pre){
     // 다운로드 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
     b.textContent = (pv && pv!==C_VER)
-      ? "개정됨 · 도면 다시 받기"
-      : "다운로드됨 · 다시 받기";
+      ? "개정됨 · 도면 다시 저장"
+      : "저장됨 · 다시 저장";
   }
   localStorage.setItem("pbVer", C_VER);
 }catch(e){}

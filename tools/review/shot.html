@@ -5,11 +5,13 @@
 </head><body>
 <iframe id="f"></iframe>
 <script>
-// 사용: shot.html?theme=dark&view=home|detail|lightbox&gate=250
+// 사용: shot.html?theme=dark&view=home|detail|lightbox&gate=250&w=390&h=844
+// w/h 는 앱을 실제로 그 뷰포트 폭으로 렌더하기 위한 iframe 크기 (생략하면 390x844)
 const q=new URLSearchParams(location.search);
 const theme=q.get("theme")||"light", view=q.get("view")||"home", gate=q.get("gate")||"250";
 try{ localStorage.setItem("theme",theme); localStorage.removeItem("pbView"); }catch(e){}
 const f=document.getElementById("f");
+f.style.width=(+q.get("w")||390)+"px"; f.style.height=(+q.get("h")||844)+"px";
 f.src="/index.html"+(view==="home"?"":"#gate="+gate);
 function poll(check,onReady,timeoutMs){
   const start=Date.now();

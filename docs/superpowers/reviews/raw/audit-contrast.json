@@ -249,17 +249,17 @@
       "fg": "--red-t",
       "bg": "--red-bg",
       "fgHex": "#f08a80",
-      "bgHex": "#2c1a18",
-      "ratio": 6.82,
+      "bgHex": "#281614",
+      "ratio": 7.12,
       "AA": true,
-      "AAA": false
+      "AAA": true
     },
     {
       "fg": "--red-body",
       "bg": "--red-bg",
       "fgHex": "#e0a9a2",
-      "bgHex": "#2c1a18",
-      "ratio": 8.18,
+      "bgHex": "#281614",
+      "ratio": 8.53,
       "AA": true,
       "AAA": true
     },
