@@ -706,6 +706,11 @@ function applyLang(){
   document.querySelectorAll("[data-t-alt]").forEach(el=>{ el.alt = t(el.dataset.tAlt); });
   document.querySelectorAll("[data-t-aria]").forEach(el=>{ el.setAttribute("aria-label", t(el.dataset.tAria)); });
   applyTheme();                                     // 테마 버튼 라벨(자동/라이트/다크)
+  // data-t 는 "기본 상태" 문구라 위 일괄 처리에서 상태가 바뀐 정적 라벨까지 되돌려 놓는다.
+  // 켜짐/펼침/저장됨 상태인 라벨은 현재 상태에서 다시 만들어 덮어쓴다
+  if(GPS_WATCH!=null){ const gt=document.getElementById("gpsBtnTxt"); if(gt) gt.textContent=t("위치 추적 중 — 누르면 끄기"); }
+  if(zonesOpen){ const zb=document.getElementById("zoneBtn"); if(zb) zb.textContent=t("구역별 목록 접기 ▴"); }
+  if(typeof refreshPreLbl==="function") refreshPreLbl();
   // 열려 있는 화면을 현재 언어로 다시 그린다
   const detailOpen = document.getElementById("detail").style.display==="block";
   const m = location.hash.match(/gate=([\w]+)/);
@@ -890,6 +895,8 @@ function stepsHtml(g){
 function openGate(id){
   const g = GATES.find(x=>x.id===id);
   if(!g) return;
+  // 상세 화면을 다시 그리기 전에 "내 위치 표시" 감시를 끈다 (끄지 않으면 사라진 DOM 을 계속 갱신)
+  if(typeof stopLive==="function") stopLive();
   if(typeof devKeep==="function") devKeep(id);
   try{ stGate(id); }catch(e){}
   if(typeof WVST!=="undefined" && WVST[id]) { WVST[id].on=false; WVST[id].mode="base"; }   // 화면 재구성 시 회전 상태 초기화
@@ -1040,7 +1047,7 @@ function toggleGps(){
     const cands=ranked.slice(0,3);
     document.getElementById("gpsCands").innerHTML=cands.map((c,i)=>
       `<button class="candBtn${i===0?' first':''}" onclick="openGate('${c.g.id}')">
-        <span>GATE ${c.g.id} <span style="font-weight:500;font-size:13px;opacity:.8">${c.g.zone}</span></span>
+        <span>GATE ${c.g.id} <span style="font-weight:500;font-size:13px;opacity:.8">${t(c.g.zone)}</span></span>
         <span class="cd">${tf("약 {d}m",{d:Math.round(c.d)})}</span>
       </button>`).join("");
     document.getElementById("gpsBanner").style.display="block";
@@ -1071,7 +1078,7 @@ function findNearest(){
     const cands = ranked.slice(0,3);
     document.getElementById("gpsCands").innerHTML = cands.map((c,i)=>
       `<button class="candBtn${i===0?' first':''}" onclick="openGate('${c.g.id}')">
-        <span>GATE ${c.g.id} <span style="font-weight:500;font-size:13px;opacity:.8">${c.g.zone}</span></span>
+        <span>GATE ${c.g.id} <span style="font-weight:500;font-size:13px;opacity:.8">${t(c.g.zone)}</span></span>
         <span class="cd">${tf("약 {d}m",{d:Math.round(c.d)})}</span>
       </button>`).join("");
     document.getElementById("gpsBanner").style.display="block";
@@ -4064,6 +4071,7 @@ window.addEventListener("load", ()=>{ applyLang(); renderSurveyBar(); openFromHa
 window.addEventListener("hashchange", openFromHash);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ applyTheme(); openFromHash(); } });
 applyTheme();
+applyLang();   // 스크립트가 body 끝에 있어 load 를 기다리면 영문 모드에서 한글이 한 번 비친다
 
 // PWA: 오프라인 캐시 서비스워커 등록
 /* ═════════ 자동 업데이트 ═════════
@@ -4134,14 +4142,21 @@ async function precacheAll(){
          setL(t("저장 완료 ✓ 오프라인 가능")); }
 }
 var C_VER="v199";
-try{
-  const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll"), pv=localStorage.getItem("pbVer");
-  if(b && pre){
+// 저장 상태(개정됨/저장됨)는 부팅 때 한 번만 판정한다. 아래에서 pbVer 를 C_VER 로 덮어쓰고 나면
+// "개정됨"인지 다시 알 수 없으므로 판정 결과를 들고 있다가 라벨을 다시 그릴 때(언어 전환) 쓴다
+var PRE_REVISED=false;
+function refreshPreLbl(){
+  if(typeof C_VER==="undefined" || !C_VER) return;   // 부팅 전(applyLang 선호출)에는 아직 판정 전
+  try{
+    const b=document.getElementById("preLbl"), pre=localStorage.getItem("pbPreAll");
     // 다운로드 이후 앱이 개정됐으면 도면도 다시 받도록 안내 (저장본 우선 방식이라 자동 갱신되지 않음)
-    b.textContent = (pv && pv!==C_VER)
-      ? t("개정됨 · 도면 다시 저장")
-      : t("저장됨 · 다시 저장");
-  }
+    if(b && pre) b.textContent = PRE_REVISED ? t("개정됨 · 도면 다시 저장") : t("저장됨 · 다시 저장");
+  }catch(e){}
+}
+try{
+  const pv=localStorage.getItem("pbVer");
+  PRE_REVISED = !!(pv && pv!==C_VER);
+  refreshPreLbl();
   localStorage.setItem("pbVer", C_VER);
 }catch(e){}
 
