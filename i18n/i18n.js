@@ -13,9 +13,10 @@
   }
 
   // UI 사전: 한글 원문이 곧 키. 미등록이면 원문 그대로 (화면이 깨지지 않게)
+  // bare 식별자로 조회: 최상위 const/let 은 전역 객체 프로퍼티가 아니라 전역 렉시컬 스코프에만 묶이므로 root.UI_EN 으로는 찾을 수 없다
   function t(s) {
     if (getLang() !== "en") return s;
-    const d = (typeof root.UI_EN !== "undefined") ? root.UI_EN : {};
+    const d = (typeof UI_EN !== "undefined") ? UI_EN : {};
     return Object.prototype.hasOwnProperty.call(d, s) ? d[s] : s;
   }
   function tf(s, vars) {
@@ -33,11 +34,11 @@
 
   // 절차 본문 조회. 영문 모드에서 사전에 없거나 원문이 바뀌었으면 한글 + ko:true
   function hb(gid, i) {
-    const HB = (typeof root.HANDBOOK !== "undefined") ? root.HANDBOOK : {};
+    const HB = (typeof HANDBOOK !== "undefined") ? HANDBOOK : {};
     const p = (HB[gid] || [])[i] || ["", ""];
     const title = String(p[0] || ""), body = String(p[1] || "");
     if (getLang() !== "en") return { title, body, ko: false };
-    const D = (typeof root.HB_EN !== "undefined") ? root.HB_EN : {};
+    const D = (typeof HB_EN !== "undefined") ? HB_EN : {};
     const e = D[gid + ":" + i];
     if (!e || !e.en || e.hash !== hbHash(body)) return { title, body, ko: true };
     return { title: e.title || title, body: e.en, ko: false };

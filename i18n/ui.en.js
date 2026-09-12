@@ -1,8 +1,6 @@
 // i18n/ui.en.js — UI 문구 사전. 키는 한글 원문 그대로 (index.html 의 t()/tf() 호출과 1:1)
 // 매개변수는 {이름} 자리표시자. 검수 완료 항목만 main 에 올린다
-// var 사용 이유: i18n.js 가 root.UI_EN(전역 객체 프로퍼티)으로 조회한다.
-// 최상위 const/let 은 <script> 전역 객체에 프로퍼티로 붙지 않아 root.UI_EN 이 항상 undefined 가 된다
-var UI_EN = {
+const UI_EN = {
   "항공기 PUSHBACK 절차 안내": "Aircraft Pushback Guide",
   "자동": "Auto",
   "라이트": "Light",
