@@ -10,32 +10,25 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-10-frontend-design-review-design.md`
 
-## 진행 현황 (2026-09-11 갱신)
+## 진행 현황 (2026-09-12 갱신 — 배포 완료)
 
-□ 실행 방식: superpowers:subagent-driven-development. 원장(ledger)은 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외 폴더). 최신 상태는 항상 원장이 기준
-□ 브랜치: `feature/frontend-polish` (main 352aa9a 에서 분기). main 은 v193 그대로
-□ 완료
-  - Task 1 촬영 하니스·기준 스크린샷 6장 (수정 3라운드: DOM 대기, ErrorActionPreference Continue, 헤드리스 Edge 창 폭 496px 클램프 회피 → 고정 iframe + 크롭)
-  - Task 2 audit 스크립트 3종 + 검출기 JSON 6종 (BOM 제거)
-  - Task 3 critique A(디자인 리뷰)·B(검출기·측정 증거) 병렬, 수정 1라운드
-  - Task 4 보고서 `docs/superpowers/reviews/20260910_프론트엔드점검.md` (audit 10/20, 휴리스틱 28/40, 이슈 18건·표 22행, 수정 2라운드)
-  - Task 4 Step 5 사용자 선택 완료: **1차 6행 전부 + 2차 P0·P1 9행 채택(15행), P2·P3 2차 7행 이월**. 채택 열 기록 커밋 8d0cf2d
-  - Task 1 Step 6 사실 확인: 다크모드 18:30~06:30 은 코드(isNight) 확인, "3초 안에 절차 확인"은 목표치(미측정)로 PRODUCT.md 에 명기
-□ 진행 중: Task 5 check.ps1
-
-### TODO (남은 작업, 순서대로)
-
-1. [ ] Task 5 check.ps1 (진행 중)
-2. [ ] Task 6 1차 수정 6행(P1-04a·P1-05a·P1-06a·P2-01·P2-02·P3-01) → 사용자 병합 승인 (정지 지점) → v194
-3. [ ] Task 7 2차 수정 9행(P0-01·P0-02·P1-01·P1-02·P1-03·P1-04b·P1-05b·P1-06b·P1-06c). P1-03 은 버튼명 통일(문구 변경)이라 사용자 확인 후 → 병합 승인 (정지 지점) → v195
-4. [ ] Task 8 재채점·보고서 마감
-5. [ ] 최종 검토에서 처리할 Minor 이월분: shots.ps1 Edge 경로 존재 확인 없음, 임시 프로필 폴더(`%TEMP%\pushback-shot-profile`) 미정리, critique-A 근사 터치 크기(보고서는 B 실측값 사용)
+□ 실행 방식: superpowers:subagent-driven-development. 원장은 원 저장소 `.superpowers/sdd/2026-09-10-frontend-design-review/progress.md` (git 제외)
+□ 배포 결과
+  - **v195 (1차, 2026-09-11)**: main 654553f. P1-04a·P1-05a·P1-06a·P2-01·P2-02·P3-01 — 시각 변화 없음 확인(스크린샷 6장 기준선과 동일)
+  - **v196 (2차, 2026-09-12)**: main c7ce68c. P0-01·P0-02·P1-01·P1-02·P1-03·P1-04b·P1-05b·P1-06b·P1-06c — 신규 문구 11건 사용자 확인, 360px 보조 확인
+  - plan 작성 시 가정한 v194/v195 는 main 이 이미 v194(다른 워크트리 작업)였기 때문에 v195/v196 으로 재번호
+□ 브랜치 이력
+  - `feature/frontend-polish`: Task 1~6 + 2차 앞부분 5건(f9e91df 까지). 다른 세션이 같은 작업 트리에서 미커밋 편집을 시작해 이후 작업은 워크트리로 이동
+  - `feature/frontend-polish-2` (워크트리 `.claude/worktrees/frontend-polish-2`): f9e91df 에서 분기, 2차 나머지·수정 라운드·v196. main 에 병합됨
+  - 정리 필요: `feature/frontend-polish` 작업 트리의 미커밋 변경은 다른 세션 소유(index.html procDesc/procNote·gates.js·주기장별절차/G009_초록.json). 그 세션이 자기 브랜치로 옮겨 커밋해야 하며 main 의 `stepsHtml()` 부근과 충돌 가능
+□ 완료: Task 1~7. Task 8(재채점·보고서 10절) 진행 중
+□ 후속 후보(검토 라운드에서 나온 Minor, 보고서 10절에 정리): `.surveyBar button` 48px 미통일, `.wvSeg.ovl` 사문 CSS, closeLb 의 300ms 타이머 정리, 긴 라벨 주기장(47·48·28·30·31) 360px 확인, 경보 배너 실기기 확인, `.chip` tabindex 부재, shots.ps1 Edge 경로 확인·임시 프로필 정리
+□ 팔레트 유지 상한으로 7:1 미달 2건(라이트 `.devBar.hit` 5.91:1, 라이트 `--ink-sub` 5.98:1) — AA 충족, 팔레트 변경은 별도 결정 사항
 
 ### 재개 방법
 
-□ 새 세션에서 "plan 문서 진행 현황부터 재개" 라고 지시. 원장의 마지막 `Task N: complete` 다음 태스크부터 이어감
-□ 로컬 서버가 꺼져 있으면 `Start-Process powershell -ArgumentList "-NoProfile -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` 으로 재기동
-□ shots.ps1 은 임시 프로필(`--user-data-dir`)을 쓰므로 일반 Edge 창이 열려 있어도 동작
+□ 남은 작업은 Task 8 마감 커밋(문서 전용, main 직접 허용)뿐. 이월 7행(P2-03·P2-04·P2-05·P3-02·P3-03·P3-04·P3-05)은 새 spec/plan 으로 진행
+□ 로컬 서버는 워크트리에서 `Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File .\serve.ps1 -NoBrowser" -WindowStyle Hidden` (실행 정책 우회 필요)
 
 ## Global Constraints
 
