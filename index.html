@@ -722,7 +722,7 @@ function kp(c){
 function kpDel(){ kpVal = kpVal.slice(0,-1); renderKp(); }
 function renderKp(){
   const d = document.getElementById("numDisp");
-  if(!kpVal){ d.textContent = "게이트 번호 입력"; d.classList.add("empty"); }
+  if(!kpVal){ d.textContent = t("게이트 번호 입력"); d.classList.add("empty"); }
   else{ d.textContent = kpVal; d.classList.remove("empty"); }
   const mw = document.getElementById("matchWrap");
   if(!kpVal){ mw.innerHTML = ""; return; }
