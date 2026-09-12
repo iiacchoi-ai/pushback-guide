@@ -1,7 +1,7 @@
 const C="pushback-v199";
 const IMG="pushback-img";   // 도면·항공기 이미지 전용 캐시 — 앱 버전이 바뀌어도 유지
 const VH="x-pb-ver";        // 저장된 도면이 '어느 앱 버전에서 받은 것인지' 표시
-const SHELL=["./","./index.html","./gates.js","./manifest.json","./icon-192.png"];
+const SHELL=["./","./index.html","./gates.js","./i18n/i18n.js","./i18n/ui.en.js","./i18n/handbook.en.js","./manifest.json","./icon-192.png"];
 
 self.addEventListener("install", e=>{
   // 앱 파일은 캐시를 무시하고 항상 새로 받아 저장
